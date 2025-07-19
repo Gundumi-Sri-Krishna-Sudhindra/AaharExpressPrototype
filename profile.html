@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Settings - AaharExpress</title>
+    <title>Volunteer Profile - AaharExpress</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,13 +17,13 @@
                 <span>AaharExpress</span>
             </div>
             <div class="nav-menu">
-                <a href="dashboard.html?role=user" class="nav-link">Dashboard</a>
-                <a href="#profile-settings" class="nav-link active">Profile Settings</a>
+                <a href="dashboard.html?role=volunteer" class="nav-link">Dashboard</a>
+                <a href="#profile" class="nav-link active">Profile</a>
             </div>
             <div class="nav-actions">
                 <div class="user-info">
-                    <span id="userRole">User / Donor</span>
-                    <span id="userName">Rahul Sharma</span>
+                    <span id="userRole">Volunteer</span>
+                    <span id="userName">Priya Patel</span>
                 </div>
                 <button class="btn-secondary" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i>
@@ -34,19 +34,41 @@
     </nav>
     <main class="main-content">
         <section class="content-card profile-settings-section">
-            <h2 class="card-header">Profile Settings</h2>
+            <h2 class="card-header">Volunteer Profile</h2>
             <form id="profileForm">
                 <div class="form-group">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" value="Rahul Sharma" required class="input-field">
+                    <input type="text" id="name" name="name" value="Priya Patel" required class="input-field">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="rahul.sharma@email.com" required class="input-field">
+                    <input type="email" id="email" name="email" value="priya.patel@email.com" required class="input-field">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter new password" class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" value="9876543212" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" value="Bandra" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="skills">Skills</label>
+                    <select id="skills" name="skills" multiple class="input-field">
+                        <option selected>Food Delivery</option>
+                        <option>First Aid</option>
+                        <option>Community Outreach</option>
+                        <option>Driving</option>
+                        <option>Event Coordination</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="availability">Availability</label>
+                    <input type="text" id="availability" name="availability" value="Weekends, Evenings" class="input-field">
                 </div>
                 <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Save Changes</button>
                 <div id="successMsg" style="display:none; color:green; margin-top:1rem;">Profile updated successfully!</div>

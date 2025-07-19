@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Settings - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <!-- Will be populated by JS -->
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span id="userRole">Role</span>
+                    <span id="userName">Name</span>
+                </div>
+                <button class="btn-secondary" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main class="main-content">
+        <section class="content-card settings-section">
+            <h2 class="card-header" id="settingsHeader">Settings</h2>
+            <form id="settingsForm">
+                <div class="form-group">
+                    <label for="entityName" id="entityNameLabel">Name</label>
+                    <input type="text" id="entityName" name="entityName" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter new password" class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" id="contact" name="contact" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="bankAccount">Bank Account (for payouts)</label>
+                    <input type="text" id="bankAccount" name="bankAccount" required class="input-field">
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Save Changes</button>
+                <div id="successMsg" style="display:none; color:green; margin-top:1rem;">Settings updated successfully!</div>
+            </form>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role') || 'restaurant';
+            const navMenu = document.getElementById('navMenu');
+            if (role === 'ngo') {
+                document.getElementById('settingsHeader').textContent = 'NGO Settings';
+                document.getElementById('entityNameLabel').textContent = 'Organization Name';
+                document.getElementById('entityName').value = 'Hope Foundation';
+                document.getElementById('email').value = 'hope.foundation@email.com';
+                document.getElementById('address').value = 'Andheri';
+                document.getElementById('contact').value = '9876543211';
+                document.getElementById('bankAccount').value = '1234567890';
+                document.getElementById('userRole').textContent = 'NGO';
+                document.getElementById('userName').textContent = 'Hope Foundation';
+                navMenu.innerHTML = `
+                    <a href="dashboard.html?role=ngo" class="nav-link">Dashboard</a>
+                    <a href="#settings" class="nav-link active">Settings</a>
+                `;
+            } else {
+                document.getElementById('settingsHeader').textContent = 'Restaurant Settings';
+                document.getElementById('entityNameLabel').textContent = 'Restaurant Name';
+                document.getElementById('entityName').value = 'Spice Garden';
+                document.getElementById('email').value = 'spice.garden@email.com';
+                document.getElementById('address').value = 'Mumbai Central';
+                document.getElementById('contact').value = '9876543210';
+                document.getElementById('bankAccount').value = '9876543210';
+                document.getElementById('userRole').textContent = 'Restaurant Partner';
+                document.getElementById('userName').textContent = 'Spice Garden';
+                navMenu.innerHTML = `
+                    <a href="dashboard.html?role=restaurant" class="nav-link">Dashboard</a>
+                    <a href="#settings" class="nav-link active">Settings</a>
+                `;
+            }
+            document.getElementById('settingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('successMsg').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('successMsg').style.display = 'none';
+                }, 2000);
+            });
+        });
+        function logout() {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <style>
+        .settings-section {
+            max-width: 650px;
+            margin: 6rem auto 4rem auto;
+            padding: 3.5rem 2.5rem 3.5rem 2.5rem;
+        }
+        .card-header {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #2e2e2e;
+            margin-bottom: 0.75rem;
+            font-size: 1.15rem;
+        }
+        .input-field {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            background: #f8f9fa;
+            color: #2e2e2e;
+            transition: border 0.2s;
+        }
+        .input-field:focus {
+            border-color: #ff8f00;
+            outline: none;
+            background: #fff;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2.5rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+        }
+        #successMsg {
+            color: #388e3c;
+            font-weight: 500;
+        }
+    </style>
+</body>
+</html> 

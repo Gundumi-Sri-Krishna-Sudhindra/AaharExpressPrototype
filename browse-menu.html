@@ -125,7 +125,7 @@
                     <span>Total:</span>
                     <span id="cartTotal">₹0</span>
                 </div>
-                <button class="btn-primary btn-full" onclick="checkout()">
+                <button class="btn-primary btn-full" onclick="openCheckoutModal()">
                     <i class="fas fa-shopping-cart"></i>
                     Checkout
                 </button>
@@ -137,6 +137,187 @@
             <i class="fas fa-shopping-cart"></i>
             <span id="cartCount">0</span>
         </button>
+
+        <!-- Checkout Modal -->
+        <div id="checkoutModal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h2>Checkout</h2>
+                    <button class="modal-close" onclick="closeCheckoutModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="checkoutForm">
+                        <!-- Delivery Details -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-map-marker-alt"></i> Delivery Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name *</label>
+                                    <input type="text" id="fullName" name="fullName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Delivery Address *</label>
+                                <textarea id="address" name="address" rows="3" required></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City *</label>
+                                    <input type="text" id="city" name="city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pincode">Pincode *</label>
+                                    <input type="text" id="pincode" name="pincode" required>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Delivery Options -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-clock"></i> Delivery Options</h3>
+                            <div class="delivery-options">
+                                <div class="delivery-option">
+                                    <input type="radio" id="standard" name="deliveryType" value="standard" checked>
+                                    <label for="standard">
+                                        <div class="option-content">
+                                            <h4>Standard Delivery</h4>
+                                            <p>30-45 minutes</p>
+                                            <span class="price">₹30</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="delivery-option">
+                                    <input type="radio" id="express" name="deliveryType" value="express">
+                                    <label for="express">
+                                        <div class="option-content">
+                                            <h4>Express Delivery</h4>
+                                            <p>15-25 minutes</p>
+                                            <span class="price">₹50</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="delivery-option">
+                                    <input type="radio" id="scheduled" name="deliveryType" value="scheduled">
+                                    <label for="scheduled">
+                                        <div class="option-content">
+                                            <h4>Scheduled Delivery</h4>
+                                            <p>Choose your time</p>
+                                            <span class="price">₹20</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="scheduled-time" id="scheduledTime" style="display: none;">
+                                <label for="scheduledDateTime">Preferred Delivery Time</label>
+                                <input type="datetime-local" id="scheduledDateTime" name="scheduledDateTime">
+                            </div>
+                        </div>
+                        <!-- Payment Method -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
+                            <div class="payment-options">
+                                <div class="payment-option">
+                                    <input type="radio" id="cod" name="paymentMethod" value="cod" checked>
+                                    <label for="cod">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        <span>Cash on Delivery</span>
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="card" name="paymentMethod" value="card">
+                                    <label for="card">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Credit/Debit Card</span>
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="upi" name="paymentMethod" value="upi">
+                                    <label for="upi">
+                                        <i class="fas fa-mobile-alt"></i>
+                                        <span>UPI Payment</span>
+                                    </label>
+                                </div>
+                                <div class="payment-option">
+                                    <input type="radio" id="wallet" name="paymentMethod" value="wallet">
+                                    <label for="wallet">
+                                        <i class="fas fa-wallet"></i>
+                                        <span>Digital Wallet</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Special Instructions -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-comment"></i> Special Instructions</h3>
+                            <div class="form-group">
+                                <textarea id="specialInstructions" name="specialInstructions" rows="3" placeholder="Any special delivery instructions, dietary preferences, or notes for the restaurant..."></textarea>
+                            </div>
+                        </div>
+                        <!-- Order Actions -->
+                        <div class="order-actions">
+                            <button type="button" class="btn-outline" onclick="closeCheckoutModal()">
+                                <i class="fas fa-arrow-left"></i>
+                                Back
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-check"></i>
+                                Place Order
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Confirmation Modal -->
+        <div id="orderModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Order Confirmed!</h2>
+                    <button class="modal-close" onclick="closeOrderModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="order-confirmation">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Order #<span id="orderNumber">12345</span></h3>
+                        <p>Your order has been successfully placed and is being prepared.</p>
+                        <div class="order-details">
+                            <div class="detail-item">
+                                <span class="label">Estimated Delivery:</span>
+                                <span class="value" id="estimatedDelivery">30-45 minutes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Delivery Address:</span>
+                                <span class="value" id="deliveryAddress">123 Main St, City</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Payment Method:</span>
+                                <span class="value" id="paymentMethod">Cash on Delivery</span>
+                            </div>
+                        </div>
+                        <div class="confirmation-actions">
+                            <button class="btn-primary" onclick="trackOrder()">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Track Order
+                            </button>
+                            <button class="btn-outline" onclick="goToDashboard()">
+                                <i class="fas fa-home"></i>
+                                Back to Dashboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Menu Item Modal -->
@@ -557,14 +738,60 @@
             cartSidebar.classList.toggle('active');
         }
 
-        // Checkout
-        function checkout() {
-            if (cart.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-            
-            alert('Proceeding to checkout... This would redirect to a checkout page in a real application.');
+        // Open checkout modal
+        function openCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'flex';
+            document.getElementById('checkoutForm').reset(); // Clear form fields
+            document.getElementById('scheduledTime').style.display = 'none'; // Hide scheduled time
+            document.getElementById('cartTotal').textContent = `₹${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}`;
+        }
+
+        // Close checkout modal
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        // Handle form submission
+        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                pincode: document.getElementById('pincode').value,
+                deliveryType: document.querySelector('input[name="deliveryType"]:checked').value,
+                paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
+                specialInstructions: document.getElementById('specialInstructions').value,
+                totalAmount: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+            };
+
+            // Simulate order processing
+            alert('Order submitted successfully! Simulating payment and order confirmation...');
+            setTimeout(() => {
+                closeCheckoutModal();
+                openOrderModal();
+            }, 2000);
+        });
+
+        // Open order confirmation modal
+        function openOrderModal() {
+            document.getElementById('orderModal').style.display = 'flex';
+            document.getElementById('orderNumber').textContent = Math.floor(Math.random() * 100000) + 10000; // Generate random order number
+            document.getElementById('estimatedDelivery').textContent = formData.deliveryType === 'express' ? '15-25 minutes' : '30-45 minutes';
+            document.getElementById('deliveryAddress').textContent = `${formData.address}, ${formData.city} - ${formData.pincode}`;
+            document.getElementById('paymentMethod').textContent = formData.paymentMethod;
+        }
+
+        // Close order confirmation modal
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        // Track order (placeholder)
+        function trackOrder() {
+            alert('Order tracking functionality is not yet implemented.');
         }
 
         // Go back to dashboard
