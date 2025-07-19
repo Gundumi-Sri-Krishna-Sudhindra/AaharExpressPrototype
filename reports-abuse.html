@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Abuse - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="user-verification.html" class="nav-link">User Verification</a>
+                <a href="#reports" class="nav-link active">Reports & Abuse</a>
+                <a href="#settings" class="nav-link">Settings</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Platform Administrator</span>
+                    <span>Admin User</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Reports & Abuse Management</h1>
+                <p>Handle user reports and abuse cases on the platform</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Reports</button>
+                    <button class="btn-outline" data-filter="pending">Pending</button>
+                    <button class="btn-outline" data-filter="investigating">Investigating</button>
+                    <button class="btn-outline" data-filter="resolved">Resolved</button>
+                    <button class="btn-outline" data-filter="dismissed">Dismissed</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Reports Grid -->
+        <section class="reports-section">
+            <div class="reports-container">
+                <div class="reports-grid" id="reportsGrid">
+                    <!-- Reports will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Report Details Modal -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Report #<span id="modalReportNumber">12345</span></h2>
+                <button class="modal-close" onclick="closeReportModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="report-details">
+                    <div class="report-info">
+                        <div class="report-status">
+                            <span class="status-badge" id="modalStatus">Pending</span>
+                        </div>
+                        <div class="report-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span id="modalReporter">Reporter Name</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span id="modalReportDate">Report Date</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-tag"></i>
+                                <span id="modalCategory">Report Category</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="modalSeverity">Severity Level</span>
+                            </div>
+                        </div>
+                        
+                        <div class="report-content">
+                            <h4>Report Description</h4>
+                            <p id="modalDescription">Report description goes here...</p>
+                        </div>
+                        
+                        <div class="report-evidence">
+                            <h4>Evidence/Attachments</h4>
+                            <div id="modalEvidence">
+                                <!-- Evidence will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="report-actions">
+                            <button class="btn-outline" onclick="dismissReport()">
+                                <i class="fas fa-times"></i>
+                                Dismiss Report
+                            </button>
+                            <button class="btn-outline" onclick="investigateReport()">
+                                <i class="fas fa-search"></i>
+                                Start Investigation
+                            </button>
+                            <button class="btn-primary" onclick="resolveReport()">
+                                <i class="fas fa-check"></i>
+                                Resolve Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample reports data
+        const reports = [
+            {
+                id: 1,
+                reportNumber: '12345',
+                reporter: 'John Doe',
+                reportedUser: 'Spice Garden',
+                category: 'Food Safety',
+                severity: 'High',
+                status: 'pending',
+                reportDate: '2024-01-15T10:30',
+                description: 'Received food that appeared to be spoiled. The rice had an unusual smell and the vegetables were discolored.',
+                evidence: [
+                    { name: 'Food Image 1', url: '#' },
+                    { name: 'Food Image 2', url: '#' }
+                ]
+            },
+            {
+                id: 2,
+                reportNumber: '12346',
+                reporter: 'Jane Smith',
+                reportedUser: 'Bakery Corner',
+                category: 'Service Quality',
+                severity: 'Medium',
+                status: 'investigating',
+                reportDate: '2024-01-15T09:15',
+                description: 'Order was delivered 2 hours late and the bread was stale. Customer service was unresponsive.',
+                evidence: [
+                    { name: 'Order Screenshot', url: '#' },
+                    { name: 'Chat Log', url: '#' }
+                ]
+            },
+            {
+                id: 3,
+                reportNumber: '12347',
+                reporter: 'Mike Johnson',
+                reportedUser: 'User123',
+                category: 'Inappropriate Behavior',
+                severity: 'High',
+                status: 'resolved',
+                reportDate: '2024-01-14T16:45',
+                description: 'User was making inappropriate comments in the chat and harassing other users.',
+                evidence: [
+                    { name: 'Chat Screenshots', url: '#' }
+                ]
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentReport = null;
+
+        // Initialize page
+        function initializePage() {
+            populateReports();
+            setupEventListeners();
+        }
+
+        // Populate reports
+        function populateReports() {
+            const reportsGrid = document.getElementById('reportsGrid');
+            const filteredReports = filterReports();
+            
+            reportsGrid.innerHTML = filteredReports.map(report => `
+                <div class="report-card ${report.status}" onclick="viewReport(${report.id})">
+                    <div class="report-header">
+                        <h3>Report #${report.reportNumber}</h3>
+                        <span class="status-badge ${report.status}">${report.status}</span>
+                    </div>
+                    <div class="report-content">
+                        <p class="reporter-name">Reported by: ${report.reporter}</p>
+                        <p class="reported-user">Against: ${report.reportedUser}</p>
+                        <p class="report-category">${report.category}</p>
+                        <p class="report-severity severity-${report.severity.toLowerCase()}">${report.severity} Priority</p>
+                        <p class="report-date">${formatDateTime(report.reportDate)}</p>
+                        <p class="report-description">${report.description.substring(0, 100)}...</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter reports
+        function filterReports() {
+            if (currentFilter === 'all') {
+                return reports;
+            }
+            return reports.filter(report => report.status === currentFilter);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateReports();
+                });
+            });
+        }
+
+        // View report details
+        function viewReport(reportId) {
+            const report = reports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            currentReport = report;
+            
+            document.getElementById('modalReportNumber').textContent = report.reportNumber;
+            document.getElementById('modalReporter').textContent = report.reporter;
+            document.getElementById('modalReportDate').textContent = formatDateTime(report.reportDate);
+            document.getElementById('modalCategory').textContent = report.category;
+            document.getElementById('modalSeverity').textContent = report.severity;
+            document.getElementById('modalStatus').textContent = report.status;
+            document.getElementById('modalStatus').className = `status-badge ${report.status}`;
+            document.getElementById('modalDescription').textContent = report.description;
+            
+            // Populate evidence
+            const modalEvidence = document.getElementById('modalEvidence');
+            modalEvidence.innerHTML = report.evidence.map(evidence => `
+                <div class="evidence-item">
+                    <i class="fas fa-file"></i>
+                    <span>${evidence.name}</span>
+                    <button class="btn-outline btn-small" onclick="viewEvidence('${evidence.url}')">
+                        <i class="fas fa-eye"></i>
+                        View
+                    </button>
+                </div>
+            `).join('');
+            
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+
+        // Close report modal
+        function closeReportModal() {
+            document.getElementById('reportModal').style.display = 'none';
+            currentReport = null;
+        }
+
+        // Dismiss report
+        function dismissReport() {
+            if (confirm('Are you sure you want to dismiss this report?')) {
+                if (currentReport) {
+                    currentReport.status = 'dismissed';
+                    closeReportModal();
+                    populateReports();
+                    alert('Report dismissed successfully.');
+                }
+            }
+        }
+
+        // Investigate report
+        function investigateReport() {
+            if (currentReport) {
+                currentReport.status = 'investigating';
+                closeReportModal();
+                populateReports();
+                alert('Investigation started for this report.');
+            }
+        }
+
+        // Resolve report
+        function resolveReport() {
+            if (currentReport) {
+                currentReport.status = 'resolved';
+                closeReportModal();
+                populateReports();
+                alert('Report resolved successfully.');
+            }
+        }
+
+        // View evidence
+        function viewEvidence(url) {
+            alert('This would open the evidence file for review.');
+        }
+
+        // Format date time
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=admin';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .reports-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .report-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.investigating {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.dismissed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .report-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .reporter-name {
+            font-weight: 600;
+            color: #2e2e2e !important;
+        }
+
+        .reported-user {
+            color: #ff5722 !important;
+            font-weight: 500;
+        }
+
+        .report-category {
+            color: #2196f3 !important;
+            font-weight: 500;
+        }
+
+        .report-severity {
+            font-weight: 600;
+        }
+
+        .severity-high {
+            color: #f44336 !important;
+        }
+
+        .severity-medium {
+            color: #ff9800 !important;
+        }
+
+        .severity-low {
+            color: #4caf50 !important;
+        }
+
+        .report-description {
+            font-style: italic;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .report-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .meta-item i {
+            color: #ff8f00;
+            width: 16px;
+        }
+
+        .report-content h4,
+        .report-evidence h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .report-content p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .evidence-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .evidence-item i {
+            color: #ff5722;
+            font-size: 1.2rem;
+        }
+
+        .evidence-item span {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .reports-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

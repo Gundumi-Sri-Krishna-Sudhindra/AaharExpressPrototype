@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Delivery - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-pickups.html" class="nav-link">View Pickups</a>
+                <a href="route-optimization.html" class="nav-link">Route Optimization</a>
+                <a href="#mark-delivery" class="nav-link active">Mark Delivery</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Volunteer</span>
+                    <span>Priya Patel</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Mark Delivery</h1>
+                <p>Update delivery status and mark tasks as complete</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Deliveries</button>
+                    <button class="btn-outline" data-filter="in-progress">In Progress</button>
+                    <button class="btn-outline" data-filter="completed">Completed</button>
+                    <button class="btn-outline" data-filter="pending">Pending</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Delivery Stats -->
+        <section class="delivery-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>5</h3>
+                            <p>Active Deliveries</p>
+                            <span class="stat-change neutral">2 urgent</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>34</h3>
+                            <p>Completed Today</p>
+                            <span class="stat-change positive">+5 vs yesterday</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2.1</h3>
+                            <p>Avg Delivery Time</p>
+                            <span class="stat-change positive">-0.3 hours</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4.8</h3>
+                            <p>Your Rating</p>
+                            <span class="stat-change positive">+0.1 this week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deliveries Grid -->
+        <section class="deliveries-section">
+            <div class="deliveries-container">
+                <div class="deliveries-grid" id="deliveriesGrid">
+                    <!-- Deliveries will be populated -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Mark Delivery Modal -->
+    <div id="deliveryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Mark Delivery Complete</h2>
+                <button class="modal-close" onclick="closeDeliveryModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delivery-details">
+                    <h4 id="modalDeliveryTitle">Delivery Title</h4>
+                    <p id="modalDeliveryDescription">Delivery description goes here...</p>
+                    
+                    <div class="delivery-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="modalDestination">Destination</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-utensils"></i>
+                            <span id="modalFood">Food Items</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-users"></i>
+                            <span id="modalPeople">People to Help</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="modalPickupTime">Pickup Time</span>
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-form">
+                        <div class="form-group">
+                            <label for="deliveryStatus">Delivery Status *</label>
+                            <select id="deliveryStatus" name="deliveryStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="completed">Completed Successfully</option>
+                                <option value="partial">Partially Delivered</option>
+                                <option value="failed">Delivery Failed</option>
+                                <option value="rescheduled">Rescheduled</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deliveryTime">Actual Delivery Time *</label>
+                            <input type="datetime-local" id="deliveryTime" name="deliveryTime" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="peopleServed">Number of People Served</label>
+                            <input type="number" id="peopleServed" name="peopleServed" min="0" placeholder="Enter number of people served">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deliveryNotes">Delivery Notes</label>
+                            <textarea id="deliveryNotes" name="deliveryNotes" rows="3" placeholder="Any notes about the delivery (optional)"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Upload Photos (Optional)</label>
+                            <div class="photo-upload-area" id="photoUploadArea">
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-camera"></i>
+                                    <p>Click to upload delivery photos</p>
+                                    <span>Supports JPG, PNG (Max 5MB each)</span>
+                                </div>
+                                <input type="file" id="deliveryPhotos" name="deliveryPhotos" accept=".jpg,.jpeg,.png" multiple style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-actions">
+                        <button class="btn-outline" onclick="closeDeliveryModal()">Cancel</button>
+                        <button class="btn-primary" onclick="confirmDelivery()">
+                            <i class="fas fa-check"></i>
+                            Mark Complete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample deliveries data
+        const deliveries = [
+            {
+                id: 1,
+                title: 'Delivery to Hope Shelter',
+                description: 'Deliver surplus food from Spice Garden to Hope Shelter',
+                destination: 'Hope Shelter, Mumbai Central',
+                food: 'Rice, Bread, Vegetables',
+                people: 25,
+                status: 'in-progress',
+                pickupTime: '2024-01-15T14:00',
+                estimatedDelivery: '2024-01-15T15:30',
+                actualDelivery: null,
+                peopleServed: null,
+                notes: '',
+                photos: []
+            },
+            {
+                id: 2,
+                title: 'Delivery to Care Center',
+                description: 'Deliver fresh bread and milk to Care for Children center',
+                destination: 'Care for Children, Andheri',
+                food: 'Bread, Milk, Fruits',
+                people: 15,
+                status: 'completed',
+                pickupTime: '2024-01-15T12:00',
+                estimatedDelivery: '2024-01-15T13:30',
+                actualDelivery: '2024-01-15T13:15',
+                peopleServed: 15,
+                notes: 'All food items delivered successfully',
+                photos: []
+            },
+            {
+                id: 3,
+                title: 'Delivery to Community Center',
+                description: 'Deliver cooked meals to local community center',
+                destination: 'Community Center, Bandra',
+                food: 'Cooked Meals, Bread',
+                people: 30,
+                status: 'pending',
+                pickupTime: '2024-01-15T16:00',
+                estimatedDelivery: '2024-01-15T17:30',
+                actualDelivery: null,
+                peopleServed: null,
+                notes: '',
+                photos: []
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentDelivery = null;
+
+        // Initialize page
+        function initializePage() {
+            populateDeliveries();
+            setupEventListeners();
+        }
+
+        // Populate deliveries
+        function populateDeliveries() {
+            const deliveriesGrid = document.getElementById('deliveriesGrid');
+            const filteredDeliveries = filterDeliveries();
+            
+            deliveriesGrid.innerHTML = filteredDeliveries.map(delivery => `
+                <div class="delivery-card ${delivery.status}" onclick="markDelivery(${delivery.id})">
+                    <div class="delivery-header">
+                        <h3>${delivery.title}</h3>
+                        <span class="status-badge ${delivery.status}">${delivery.status}</span>
+                    </div>
+                    <div class="delivery-content">
+                        <p class="destination">${delivery.destination}</p>
+                        <p class="food">${delivery.food}</p>
+                        <p class="people">People: ${delivery.people}</p>
+                        <div class="delivery-meta">
+                            <span class="pickup-time">Pickup: ${formatTime(delivery.pickupTime)}</span>
+                            <span class="eta">ETA: ${formatTime(delivery.estimatedDelivery)}</span>
+                        </div>
+                        ${delivery.status === 'completed' ? `
+                            <div class="completion-info">
+                                <span class="actual-time">Delivered: ${formatTime(delivery.actualDelivery)}</span>
+                                <span class="people-served">Served: ${delivery.peopleServed} people</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="delivery-actions">
+                        ${delivery.status === 'in-progress' ? `
+                            <button class="btn-primary btn-small" onclick="event.stopPropagation(); markDelivery(${delivery.id})">
+                                <i class="fas fa-check"></i>
+                                Mark Complete
+                            </button>
+                        ` : delivery.status === 'completed' ? `
+                            <button class="btn-outline btn-small" onclick="event.stopPropagation(); viewDeliveryDetails(${delivery.id})">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </button>
+                        ` : `
+                            <button class="btn-outline btn-small" onclick="event.stopPropagation(); startDelivery(${delivery.id})">
+                                <i class="fas fa-play"></i>
+                                Start Delivery
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter deliveries
+        function filterDeliveries() {
+            if (currentFilter === 'all') {
+                return deliveries;
+            }
+            return deliveries.filter(delivery => delivery.status === currentFilter);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateDeliveries();
+                });
+            });
+
+            // Photo upload
+            const uploadArea = document.getElementById('photoUploadArea');
+            const photoInput = document.getElementById('deliveryPhotos');
+            
+            uploadArea.addEventListener('click', () => photoInput.click());
+            
+            photoInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    updatePhotoDisplay(e.target.files);
+                }
+            });
+        }
+
+        // Update photo display
+        function updatePhotoDisplay(files) {
+            const uploadArea = document.getElementById('photoUploadArea');
+            uploadArea.innerHTML = `
+                <div class="photos-selected">
+                    <p>${files.length} photo(s) selected</p>
+                    <button type="button" onclick="removePhotos()">
+                        <i class="fas fa-times"></i>
+                        Remove
+                    </button>
+                </div>
+            `;
+        }
+
+        // Remove photos
+        function removePhotos() {
+            const uploadArea = document.getElementById('photoUploadArea');
+            const photoInput = document.getElementById('deliveryPhotos');
+            
+            uploadArea.innerHTML = `
+                <div class="upload-placeholder">
+                    <i class="fas fa-camera"></i>
+                    <p>Click to upload delivery photos</p>
+                    <span>Supports JPG, PNG (Max 5MB each)</span>
+                </div>
+            `;
+            photoInput.value = '';
+        }
+
+        // Mark delivery
+        function markDelivery(deliveryId) {
+            const delivery = deliveries.find(d => d.id === deliveryId);
+            if (!delivery) return;
+            
+            currentDelivery = delivery;
+            
+            document.getElementById('modalDeliveryTitle').textContent = delivery.title;
+            document.getElementById('modalDeliveryDescription').textContent = delivery.description;
+            document.getElementById('modalDestination').textContent = delivery.destination;
+            document.getElementById('modalFood').textContent = delivery.food;
+            document.getElementById('modalPeople').textContent = delivery.people;
+            document.getElementById('modalPickupTime').textContent = formatTime(delivery.pickupTime);
+            
+            // Set current time as default delivery time
+            const now = new Date();
+            const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            document.getElementById('deliveryTime').value = localDateTime;
+            
+            document.getElementById('deliveryModal').style.display = 'flex';
+        }
+
+        // Close delivery modal
+        function closeDeliveryModal() {
+            document.getElementById('deliveryModal').style.display = 'none';
+            currentDelivery = null;
+            removePhotos();
+        }
+
+        // Confirm delivery
+        function confirmDelivery() {
+            const status = document.getElementById('deliveryStatus').value;
+            const deliveryTime = document.getElementById('deliveryTime').value;
+            const peopleServed = document.getElementById('peopleServed').value;
+            const notes = document.getElementById('deliveryNotes').value;
+            
+            if (!status || !deliveryTime) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            if (currentDelivery) {
+                currentDelivery.status = status;
+                currentDelivery.actualDelivery = deliveryTime;
+                currentDelivery.peopleServed = peopleServed ? parseInt(peopleServed) : null;
+                currentDelivery.notes = notes;
+                
+                closeDeliveryModal();
+                populateDeliveries();
+                alert('Delivery marked as complete successfully!');
+            }
+        }
+
+        // Start delivery
+        function startDelivery(deliveryId) {
+            const delivery = deliveries.find(d => d.id === deliveryId);
+            if (delivery) {
+                delivery.status = 'in-progress';
+                populateDeliveries();
+                alert(`Started delivery: ${delivery.title}`);
+            }
+        }
+
+        // View delivery details
+        function viewDeliveryDetails(deliveryId) {
+            const delivery = deliveries.find(d => d.id === deliveryId);
+            if (delivery) {
+                alert(`Delivery Details:\n${delivery.title}\nStatus: ${delivery.status}\nDelivered: ${formatTime(delivery.actualDelivery)}\nPeople Served: ${delivery.peopleServed}\nNotes: ${delivery.notes}`);
+            }
+        }
+
+        // Format time
+        function formatTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=volunteer';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .stat-change.neutral {
+            color: #ff9800;
+        }
+
+        .deliveries-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .deliveries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .delivery-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .delivery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .delivery-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.in-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .delivery-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .destination {
+            font-weight: 600;
+            color: #ff8f00 !important;
+        }
+
+        .delivery-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pickup-time,
+        .eta {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .completion-info {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .actual-time,
+        .people-served {
+            font-size: 0.8rem;
+            color: #4caf50;
+            font-weight: 500;
+        }
+
+        .delivery-actions {
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .delivery-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .info-item i {
+            color: #ff8f00;
+            width: 16px;
+        }
+
+        .delivery-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .photo-upload-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .photo-upload-area:hover {
+            border-color: #ff8f00;
+            background: #fff3e0;
+        }
+
+        .upload-placeholder i {
+            font-size: 3rem;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .upload-placeholder p {
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-placeholder span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .photos-selected {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .photos-selected p {
+            font-weight: 500;
+            color: #2e2e2e;
+        }
+
+        .photos-selected button {
+            background: none;
+            border: none;
+            color: #ff5722;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .delivery-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .deliveries-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .deliveries-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .delivery-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

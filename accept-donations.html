@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accept Donations - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="#donations" class="nav-link active">Accept Donations</a>
+                <a href="#volunteers" class="nav-link">Volunteers</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>NGO Representative</span>
+                    <span>Hope Foundation</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Accept Donations</h1>
+                <p>Review and accept food donations from restaurants and donors</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Donations</button>
+                    <button class="btn-outline" data-filter="pending">Pending</button>
+                    <button class="btn-outline" data-filter="accepted">Accepted</button>
+                    <button class="btn-outline" data-filter="rejected">Rejected</button>
+                </div>
+                <div class="view-toggle">
+                    <button class="btn-outline active" data-view="grid">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="btn-outline" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Donations Grid -->
+        <section class="donations-section">
+            <div class="donations-container">
+                <div class="donations-grid" id="donationsGrid">
+                    <!-- Donations will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>89</h3>
+                        <p>Total Donations</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>12</h3>
+                        <p>Pending Review</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>67</h3>
+                        <p>Accepted</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>1,234</h3>
+                        <p>People Helped</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Donation Details Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="modalDonationName">Donation Name</h2>
+                <button class="modal-close" onclick="closeDonationModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="donation-details">
+                    <div class="donation-images">
+                        <img id="modalDonationImage" src="" alt="Food Donation">
+                    </div>
+                    <div class="donation-info">
+                        <div class="donation-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-store"></i>
+                                <span id="modalRestaurant">Restaurant Name</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-weight"></i>
+                                <span id="modalQuantity">Quantity</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span id="modalExpiry">Expiry Date</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span id="modalPickup">Pickup Time</span>
+                            </div>
+                        </div>
+                        
+                        <div class="donation-description">
+                            <h4>Description</h4>
+                            <p id="modalDescription">Description goes here...</p>
+                        </div>
+                        
+                        <div class="donation-ingredients">
+                            <h4>Ingredients</h4>
+                            <ul id="modalIngredients">
+                                <!-- Ingredients will be populated -->
+                            </ul>
+                        </div>
+                        
+                        <div class="donation-instructions">
+                            <h4>Special Instructions</h4>
+                            <p id="modalInstructions">Special instructions go here...</p>
+                        </div>
+                        
+                        <div class="donation-actions">
+                            <button class="btn-outline" onclick="rejectDonation()">
+                                <i class="fas fa-times"></i>
+                                Reject
+                            </button>
+                            <button class="btn-primary" onclick="acceptDonation()">
+                                <i class="fas fa-check"></i>
+                                Accept Donation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accept Donation Modal -->
+    <div id="acceptModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Accept Donation</h2>
+                <button class="modal-close" onclick="closeAcceptModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="acceptForm">
+                    <div class="form-group">
+                        <label for="pickupDate">Pickup Date & Time *</label>
+                        <input type="datetime-local" id="pickupDate" name="pickupDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volunteer">Assign Volunteer</label>
+                        <select id="volunteer" name="volunteer">
+                            <option value="">Select Volunteer</option>
+                            <option value="vol1">Priya Patel (Available)</option>
+                            <option value="vol2">Rahul Kumar (Available)</option>
+                            <option value="vol3">Sita Sharma (Busy)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deliveryLocation">Delivery Location</label>
+                        <input type="text" id="deliveryLocation" name="deliveryLocation" placeholder="Enter delivery address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Any additional notes..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closeAcceptModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-check"></i>
+                            Confirm Acceptance
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample donations data
+        const donations = [
+            {
+                id: 1,
+                name: 'Surplus Rice',
+                restaurant: 'Spice Garden',
+                quantity: '5kg',
+                category: 'Rice & Grains',
+                status: 'pending',
+                image: 'https://via.placeholder.com/300x200/ffc107/ffffff?text=Rice',
+                description: 'Freshly cooked basmati rice available for donation',
+                ingredients: ['Basmati Rice', 'Water', 'Salt'],
+                expiryDate: '2024-01-15T18:00',
+                pickupTime: '2024-01-15T16:00',
+                specialInstructions: 'Keep refrigerated, use within 24 hours',
+                distance: '2.3 km'
+            },
+            {
+                id: 2,
+                name: 'Fresh Bread',
+                restaurant: 'Bakery Corner',
+                quantity: '20 pieces',
+                category: 'Bread & Bakery',
+                status: 'pending',
+                image: 'https://via.placeholder.com/300x200/9c27b0/ffffff?text=Bread',
+                description: 'Freshly baked bread from this morning',
+                ingredients: ['Flour', 'Yeast', 'Water', 'Salt'],
+                expiryDate: '2024-01-16T12:00',
+                pickupTime: '2024-01-15T14:00',
+                specialInstructions: 'Store in cool, dry place',
+                distance: '1.8 km'
+            },
+            {
+                id: 3,
+                name: 'Cooked Vegetables',
+                restaurant: 'Green Kitchen',
+                quantity: '3kg',
+                category: 'Cooked Food',
+                status: 'accepted',
+                image: 'https://via.placeholder.com/300x200/4caf50/ffffff?text=Veggies',
+                description: 'Mixed vegetables cooked with minimal spices',
+                ingredients: ['Carrots', 'Beans', 'Potatoes', 'Onions', 'Spices'],
+                expiryDate: '2024-01-15T20:00',
+                pickupTime: '2024-01-15T15:00',
+                specialInstructions: 'Refrigerate immediately after pickup',
+                distance: '3.1 km'
+            },
+            {
+                id: 4,
+                name: 'Milk Packets',
+                restaurant: 'Dairy Fresh',
+                quantity: '10 liters',
+                category: 'Dairy Products',
+                status: 'rejected',
+                image: 'https://via.placeholder.com/300x200/2196f3/ffffff?text=Milk',
+                description: 'Fresh milk packets from today\'s delivery',
+                ingredients: ['Milk'],
+                expiryDate: '2024-01-16T06:00',
+                pickupTime: '2024-01-15T13:00',
+                specialInstructions: 'Keep refrigerated at all times',
+                distance: '4.2 km'
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentView = 'grid';
+        let currentDonation = null;
+
+        // Initialize page
+        function initializePage() {
+            populateDonations();
+            setupEventListeners();
+        }
+
+        // Populate donations
+        function populateDonations() {
+            const donationsGrid = document.getElementById('donationsGrid');
+            const filteredDonations = filterDonations();
+            
+            if (currentView === 'grid') {
+                donationsGrid.innerHTML = filteredDonations.map(donation => `
+                    <div class="donation-card ${donation.status}" onclick="viewDonation(${donation.id})">
+                        <div class="donation-image">
+                            <img src="${donation.image}" alt="${donation.name}">
+                            <span class="status-badge ${donation.status}">${donation.status}</span>
+                            <span class="distance-badge">${donation.distance}</span>
+                        </div>
+                        <div class="donation-content">
+                            <h3>${donation.name}</h3>
+                            <p class="donation-restaurant">${donation.restaurant}</p>
+                            <p class="donation-quantity">${donation.quantity}</p>
+                            <div class="donation-meta">
+                                <span><i class="fas fa-clock"></i> ${formatTime(donation.pickupTime)}</span>
+                                <span><i class="fas fa-calendar"></i> ${formatDate(donation.expiryDate)}</span>
+                            </div>
+                            <p class="donation-description">${donation.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                donationsGrid.innerHTML = filteredDonations.map(donation => `
+                    <div class="donation-list-item ${donation.status}" onclick="viewDonation(${donation.id})">
+                        <div class="list-item-image">
+                            <img src="${donation.image}" alt="${donation.name}">
+                        </div>
+                        <div class="list-item-content">
+                            <h3>${donation.name}</h3>
+                            <p class="list-restaurant">${donation.restaurant}</p>
+                            <p class="list-quantity">${donation.quantity}</p>
+                        </div>
+                        <div class="list-item-meta">
+                            <span class="status-badge ${donation.status}">${donation.status}</span>
+                            <span class="distance">${donation.distance}</span>
+                            <span class="pickup-time">${formatTime(donation.pickupTime)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Filter donations
+        function filterDonations() {
+            if (currentFilter === 'all') {
+                return donations;
+            }
+            return donations.filter(donation => donation.status === currentFilter);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateDonations();
+                });
+            });
+
+            // View toggle
+            document.querySelectorAll('[data-view]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-view]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentView = this.getAttribute('data-view');
+                    populateDonations();
+                });
+            });
+
+            // Accept form
+            document.getElementById('acceptForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                confirmAcceptance();
+            });
+        }
+
+        // View donation details
+        function viewDonation(donationId) {
+            const donation = donations.find(d => d.id === donationId);
+            if (!donation) return;
+            
+            currentDonation = donation;
+            
+            document.getElementById('modalDonationName').textContent = donation.name;
+            document.getElementById('modalDonationImage').src = donation.image;
+            document.getElementById('modalRestaurant').textContent = donation.restaurant;
+            document.getElementById('modalQuantity').textContent = donation.quantity;
+            document.getElementById('modalExpiry').textContent = formatDateTime(donation.expiryDate);
+            document.getElementById('modalPickup').textContent = formatDateTime(donation.pickupTime);
+            document.getElementById('modalDescription').textContent = donation.description;
+            document.getElementById('modalInstructions').textContent = donation.specialInstructions;
+            
+            // Populate ingredients
+            const ingredientsList = document.getElementById('modalIngredients');
+            ingredientsList.innerHTML = donation.ingredients.map(ingredient => 
+                `<li>${ingredient}</li>`
+            ).join('');
+            
+            document.getElementById('donationModal').style.display = 'flex';
+        }
+
+        // Close donation modal
+        function closeDonationModal() {
+            document.getElementById('donationModal').style.display = 'none';
+            currentDonation = null;
+        }
+
+        // Accept donation
+        function acceptDonation() {
+            closeDonationModal();
+            document.getElementById('acceptModal').style.display = 'flex';
+        }
+
+        // Close accept modal
+        function closeAcceptModal() {
+            document.getElementById('acceptModal').style.display = 'none';
+            document.getElementById('acceptForm').reset();
+        }
+
+        // Reject donation
+        function rejectDonation() {
+            if (confirm('Are you sure you want to reject this donation?')) {
+                if (currentDonation) {
+                    currentDonation.status = 'rejected';
+                    closeDonationModal();
+                    populateDonations();
+                    alert('Donation rejected successfully.');
+                }
+            }
+        }
+
+        // Confirm acceptance
+        function confirmAcceptance() {
+            const formData = new FormData(document.getElementById('acceptForm'));
+            const acceptData = Object.fromEntries(formData.entries());
+            
+            if (!acceptData.pickupDate) {
+                alert('Please select a pickup date and time.');
+                return;
+            }
+            
+            if (currentDonation) {
+                currentDonation.status = 'accepted';
+                closeAcceptModal();
+                populateDonations();
+                alert('Donation accepted successfully! Volunteer will be notified.');
+            }
+        }
+
+        // Format time
+        function formatTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Format date
+        function formatDate(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Format date time
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=ngo';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        /* Donations-specific styles */
+        .donations-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .donations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .donation-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .donation-image {
+            position: relative;
+            height: 200px;
+        }
+
+        .donation-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.accepted {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .distance-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .donation-content {
+            padding: 1.5rem;
+        }
+
+        .donation-content h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-restaurant {
+            color: #ff8f00;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-quantity {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .donation-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .donation-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .donation-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* List view styles */
+        .donation-list-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .donation-list-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .list-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .list-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .list-item-content {
+            flex: 1;
+        }
+
+        .list-item-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .list-restaurant {
+            color: #ff8f00;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .list-quantity {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .list-item-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .distance {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .pickup-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Stats section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Modal styles */
+        .donation-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .donation-images img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .donation-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .meta-item i {
+            color: #ff8f00;
+            width: 20px;
+        }
+
+        .donation-description h4,
+        .donation-ingredients h4,
+        .donation-instructions h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-ingredients ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .donation-ingredients li {
+            padding: 0.25rem 0;
+            color: #666;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .donation-ingredients li::before {
+            content: '•';
+            color: #ff8f00;
+            position: absolute;
+            left: 0;
+        }
+
+        .donation-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* View toggle */
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-toggle .btn-outline {
+            padding: 8px 12px;
+        }
+
+        @media (max-width: 768px) {
+            .donations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-details {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .donation-actions {
+                flex-direction: column;
+            }
+
+            .feature-header-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .donations-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .stats-container {
+                padding: 0 1rem 1rem;
+            }
+        }
+    </style>
+</body>
+</html> 

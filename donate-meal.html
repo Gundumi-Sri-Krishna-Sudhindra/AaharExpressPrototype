@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Meal - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="browse-menu.html" class="nav-link">Browse Menu</a>
+                <a href="#donate" class="nav-link active">Donate Meal</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>User</span>
+                    <span>John Doe</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Donate a Meal</h1>
+                <p>Help fight hunger by donating meals to those in need</p>
+            </div>
+        </header>
+
+        <!-- Impact Stats Section -->
+        <section class="impact-stats-section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>1,234</h3>
+                        <p>Meals Donated</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>567</h3>
+                        <p>People Helped</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>23</h3>
+                        <p>NGOs Supported</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>15</h3>
+                        <p>Your Rank</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Options Section -->
+        <section class="donation-options-section">
+            <div class="donation-container">
+                <div class="donation-form-card">
+                    <h2>Choose Your Donation</h2>
+                    
+                    <!-- Meal Packages -->
+                    <div class="meal-packages">
+                        <h3>Meal Packages</h3>
+                        <div class="package-grid">
+                            <div class="package-card" data-amount="50">
+                                <div class="package-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <h4>Single Meal</h4>
+                                <p>One nutritious meal for a person in need</p>
+                                <div class="package-price">₹50</div>
+                                <button class="btn-outline select-package">Select</button>
+                            </div>
+                            <div class="package-card" data-amount="200">
+                                <div class="package-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h4>Family Pack</h4>
+                                <p>Meals for a family of 4 for one day</p>
+                                <div class="package-price">₹200</div>
+                                <button class="btn-outline select-package">Select</button>
+                            </div>
+                            <div class="package-card" data-amount="500">
+                                <div class="package-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h4>Weekly Support</h4>
+                                <p>Meals for a family for one week</p>
+                                <div class="package-price">₹500</div>
+                                <button class="btn-outline select-package">Select</button>
+                            </div>
+                            <div class="package-card" data-amount="1000">
+                                <div class="package-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>Monthly Support</h4>
+                                <p>Meals for a family for one month</p>
+                                <div class="package-price">₹1000</div>
+                                <button class="btn-outline select-package">Select</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Amount -->
+                    <div class="custom-amount">
+                        <h3>Custom Amount</h3>
+                        <div class="amount-input">
+                            <span class="currency">₹</span>
+                            <input type="number" id="customAmount" placeholder="Enter amount" min="10">
+                        </div>
+                        <div class="amount-suggestions">
+                            <button class="amount-btn" data-amount="25">₹25</button>
+                            <button class="amount-btn" data-amount="75">₹75</button>
+                            <button class="amount-btn" data-amount="150">₹150</button>
+                            <button class="amount-btn" data-amount="300">₹300</button>
+                        </div>
+                    </div>
+
+                    <!-- NGO Selection -->
+                    <div class="ngo-selection">
+                        <h3>Choose NGO (Optional)</h3>
+                        <p>Select a specific NGO or let us distribute to those most in need</p>
+                        <div class="ngo-options">
+                            <div class="ngo-option">
+                                <input type="radio" id="auto" name="ngo" value="auto" checked>
+                                <label for="auto">
+                                    <div class="ngo-content">
+                                        <h4>Auto Distribution</h4>
+                                        <p>We'll distribute to NGOs most in need</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="ngo-option">
+                                <input type="radio" id="hope" name="ngo" value="hope">
+                                <label for="hope">
+                                    <div class="ngo-content">
+                                        <h4>Hope Foundation</h4>
+                                        <p>Serving homeless communities in Mumbai</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="ngo-option">
+                                <input type="radio" id="care" name="ngo" value="care">
+                                <label for="care">
+                                    <div class="ngo-content">
+                                        <h4>Care for Children</h4>
+                                        <p>Supporting underprivileged children</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Donation Summary -->
+                    <div class="donation-summary">
+                        <h3>Donation Summary</h3>
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span>Selected Package:</span>
+                                <span id="selectedPackage">None</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Amount:</span>
+                                <span id="donationAmount">₹0</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>NGO:</span>
+                                <span id="selectedNGO">Auto Distribution</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span id="totalDonation">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Donation Actions -->
+                    <div class="donation-actions">
+                        <button class="btn-outline" onclick="saveDonation()">
+                            <i class="fas fa-save"></i>
+                            Save for Later
+                        </button>
+                        <button class="btn-primary" onclick="proceedToPayment()">
+                            <i class="fas fa-heart"></i>
+                            Donate Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Impact Information -->
+                <div class="impact-info-card">
+                    <h3>Your Impact</h3>
+                    <div class="impact-content">
+                        <div class="impact-item">
+                            <i class="fas fa-utensils"></i>
+                            <div>
+                                <h4>Meals Provided</h4>
+                                <p>Each ₹50 provides one nutritious meal</p>
+                            </div>
+                        </div>
+                        <div class="impact-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h4>People Helped</h4>
+                                <p>Your donations reach those most in need</p>
+                            </div>
+                        </div>
+                        <div class="impact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Local Impact</h4>
+                                <p>Supporting communities in your area</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-donations">
+                        <h4>Recent Donations</h4>
+                        <div class="donation-list">
+                            <div class="donation-item">
+                                <div class="donation-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="donation-info">
+                                    <p><strong>Priya S.</strong> donated ₹200</p>
+                                    <span>2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="donation-item">
+                                <div class="donation-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="donation-info">
+                                    <p><strong>Rahul K.</strong> donated ₹500</p>
+                                    <span>4 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="donation-item">
+                                <div class="donation-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="donation-info">
+                                    <p><strong>Meera P.</strong> donated ₹100</p>
+                                    <span>6 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Complete Your Donation</h2>
+                <button class="modal-close" onclick="closePaymentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="paymentForm">
+                    <div class="payment-summary">
+                        <h3>Donation Summary</h3>
+                        <div class="summary-item">
+                            <span>Amount:</span>
+                            <span id="modalAmount">₹0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>NGO:</span>
+                            <span id="modalNGO">Auto Distribution</span>
+                        </div>
+                    </div>
+
+                    <div class="payment-methods">
+                        <h3>Payment Method</h3>
+                        <div class="method-options">
+                            <div class="method-option">
+                                <input type="radio" id="card" name="paymentMethod" value="card" checked>
+                                <label for="card">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>Credit/Debit Card</span>
+                                </label>
+                            </div>
+                            <div class="method-option">
+                                <input type="radio" id="upi" name="paymentMethod" value="upi">
+                                <label for="upi">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>UPI</span>
+                                </label>
+                            </div>
+                            <div class="method-option">
+                                <input type="radio" id="netbanking" name="paymentMethod" value="netbanking">
+                                <label for="netbanking">
+                                    <i class="fas fa-university"></i>
+                                    <span>Net Banking</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-actions">
+                        <button type="button" class="btn-outline" onclick="closePaymentModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-heart"></i>
+                            Complete Donation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Thank You!</h2>
+                <button class="modal-close" onclick="closeSuccessModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-content">
+                    <div class="success-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Donation Successful!</h3>
+                    <p>Your donation of <strong id="successAmount">₹0</strong> will help provide meals to those in need.</p>
+                    <div class="impact-message">
+                        <p>You've just helped feed <strong id="mealsProvided">0</strong> people!</p>
+                    </div>
+                    <div class="success-actions">
+                        <button class="btn-primary" onclick="shareDonation()">
+                            <i class="fas fa-share"></i>
+                            Share Impact
+                        </button>
+                        <button class="btn-outline" onclick="goToDashboard()">
+                            <i class="fas fa-home"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedAmount = 0;
+        let selectedPackage = null;
+        let selectedNGO = 'Auto Distribution';
+
+        // Initialize page
+        function initializePage() {
+            setupEventListeners();
+            updateSummary();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Package selection
+            document.querySelectorAll('.select-package').forEach(button => {
+                button.addEventListener('click', function() {
+                    selectPackage(this);
+                });
+            });
+
+            // Amount buttons
+            document.querySelectorAll('.amount-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const amount = parseInt(this.getAttribute('data-amount'));
+                    setCustomAmount(amount);
+                });
+            });
+
+            // Custom amount input
+            document.getElementById('customAmount').addEventListener('input', function() {
+                const amount = parseInt(this.value) || 0;
+                setCustomAmount(amount);
+            });
+
+            // NGO selection
+            document.querySelectorAll('input[name="ngo"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    updateNGOSelection();
+                });
+            });
+
+            // Payment form
+            document.getElementById('paymentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                processPayment();
+            });
+        }
+
+        // Select package
+        function selectPackage(button) {
+            // Remove active class from all packages
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.classList.remove('active');
+                card.querySelector('.select-package').textContent = 'Select';
+            });
+
+            // Add active class to selected package
+            const card = button.closest('.package-card');
+            card.classList.add('active');
+            button.textContent = 'Selected';
+
+            // Set amount
+            selectedAmount = parseInt(card.getAttribute('data-amount'));
+            selectedPackage = card.querySelector('h4').textContent;
+            
+            // Clear custom amount
+            document.getElementById('customAmount').value = '';
+            
+            updateSummary();
+        }
+
+        // Set custom amount
+        function setCustomAmount(amount) {
+            selectedAmount = amount;
+            selectedPackage = 'Custom Amount';
+            
+            // Remove active class from packages
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.classList.remove('active');
+                card.querySelector('.select-package').textContent = 'Select';
+            });
+            
+            updateSummary();
+        }
+
+        // Update NGO selection
+        function updateNGOSelection() {
+            const selected = document.querySelector('input[name="ngo"]:checked');
+            if (selected) {
+                const ngoLabels = {
+                    'auto': 'Auto Distribution',
+                    'hope': 'Hope Foundation',
+                    'care': 'Care for Children'
+                };
+                selectedNGO = ngoLabels[selected.value];
+                updateSummary();
+            }
+        }
+
+        // Update summary
+        function updateSummary() {
+            document.getElementById('selectedPackage').textContent = selectedPackage || 'None';
+            document.getElementById('donationAmount').textContent = `₹${selectedAmount}`;
+            document.getElementById('selectedNGO').textContent = selectedNGO;
+            document.getElementById('totalDonation').textContent = `₹${selectedAmount}`;
+        }
+
+        // Proceed to payment
+        function proceedToPayment() {
+            if (selectedAmount === 0) {
+                alert('Please select a donation amount.');
+                return;
+            }
+
+            document.getElementById('modalAmount').textContent = `₹${selectedAmount}`;
+            document.getElementById('modalNGO').textContent = selectedNGO;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        // Close payment modal
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        // Process payment
+        function processPayment() {
+            // Simulate payment processing
+            const submitBtn = document.querySelector('#paymentForm .btn-primary');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                closePaymentModal();
+                showSuccessModal();
+                submitBtn.innerHTML = '<i class="fas fa-heart"></i> Complete Donation';
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+
+        // Show success modal
+        function showSuccessModal() {
+            document.getElementById('successAmount').textContent = `₹${selectedAmount}`;
+            document.getElementById('mealsProvided').textContent = Math.floor(selectedAmount / 50);
+            document.getElementById('successModal').style.display = 'flex';
+        }
+
+        // Close success modal
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        // Save donation for later
+        function saveDonation() {
+            const donationData = {
+                amount: selectedAmount,
+                package: selectedPackage,
+                ngo: selectedNGO
+            };
+            
+            localStorage.setItem('savedDonation', JSON.stringify(donationData));
+            alert('Donation saved! You can complete it later.');
+        }
+
+        // Share donation
+        function shareDonation() {
+            const text = `I just donated ₹${selectedAmount} to help provide meals to those in need through AaharExpress! Join me in fighting hunger.`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Donation Impact',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Donation message copied to clipboard!');
+                });
+            }
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=user';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        /* Donation-specific styles */
+        .donation-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .donation-form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .donation-form-card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 2rem;
+        }
+
+        .meal-packages h3,
+        .custom-amount h3,
+        .ngo-selection h3,
+        .donation-summary h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .package-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .package-card:hover {
+            border-color: #ff8f00;
+            transform: translateY(-2px);
+        }
+
+        .package-card.active {
+            border-color: #ff8f00;
+            background: #fff3e0;
+        }
+
+        .package-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .package-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .package-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .package-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .amount-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .currency {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-right: 0.5rem;
+        }
+
+        .amount-input input {
+            flex: 1;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .amount-suggestions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .amount-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .amount-btn:hover {
+            border-color: #ff8f00;
+            background: #fff3e0;
+        }
+
+        .ngo-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ngo-option {
+            position: relative;
+        }
+
+        .ngo-option input[type="radio"] {
+            display: none;
+        }
+
+        .ngo-option label {
+            display: block;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ngo-option input[type="radio"]:checked + label {
+            border-color: #ff8f00;
+            background: #fff3e0;
+        }
+
+        .ngo-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .ngo-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .donation-summary {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .summary-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .donation-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Impact info card */
+        .impact-info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .impact-info-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1.5rem;
+        }
+
+        .impact-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .impact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .impact-item i {
+            color: #ff8f00;
+            font-size: 1.2rem;
+            margin-top: 0.25rem;
+        }
+
+        .impact-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .impact-item p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .recent-donations h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .donation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .donation-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .donation-avatar {
+            width: 40px;
+            height: 40px;
+            background: #ff8f00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .donation-info p {
+            font-size: 0.9rem;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .donation-info span {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Modal styles */
+        .payment-summary {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-summary h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+
+        .method-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .method-option {
+            position: relative;
+        }
+
+        .method-option input[type="radio"] {
+            display: none;
+        }
+
+        .method-option label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .method-option input[type="radio"]:checked + label {
+            border-color: #ff8f00;
+            background: #fff3e0;
+        }
+
+        .method-option i {
+            font-size: 1.2rem;
+            color: #ff8f00;
+            width: 20px;
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .success-content {
+            text-align: center;
+        }
+
+        .success-icon {
+            margin-bottom: 1rem;
+        }
+
+        .success-icon i {
+            font-size: 4rem;
+            color: #ff8f00;
+        }
+
+        .success-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .success-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .impact-message {
+            background: #fff3e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .impact-message p {
+            color: #2e2e2e;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .donation-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 1rem 1rem;
+            }
+
+            .package-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-actions {
+                flex-direction: column;
+            }
+
+            .payment-actions {
+                flex-direction: column;
+            }
+
+            .success-actions {
+                flex-direction: column;
+            }
+
+            .amount-suggestions {
+                justify-content: center;
+            }
+        }
+    </style>
+</body>
+</html> 

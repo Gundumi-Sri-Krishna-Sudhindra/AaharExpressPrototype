@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Hunger Zones - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="#zones" class="nav-link active">Hunger Zones</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+                <a href="#settings" class="nav-link">Settings</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Platform Administrator</span>
+                    <span>Admin User</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Manage Hunger Zones</h1>
+                <p>Identify and manage areas with high food insecurity</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="addNewZone()">
+                    <i class="fas fa-plus"></i>
+                    Add New Zone
+                </button>
+            </div>
+        </header>
+
+        <!-- Zones Overview -->
+        <section class="zones-overview">
+            <div class="overview-container">
+                <div class="zones-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>15</h3>
+                            <p>Active Zones</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2,340</h3>
+                            <p>People Affected</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>1,567</h3>
+                            <p>Meals Delivered</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>NGOs Active</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Zones Grid -->
+        <section class="zones-section">
+            <div class="zones-container">
+                <div class="zones-grid" id="zonesGrid">
+                    <!-- Zones will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add/Edit Zone Modal -->
+    <div id="zoneModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Hunger Zone</h2>
+                <button class="modal-close" onclick="closeZoneModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="zoneForm">
+                    <div class="form-group">
+                        <label for="zoneName">Zone Name *</label>
+                        <input type="text" id="zoneName" name="zoneName" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="zoneCity">City *</label>
+                            <input type="text" id="zoneCity" name="zoneCity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zoneState">State *</label>
+                            <input type="text" id="zoneState" name="zoneState" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zoneAddress">Address *</label>
+                        <textarea id="zoneAddress" name="zoneAddress" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="affectedPeople">Affected Population *</label>
+                            <input type="number" id="affectedPeople" name="affectedPeople" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="priorityLevel">Priority Level *</label>
+                            <select id="priorityLevel" name="priorityLevel" required>
+                                <option value="">Select Priority</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zoneDescription">Description</label>
+                        <textarea id="zoneDescription" name="zoneDescription" rows="4" placeholder="Describe the zone, challenges, and specific needs..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closeZoneModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i>
+                            Save Zone
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample hunger zones data
+        const hungerZones = [
+            {
+                id: 1,
+                name: 'Dharavi Slum Area',
+                city: 'Mumbai',
+                state: 'Maharashtra',
+                address: 'Dharavi, Mumbai, Maharashtra',
+                affectedPeople: 450,
+                priorityLevel: 'high',
+                status: 'active',
+                description: 'High-density slum area with limited access to food resources',
+                ngosActive: 12,
+                mealsDelivered: 234
+            },
+            {
+                id: 2,
+                name: 'Govandi East',
+                city: 'Mumbai',
+                state: 'Maharashtra',
+                address: 'Govandi East, Mumbai, Maharashtra',
+                affectedPeople: 320,
+                priorityLevel: 'high',
+                status: 'active',
+                description: 'Industrial area with migrant worker population',
+                ngosActive: 8,
+                mealsDelivered: 189
+            },
+            {
+                id: 3,
+                name: 'Kurla West',
+                city: 'Mumbai',
+                state: 'Maharashtra',
+                address: 'Kurla West, Mumbai, Maharashtra',
+                affectedPeople: 280,
+                priorityLevel: 'medium',
+                status: 'active',
+                description: 'Residential area with economic challenges',
+                ngosActive: 6,
+                mealsDelivered: 156
+            }
+        ];
+
+        let currentZone = null;
+        let isEditing = false;
+
+        // Initialize page
+        function initializePage() {
+            populateZones();
+            setupEventListeners();
+        }
+
+        // Populate zones
+        function populateZones() {
+            const zonesGrid = document.getElementById('zonesGrid');
+            
+            zonesGrid.innerHTML = hungerZones.map(zone => `
+                <div class="zone-card ${zone.priorityLevel}">
+                    <div class="zone-header">
+                        <h3>${zone.name}</h3>
+                        <span class="priority-badge ${zone.priorityLevel}">${zone.priorityLevel}</span>
+                    </div>
+                    <div class="zone-content">
+                        <p class="zone-location"><i class="fas fa-map-marker-alt"></i> ${zone.city}, ${zone.state}</p>
+                        <p class="zone-address">${zone.address}</p>
+                        <p class="zone-description">${zone.description}</p>
+                        
+                        <div class="zone-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Affected People</span>
+                                <span class="stat-value">${zone.affectedPeople}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">NGOs Active</span>
+                                <span class="stat-value">${zone.ngosActive}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Meals Delivered</span>
+                                <span class="stat-value">${zone.mealsDelivered}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="zone-actions">
+                        <button class="btn-outline" onclick="editZone(${zone.id})">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn-primary" onclick="viewZoneDetails(${zone.id})">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('zoneForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleZoneSubmission();
+            });
+        }
+
+        // Add new zone
+        function addNewZone() {
+            isEditing = false;
+            currentZone = null;
+            document.getElementById('modalTitle').textContent = 'Add New Hunger Zone';
+            document.getElementById('zoneForm').reset();
+            document.getElementById('zoneModal').style.display = 'flex';
+        }
+
+        // Edit zone
+        function editZone(zoneId) {
+            const zone = hungerZones.find(z => z.id === zoneId);
+            if (!zone) return;
+            
+            isEditing = true;
+            currentZone = zone;
+            document.getElementById('modalTitle').textContent = 'Edit Hunger Zone';
+            
+            // Populate form
+            document.getElementById('zoneName').value = zone.name;
+            document.getElementById('zoneCity').value = zone.city;
+            document.getElementById('zoneState').value = zone.state;
+            document.getElementById('zoneAddress').value = zone.address;
+            document.getElementById('affectedPeople').value = zone.affectedPeople;
+            document.getElementById('priorityLevel').value = zone.priorityLevel;
+            document.getElementById('zoneDescription').value = zone.description;
+            
+            document.getElementById('zoneModal').style.display = 'flex';
+        }
+
+        // View zone details
+        function viewZoneDetails(zoneId) {
+            const zone = hungerZones.find(z => z.id === zoneId);
+            if (!zone) return;
+            
+            alert(`Zone Details:\nName: ${zone.name}\nLocation: ${zone.city}, ${zone.state}\nAffected People: ${zone.affectedPeople}\nPriority: ${zone.priorityLevel}\nDescription: ${zone.description}`);
+        }
+
+        // Handle zone submission
+        function handleZoneSubmission() {
+            const formData = new FormData(document.getElementById('zoneForm'));
+            const zoneData = Object.fromEntries(formData.entries());
+            
+            if (isEditing && currentZone) {
+                // Update existing zone
+                Object.assign(currentZone, zoneData);
+                alert('Zone updated successfully!');
+            } else {
+                // Add new zone
+                const newZone = {
+                    id: hungerZones.length + 1,
+                    ...zoneData,
+                    status: 'active',
+                    ngosActive: 0,
+                    mealsDelivered: 0
+                };
+                hungerZones.push(newZone);
+                alert('New zone added successfully!');
+            }
+            
+            closeZoneModal();
+            populateZones();
+        }
+
+        // Close zone modal
+        function closeZoneModal() {
+            document.getElementById('zoneModal').style.display = 'none';
+            currentZone = null;
+            isEditing = false;
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=admin';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .overview-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .zones-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .zones-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .zone-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #e0e0e0;
+        }
+
+        .zone-card.high {
+            border-left-color: #f44336;
+        }
+
+        .zone-card.medium {
+            border-left-color: #ff9800;
+        }
+
+        .zone-card.low {
+            border-left-color: #4caf50;
+        }
+
+        .zone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .zone-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .priority-badge.high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .priority-badge.medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .priority-badge.low {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .zone-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .zone-location {
+            font-weight: 600;
+            color: #2e2e2e !important;
+        }
+
+        .zone-location i {
+            color: #ff8f00;
+            margin-right: 0.5rem;
+        }
+
+        .zone-description {
+            font-style: italic;
+            margin-bottom: 1rem !important;
+        }
+
+        .zone-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .zone-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .overview-container,
+            .zones-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .zones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .zone-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .zone-actions {
+                flex-direction: column;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html> 

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Abuse - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-assigned-orders.html" class="nav-link">Assigned Orders</a>
+                <a href="contact-info.html" class="nav-link">Contact Info</a>
+                <a href="#report-abuse" class="nav-link active">Report Abuse</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Delivery Agent</span>
+                    <span>Rajesh Kumar</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Report Abuse & Issues</h1>
+                <p>Report incidents, abuse, or safety concerns</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="reportNewIssue()">
+                    <i class="fas fa-plus"></i>
+                    Report New Issue
+                </button>
+            </div>
+        </header>
+
+        <!-- Report Stats -->
+        <section class="report-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>5</h3>
+                            <p>Reports Filed</p>
+                            <span class="stat-change neutral">2 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4</h3>
+                            <p>Resolved Issues</p>
+                            <span class="stat-change positive">80% resolution rate</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2.5</h3>
+                            <p>Avg Response Time</p>
+                            <span class="stat-change positive">-1.2 days</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>100%</h3>
+                            <p>Confidentiality</p>
+                            <span class="stat-change positive">Your privacy protected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- Recent Reports -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Reports</h3>
+                        <button class="btn-outline" onclick="viewAllReports()">View All</button>
+                    </div>
+                    <div class="reports-list" id="reportsList">
+                        <!-- Reports will be populated -->
+                    </div>
+                </div>
+
+                <!-- Report Categories -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Report Categories</h3>
+                        <button class="btn-outline" onclick="viewGuidelines()">Guidelines</button>
+                    </div>
+                    <div class="categories-grid" id="categoriesGrid">
+                        <!-- Categories will be populated -->
+                    </div>
+                </div>
+
+                <!-- Safety Resources -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Safety Resources</h3>
+                        <button class="btn-outline" onclick="viewAllResources()">View All</button>
+                    </div>
+                    <div class="safety-resources" id="safetyResources">
+                        <!-- Safety resources will be populated -->
+                    </div>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Emergency Contacts</h3>
+                        <button class="btn-outline" onclick="addEmergencyContact()">Add Contact</button>
+                    </div>
+                    <div class="emergency-contacts" id="emergencyContacts">
+                        <!-- Emergency contacts will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Report Issue Modal -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Report New Issue</h2>
+                <button class="modal-close" onclick="closeReportModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reportForm">
+                    <div class="form-section">
+                        <h4>Issue Details</h4>
+                        
+                        <div class="form-group">
+                            <label for="issueType">Issue Type *</label>
+                            <select id="issueType" name="issueType" required onchange="updateSubcategories()">
+                                <option value="">Select Issue Type</option>
+                                <option value="safety">Safety Concern</option>
+                                <option value="harassment">Harassment</option>
+                                <option value="fraud">Fraud/Scam</option>
+                                <option value="technical">Technical Issue</option>
+                                <option value="service">Service Quality</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="subcategoryGroup" style="display: none;">
+                            <label for="subcategory">Subcategory</label>
+                            <select id="subcategory" name="subcategory">
+                                <option value="">Select Subcategory</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="issueTitle">Issue Title *</label>
+                            <input type="text" id="issueTitle" name="issueTitle" placeholder="Brief description of the issue" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="issueDescription">Detailed Description *</label>
+                            <textarea id="issueDescription" name="issueDescription" rows="4" placeholder="Please provide a detailed description of what happened, when it occurred, and any relevant details" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Incident Information</h4>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="incidentDate">Date of Incident *</label>
+                                <input type="date" id="incidentDate" name="incidentDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="incidentTime">Time of Incident</label>
+                                <input type="time" id="incidentTime" name="incidentTime">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="incidentLocation">Location</label>
+                            <input type="text" id="incidentLocation" name="incidentLocation" placeholder="Address or area where the incident occurred">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="orderNumber">Related Order Number (if applicable)</label>
+                            <input type="text" id="orderNumber" name="orderNumber" placeholder="Order #12345">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Evidence & Documentation</h4>
+                        
+                        <div class="form-group">
+                            <label>Upload Evidence (Optional)</label>
+                            <div class="file-upload-area" id="fileUploadArea">
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Click to upload photos, screenshots, or documents</p>
+                                    <span>Supports JPG, PNG, PDF (Max 10MB each)</span>
+                                </div>
+                                <input type="file" id="evidenceFiles" name="evidenceFiles" accept=".jpg,.jpeg,.png,.pdf" multiple style="display: none;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="witnesses">Witnesses (if any)</label>
+                            <textarea id="witnesses" name="witnesses" rows="2" placeholder="Names and contact information of any witnesses"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Contact Preferences</h4>
+                        
+                        <div class="form-group">
+                            <label for="preferredContact">Preferred Contact Method</label>
+                            <select id="preferredContact" name="preferredContact">
+                                <option value="email">Email</option>
+                                <option value="phone">Phone</option>
+                                <option value="in-app">In-App Message</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="urgency">Urgency Level</label>
+                            <select id="urgency" name="urgency">
+                                <option value="low">Low - Can wait</option>
+                                <option value="medium" selected>Medium - Standard priority</option>
+                                <option value="high">High - Urgent attention needed</option>
+                                <option value="critical">Critical - Immediate action required</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="anonymous" name="anonymous">
+                                Report anonymously (your identity will be protected)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closeReportModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample reports data
+        const reports = [
+            {
+                id: 1,
+                type: 'safety',
+                title: 'Aggressive customer behavior',
+                description: 'Customer became verbally aggressive during delivery',
+                date: '2024-01-15',
+                status: 'under-review',
+                urgency: 'high',
+                orderNumber: '12345'
+            },
+            {
+                id: 2,
+                type: 'technical',
+                title: 'App navigation issues',
+                description: 'Unable to access delivery route on mobile app',
+                date: '2024-01-12',
+                status: 'resolved',
+                urgency: 'medium',
+                orderNumber: null
+            },
+            {
+                id: 3,
+                type: 'service',
+                title: 'Food quality complaint',
+                description: 'Customer reported spoiled food items',
+                date: '2024-01-10',
+                status: 'resolved',
+                urgency: 'medium',
+                orderNumber: '12340'
+            }
+        ];
+
+        const categories = [
+            {
+                type: 'safety',
+                name: 'Safety Concerns',
+                description: 'Physical safety, harassment, or dangerous situations',
+                icon: 'fas fa-shield-alt',
+                color: '#f44336'
+            },
+            {
+                type: 'harassment',
+                name: 'Harassment',
+                description: 'Verbal abuse, discrimination, or inappropriate behavior',
+                icon: 'fas fa-exclamation-triangle',
+                color: '#ff9800'
+            },
+            {
+                type: 'fraud',
+                name: 'Fraud & Scams',
+                description: 'Suspicious activities, fake orders, or payment issues',
+                icon: 'fas fa-user-secret',
+                color: '#9c27b0'
+            },
+            {
+                type: 'technical',
+                name: 'Technical Issues',
+                description: 'App problems, navigation errors, or system glitches',
+                icon: 'fas fa-bug',
+                color: '#2196f3'
+            },
+            {
+                type: 'service',
+                name: 'Service Quality',
+                description: 'Food quality, delivery issues, or customer service',
+                icon: 'fas fa-utensils',
+                color: '#4caf50'
+            },
+            {
+                type: 'other',
+                name: 'Other Issues',
+                description: 'Any other concerns not covered above',
+                icon: 'fas fa-question-circle',
+                color: '#607d8b'
+            }
+        ];
+
+        const safetyResources = [
+            {
+                id: 1,
+                title: 'Safety Guidelines',
+                description: 'Best practices for delivery agents',
+                icon: 'fas fa-book',
+                link: '#'
+            },
+            {
+                id: 2,
+                title: 'Emergency Procedures',
+                description: 'What to do in emergency situations',
+                icon: 'fas fa-ambulance',
+                link: '#'
+            },
+            {
+                id: 3,
+                title: 'Self-Defense Tips',
+                description: 'Basic self-defense techniques',
+                icon: 'fas fa-fist-raised',
+                link: '#'
+            }
+        ];
+
+        const emergencyContacts = [
+            {
+                id: 1,
+                name: 'Platform Support',
+                phone: '+91 1800-123-4567',
+                description: '24/7 platform support hotline'
+            },
+            {
+                id: 2,
+                name: 'Local Police',
+                phone: '100',
+                description: 'Emergency police number'
+            },
+            {
+                id: 3,
+                name: 'Ambulance',
+                phone: '102',
+                description: 'Emergency medical services'
+            }
+        ];
+
+        // Initialize page
+        function initializePage() {
+            populateReports();
+            populateCategories();
+            populateSafetyResources();
+            populateEmergencyContacts();
+            setupEventListeners();
+        }
+
+        // Populate reports
+        function populateReports() {
+            const reportsList = document.getElementById('reportsList');
+            
+            reportsList.innerHTML = reports.map(report => `
+                <div class="report-item ${report.status}">
+                    <div class="report-header">
+                        <div class="report-type">
+                            <span class="type-badge ${report.type}">${getCategoryName(report.type)}</span>
+                            <span class="urgency-badge ${report.urgency}">${report.urgency}</span>
+                        </div>
+                        <span class="status-badge ${report.status}">${report.status}</span>
+                    </div>
+                    <div class="report-content">
+                        <h4>${report.title}</h4>
+                        <p>${report.description}</p>
+                        ${report.orderNumber ? `<p class="order-number">Order #${report.orderNumber}</p>` : ''}
+                        <span class="report-date">${formatDate(report.date)}</span>
+                    </div>
+                    <div class="report-actions">
+                        <button class="btn-outline btn-small" onclick="viewReportDetails(${report.id})">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                        <button class="btn-outline btn-small" onclick="updateReport(${report.id})">
+                            <i class="fas fa-edit"></i>
+                            Update
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate categories
+        function populateCategories() {
+            const categoriesGrid = document.getElementById('categoriesGrid');
+            
+            categoriesGrid.innerHTML = categories.map(category => `
+                <div class="category-item" onclick="selectCategory('${category.type}')">
+                    <div class="category-icon" style="background: ${category.color}">
+                        <i class="${category.icon}"></i>
+                    </div>
+                    <div class="category-info">
+                        <h4>${category.name}</h4>
+                        <p>${category.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate safety resources
+        function populateSafetyResources() {
+            const safetyResourcesDiv = document.getElementById('safetyResources');
+            
+            safetyResourcesDiv.innerHTML = safetyResources.map(resource => `
+                <div class="resource-item">
+                    <div class="resource-icon">
+                        <i class="${resource.icon}"></i>
+                    </div>
+                    <div class="resource-info">
+                        <h4>${resource.title}</h4>
+                        <p>${resource.description}</p>
+                    </div>
+                    <div class="resource-actions">
+                        <button class="btn-outline btn-small" onclick="viewResource(${resource.id})">
+                            <i class="fas fa-external-link-alt"></i>
+                            View
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate emergency contacts
+        function populateEmergencyContacts() {
+            const emergencyContactsDiv = document.getElementById('emergencyContacts');
+            
+            emergencyContactsDiv.innerHTML = emergencyContacts.map(contact => `
+                <div class="emergency-contact-item">
+                    <div class="contact-info">
+                        <h4>${contact.name}</h4>
+                        <p class="description">${contact.description}</p>
+                        <p class="phone">${contact.phone}</p>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="btn-primary btn-small" onclick="callEmergency('${contact.phone}')">
+                            <i class="fas fa-phone"></i>
+                            Call Now
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get category name
+        function getCategoryName(type) {
+            const category = categories.find(c => c.type === type);
+            return category ? category.name : type;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('reportForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleReportSubmission();
+            });
+
+            // File upload
+            const uploadArea = document.getElementById('fileUploadArea');
+            const fileInput = document.getElementById('evidenceFiles');
+            
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    updateFileDisplay(e.target.files);
+                }
+            });
+        }
+
+        // Update file display
+        function updateFileDisplay(files) {
+            const uploadArea = document.getElementById('fileUploadArea');
+            uploadArea.innerHTML = `
+                <div class="files-selected">
+                    <p>${files.length} file(s) selected</p>
+                    <button type="button" onclick="removeFiles()">
+                        <i class="fas fa-times"></i>
+                        Remove
+                    </button>
+                </div>
+            `;
+        }
+
+        // Remove files
+        function removeFiles() {
+            const uploadArea = document.getElementById('fileUploadArea');
+            const fileInput = document.getElementById('evidenceFiles');
+            
+            uploadArea.innerHTML = `
+                <div class="upload-placeholder">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to upload photos, screenshots, or documents</p>
+                    <span>Supports JPG, PNG, PDF (Max 10MB each)</span>
+                </div>
+            `;
+            fileInput.value = '';
+        }
+
+        // Update subcategories
+        function updateSubcategories() {
+            const issueType = document.getElementById('issueType').value;
+            const subcategoryGroup = document.getElementById('subcategoryGroup');
+            const subcategory = document.getElementById('subcategory');
+            
+            if (issueType) {
+                subcategoryGroup.style.display = 'block';
+                
+                // Clear existing options
+                subcategory.innerHTML = '<option value="">Select Subcategory</option>';
+                
+                // Add subcategories based on issue type
+                const subcategories = getSubcategories(issueType);
+                subcategories.forEach(sub => {
+                    const option = document.createElement('option');
+                    option.value = sub.value;
+                    option.textContent = sub.label;
+                    subcategory.appendChild(option);
+                });
+            } else {
+                subcategoryGroup.style.display = 'none';
+            }
+        }
+
+        // Get subcategories
+        function getSubcategories(issueType) {
+            const subcategoryMap = {
+                'safety': [
+                    { value: 'aggressive-customer', label: 'Aggressive Customer' },
+                    { value: 'unsafe-area', label: 'Unsafe Delivery Area' },
+                    { value: 'vehicle-issue', label: 'Vehicle Safety Issue' },
+                    { value: 'road-hazard', label: 'Road Hazard' }
+                ],
+                'harassment': [
+                    { value: 'verbal-abuse', label: 'Verbal Abuse' },
+                    { value: 'discrimination', label: 'Discrimination' },
+                    { value: 'inappropriate-behavior', label: 'Inappropriate Behavior' },
+                    { value: 'stalking', label: 'Stalking' }
+                ],
+                'fraud': [
+                    { value: 'fake-order', label: 'Fake Order' },
+                    { value: 'payment-issue', label: 'Payment Issue' },
+                    { value: 'identity-theft', label: 'Identity Theft' },
+                    { value: 'scam', label: 'Scam Attempt' }
+                ],
+                'technical': [
+                    { value: 'app-crash', label: 'App Crash' },
+                    { value: 'navigation-error', label: 'Navigation Error' },
+                    { value: 'login-issue', label: 'Login Problem' },
+                    { value: 'gps-issue', label: 'GPS Issue' }
+                ],
+                'service': [
+                    { value: 'food-quality', label: 'Food Quality Issue' },
+                    { value: 'delivery-delay', label: 'Delivery Delay' },
+                    { value: 'wrong-order', label: 'Wrong Order' },
+                    { value: 'customer-service', label: 'Customer Service Issue' }
+                ]
+            };
+            
+            return subcategoryMap[issueType] || [];
+        }
+
+        // Report new issue
+        function reportNewIssue() {
+            document.getElementById('reportModal').style.display = 'flex';
+        }
+
+        // Close report modal
+        function closeReportModal() {
+            document.getElementById('reportModal').style.display = 'none';
+            document.getElementById('reportForm').reset();
+            removeFiles();
+        }
+
+        // Handle report submission
+        function handleReportSubmission() {
+            const formData = new FormData(document.getElementById('reportForm'));
+            const reportData = Object.fromEntries(formData.entries());
+            
+            // Validate form
+            if (!validateReportForm(reportData)) {
+                return;
+            }
+            
+            // Create new report
+            const newReport = {
+                id: reports.length + 1,
+                type: reportData.issueType,
+                title: reportData.issueTitle,
+                description: reportData.issueDescription,
+                date: new Date().toISOString().split('T')[0],
+                status: 'pending',
+                urgency: reportData.urgency,
+                orderNumber: reportData.orderNumber || null
+            };
+            
+            reports.unshift(newReport);
+            populateReports();
+            closeReportModal();
+            alert('Report submitted successfully! We will review and respond within 24-48 hours.');
+        }
+
+        // Validate report form
+        function validateReportForm(data) {
+            if (!data.issueType || !data.issueTitle || !data.issueDescription || !data.incidentDate) {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Select category
+        function selectCategory(categoryType) {
+            document.getElementById('issueType').value = categoryType;
+            updateSubcategories();
+            reportNewIssue();
+        }
+
+        // View report details
+        function viewReportDetails(reportId) {
+            const report = reports.find(r => r.id === reportId);
+            if (report) {
+                alert(`Viewing details for report: ${report.title}`);
+            }
+        }
+
+        // Update report
+        function updateReport(reportId) {
+            const report = reports.find(r => r.id === reportId);
+            if (report) {
+                alert(`Updating report: ${report.title}`);
+            }
+        }
+
+        // View all reports
+        function viewAllReports() {
+            alert('Viewing all reports. This would show a complete report history.');
+        }
+
+        // View guidelines
+        function viewGuidelines() {
+            alert('Opening report guidelines and policies.');
+        }
+
+        // View resource
+        function viewResource(resourceId) {
+            const resource = safetyResources.find(r => r.id === resourceId);
+            if (resource) {
+                alert(`Opening resource: ${resource.title}`);
+            }
+        }
+
+        // View all resources
+        function viewAllResources() {
+            alert('Viewing all safety resources.');
+        }
+
+        // Call emergency
+        function callEmergency(phone) {
+            alert(`Calling emergency number: ${phone}`);
+        }
+
+        // Add emergency contact
+        function addEmergencyContact() {
+            alert('Adding emergency contact. This would open the contact form.');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=delivery-agent';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .stat-change.neutral {
+            color: #ff9800;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .report-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .report-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .report-item:hover {
+            background: #f8f9fa;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .report-type {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .type-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .type-badge.safety {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .type-badge.harassment {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .type-badge.fraud {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .type-badge.technical {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .type-badge.service {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .type-badge.other {
+            background: #eceff1;
+            color: #37474f;
+        }
+
+        .urgency-badge {
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .urgency-badge.low {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .urgency-badge.medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .urgency-badge.high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .urgency-badge.critical {
+            background: #fce4ec;
+            color: #ad1457;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.under-review {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .report-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .report-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-number {
+            color: #ff8f00;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .report-date {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            background: #f8f9fa;
+            border-color: #ff8f00;
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .category-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .category-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-icon {
+            width: 40px;
+            height: 40px;
+            background: #ff8f00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .resource-info {
+            flex: 1;
+        }
+
+        .resource-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .resource-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .emergency-contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .emergency-contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .phone {
+            color: #ff8f00;
+            font-weight: 500;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-area:hover {
+            border-color: #ff8f00;
+            background: #fff3e0;
+        }
+
+        .upload-placeholder i {
+            font-size: 3rem;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .upload-placeholder p {
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-placeholder span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .files-selected {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .files-selected p {
+            font-weight: 500;
+            color: #2e2e2e;
+        }
+
+        .files-selected button {
+            background: none;
+            border: none;
+            color: #ff5722;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

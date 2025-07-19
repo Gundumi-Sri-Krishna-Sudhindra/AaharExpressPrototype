@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AaharExpress Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#profile" class="nav-link">Profile</a>
+                <a href="#help" class="nav-link">Help</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span id="userRole">User</span>
+                    <span id="userName">John Doe</span>
+                </div>
+                <button class="btn-secondary" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="sidebarUserName">John Doe</h3>
+                    <p id="sidebarUserRole">User / Donor</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul id="sidebarMenu">
+                    <!-- Menu items will be populated by JavaScript -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Header -->
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <h1 id="dashboardTitle">Dashboard</h1>
+                    <p id="dashboardSubtitle">Welcome back! Here's what's happening today.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary" onclick="showQuickAction()">
+                        <i class="fas fa-plus"></i>
+                        Quick Action
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <section class="stats-section">
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Stats will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Main Dashboard Content -->
+            <section class="dashboard-content">
+                <div class="content-grid">
+                    <!-- Recent Activity -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                            <button class="btn-outline btn-sm">View All</button>
+                        </div>
+                        <div class="activity-list" id="activityList">
+                            <!-- Activities will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="quick-actions" id="quickActions">
+                            <!-- Quick actions will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Grid -->
+            <section class="features-section" id="features">
+                <div class="section-header">
+                    <h2>Available Features</h2>
+                    <p>Access all the tools and features available for your role</p>
+                </div>
+                <div class="features-grid" id="featuresGrid">
+                    <!-- Features will be populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Quick Action Modal -->
+    <div id="quickActionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="quickActionTitle">Quick Action</h2>
+                <button class="modal-close" onclick="closeQuickAction()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="quickActionBody">
+                <!-- Quick action content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get user role from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const userRole = urlParams.get('role') || 'user';
+        
+        // User data based on role
+        const userData = {
+            user: {
+                name: 'Rahul Sharma',
+                role: 'User / Donor',
+                stats: [
+                    { title: 'Total Orders', value: '24', icon: 'fas fa-shopping-cart', color: '#ff8f00' },
+                    { title: 'Meals Donated', value: '12', icon: 'fas fa-gift', color: '#4caf50' },
+                    { title: 'Impact Score', value: '850', icon: 'fas fa-star', color: '#ffc107' },
+                    { title: 'This Month', value: '₹2,400', icon: 'fas fa-rupee-sign', color: '#2196f3' }
+                ],
+                features: [
+                    { title: 'Browse Menu', icon: 'fas fa-utensils', description: 'Explore food options from restaurants', action: 'browse-menu' },
+                    { title: 'Place Order', icon: 'fas fa-shopping-cart', description: 'Order food for delivery', action: 'place-order' },
+                    { title: 'Donate Meal', icon: 'fas fa-heart', description: 'Donate meals to those in need', action: 'donate-meal' },
+                    { title: 'Track Impact', icon: 'fas fa-chart-line', description: 'View your donation impact', action: 'track-impact' },
+                    { title: 'Personal Impact', icon: 'fas fa-user-chart', description: 'View your personal contribution impact', action: 'personal-impact' },
+                    { title: 'Order History', icon: 'fas fa-history', description: 'View past orders and donations', action: 'order-history' },
+                    { title: 'Profile Settings', icon: 'fas fa-user-cog', description: 'Manage your account settings', action: 'profile-settings' }
+                ],
+                quickActions: [
+                    { title: 'Order Food', icon: 'fas fa-utensils', action: 'order-food' },
+                    { title: 'Donate Meal', icon: 'fas fa-gift', action: 'donate-meal' },
+                    { title: 'Personal Impact', icon: 'fas fa-user-chart', action: 'personal-impact' }
+                ],
+                activities: [
+                    { type: 'order', message: 'Ordered Biryani from Spice Garden', time: '2 hours ago', icon: 'fas fa-shopping-cart' },
+                    { type: 'donation', message: 'Donated 2 meals to local shelter', time: '1 day ago', icon: 'fas fa-heart' },
+                    { type: 'impact', message: 'Reached 100 meals donated milestone', time: '3 days ago', icon: 'fas fa-trophy' }
+                ]
+            },
+            restaurant: {
+                name: 'Spice Garden Restaurant',
+                role: 'Restaurant Partner',
+                stats: [
+                    { title: 'Total Orders', value: '156', icon: 'fas fa-shopping-cart', color: '#ff8f00' },
+                    { title: 'Surplus Listed', value: '23', icon: 'fas fa-upload', color: '#4caf50' },
+                    { title: 'Pickups Done', value: '18', icon: 'fas fa-check-circle', color: '#ffc107' },
+                    { title: 'This Month', value: '₹45,600', icon: 'fas fa-rupee-sign', color: '#2196f3' }
+                ],
+                features: [
+                    { title: 'Upload Surplus', icon: 'fas fa-upload', description: 'List surplus food for donation', action: 'upload-surplus' },
+                    { title: 'Manage Orders', icon: 'fas fa-clipboard-list', description: 'View and manage incoming orders', action: 'manage-orders' },
+                    { title: 'Pickup Status', icon: 'fas fa-truck', description: 'Track pickup and delivery status', action: 'pickup-status' },
+                    { title: 'Certifications', icon: 'fas fa-certificate', description: 'Manage Zero Waste certifications', action: 'certifications' },
+                    { title: 'Analytics', icon: 'fas fa-chart-bar', description: 'View restaurant performance metrics', action: 'analytics' },
+                    { title: 'Settings', icon: 'fas fa-cog', description: 'Manage restaurant settings', action: 'settings' }
+                ],
+                quickActions: [
+                    { title: 'Upload Surplus', icon: 'fas fa-upload', action: 'upload-surplus' },
+                    { title: 'View Orders', icon: 'fas fa-clipboard-list', action: 'view-orders' },
+                    { title: 'Analytics', icon: 'fas fa-chart-bar', action: 'analytics' }
+                ],
+                activities: [
+                    { type: 'upload', message: 'Uploaded 5kg surplus rice', time: '1 hour ago', icon: 'fas fa-upload' },
+                    { type: 'pickup', message: 'Volunteer picked up surplus food', time: '3 hours ago', icon: 'fas fa-truck' },
+                    { type: 'certification', message: 'Received Zero Waste certification', time: '1 week ago', icon: 'fas fa-certificate' }
+                ]
+            },
+            ngo: {
+                name: 'Hope Foundation',
+                role: 'NGO Representative',
+                stats: [
+                    { title: 'Donations Received', value: '89', icon: 'fas fa-gift', color: '#ff8f00' },
+                    { title: 'Volunteers', value: '12', icon: 'fas fa-users', color: '#4caf50' },
+                    { title: 'Deliveries Done', value: '67', icon: 'fas fa-check-circle', color: '#ffc107' },
+                    { title: 'People Helped', value: '1,234', icon: 'fas fa-heart', color: '#2196f3' }
+                ],
+                features: [
+                    { title: 'NGO Dashboard', icon: 'fas fa-tachometer-alt', description: 'Overview of surplus food and pickups', action: 'ngo-dashboard' },
+                    { title: 'Accept Donations', icon: 'fas fa-check-circle', description: 'Accept or decline food donations', action: 'accept-donations' },
+                    { title: 'Assign Volunteers', icon: 'fas fa-user-plus', description: 'Assign volunteers to pickups', action: 'assign-volunteers' },
+                    { title: 'Track Deliveries', icon: 'fas fa-route', description: 'Monitor delivery progress', action: 'track-deliveries' },
+                    { title: 'Volunteer Management', icon: 'fas fa-users-cog', description: 'Manage volunteer network', action: 'volunteer-management' },
+                    { title: 'Impact Reports', icon: 'fas fa-chart-pie', description: 'Generate impact reports', action: 'impact-reports' },
+                    { title: 'Settings', icon: 'fas fa-cog', description: 'Manage NGO settings', action: 'settings' }
+                ],
+                quickActions: [
+                    { title: 'NGO Dashboard', icon: 'fas fa-tachometer-alt', action: 'ngo-dashboard' },
+                    { title: 'Accept Donations', icon: 'fas fa-check-circle', action: 'accept-donations' },
+                    { title: 'Assign Volunteers', icon: 'fas fa-user-plus', action: 'assign-volunteers' }
+                ],
+                activities: [
+                    { type: 'donation', message: 'Accepted 10kg food donation', time: '30 minutes ago', icon: 'fas fa-check-circle' },
+                    { type: 'volunteer', message: 'Assigned volunteer to pickup', time: '2 hours ago', icon: 'fas fa-user-plus' },
+                    { type: 'delivery', message: 'Completed delivery to shelter', time: '1 day ago', icon: 'fas fa-check' }
+                ]
+            },
+            volunteer: {
+                name: 'Priya Patel',
+                role: 'Volunteer',
+                stats: [
+                    { title: 'Pickups Done', value: '34', icon: 'fas fa-truck', color: '#ff8f00' },
+                    { title: 'Deliveries', value: '28', icon: 'fas fa-check-circle', color: '#4caf50' },
+                    { title: 'Hours Served', value: '156', icon: 'fas fa-clock', color: '#ffc107' },
+                    { title: 'People Helped', value: '567', icon: 'fas fa-heart', color: '#2196f3' }
+                ],
+                features: [
+                    { title: 'View Pickups', icon: 'fas fa-list', description: 'View assigned pickup tasks', action: 'view-pickups' },
+                    { title: 'Route Optimization', icon: 'fas fa-route', description: 'Get optimized delivery routes', action: 'route-optimization' },
+                    { title: 'Mark Delivery', icon: 'fas fa-check', description: 'Mark deliveries as complete', action: 'mark-delivery' },
+                    { title: 'Schedule', icon: 'fas fa-calendar', description: 'View your volunteer schedule', action: 'schedule' },
+                    { title: 'Profile', icon: 'fas fa-user', description: 'Manage your volunteer profile', action: 'profile' }
+                ],
+                quickActions: [
+                    { title: 'View Pickups', icon: 'fas fa-list', action: 'view-pickups' },
+                    { title: 'Route Map', icon: 'fas fa-route', action: 'route-map' },
+                    { title: 'Mark Complete', icon: 'fas fa-check', action: 'mark-complete' }
+                ],
+                activities: [
+                    { type: 'pickup', message: 'Picked up food from Spice Garden', time: '1 hour ago', icon: 'fas fa-truck' },
+                    { type: 'delivery', message: 'Delivered food to Hope Foundation', time: '2 hours ago', icon: 'fas fa-check' },
+                    { type: 'milestone', message: 'Completed 50th delivery', time: '1 week ago', icon: 'fas fa-trophy' }
+                ]
+            },
+            admin: {
+                name: 'Admin User',
+                role: 'Platform Administrator',
+                stats: [
+                    { title: 'Total Users', value: '2,456', icon: 'fas fa-users', color: '#ff8f00' },
+                    { title: 'Restaurants', value: '89', icon: 'fas fa-store', color: '#4caf50' },
+                    { title: 'NGOs', value: '23', icon: 'fas fa-hands-helping', color: '#ffc107' },
+                    { title: 'Volunteers', value: '156', icon: 'fas fa-heart', color: '#2196f3' }
+                ],
+                features: [
+                    { title: 'User Verification', icon: 'fas fa-user-check', description: 'Verify restaurants and NGOs', action: 'user-verification' },
+                    { title: 'Hunger Zones', icon: 'fas fa-map-marker-alt', description: 'Manage hunger zones', action: 'hunger-zones' },
+                    { title: 'Analytics Dashboard', icon: 'fas fa-chart-bar', description: 'Platform analytics and reports', action: 'analytics-dashboard' },
+                    { title: 'Reports & Abuse', icon: 'fas fa-flag', description: 'Handle reports and abuse cases', action: 'reports-abuse' },
+                    { title: 'System Settings', icon: 'fas fa-cogs', description: 'Manage platform settings', action: 'system-settings' },
+                    { title: 'User Management', icon: 'fas fa-users-cog', description: 'Manage all platform users', action: 'user-management' }
+                ],
+                quickActions: [
+                    { title: 'Verify Users', icon: 'fas fa-user-check', action: 'verify-users' },
+                    { title: 'View Analytics', icon: 'fas fa-chart-bar', action: 'view-analytics' },
+                    { title: 'Handle Reports', icon: 'fas fa-flag', action: 'handle-reports' }
+                ],
+                activities: [
+                    { type: 'verification', message: 'Verified Spice Garden Restaurant', time: '30 minutes ago', icon: 'fas fa-user-check' },
+                    { type: 'zone', message: 'Added new hunger zone in Mumbai', time: '2 hours ago', icon: 'fas fa-map-marker-alt' },
+                    { type: 'report', message: 'Resolved abuse report #1234', time: '1 day ago', icon: 'fas fa-flag' }
+                ]
+            },
+            'delivery-agent': {
+                name: 'Rajesh Kumar',
+                role: 'Delivery Agent',
+                stats: [
+                    { title: 'Deliveries Done', value: '156', icon: 'fas fa-truck', color: '#ff8f00' },
+                    { title: 'Orders Assigned', value: '8', icon: 'fas fa-clipboard-list', color: '#4caf50' },
+                    { title: 'Hours Worked', value: '234', icon: 'fas fa-clock', color: '#ffc107' },
+                    { title: 'Customer Rating', value: '4.7', icon: 'fas fa-star', color: '#2196f3' }
+                ],
+                features: [
+                    { title: 'View Assigned Orders', icon: 'fas fa-list', description: 'View and manage assigned pickup and delivery orders', action: 'view-assigned-orders' },
+                    { title: 'Map View', icon: 'fas fa-map', description: 'View delivery routes and optimize your path', action: 'map-view' },
+                    { title: 'Delivery History', icon: 'fas fa-history', description: 'View your delivery history and performance', action: 'delivery-history' },
+                    { title: 'Earnings', icon: 'fas fa-money-bill-wave', description: 'Track your earnings and payment history', action: 'earnings' },
+                    { title: 'Contact Info', icon: 'fas fa-address-book', description: 'Manage your contact information', action: 'contact-info' },
+                    { title: 'Report Abuse', icon: 'fas fa-flag', description: 'Report incidents and safety concerns', action: 'report-abuse' }
+                ],
+                quickActions: [
+                    { title: 'View Orders', icon: 'fas fa-list', action: 'view-assigned-orders' },
+                    { title: 'Map View', icon: 'fas fa-map', action: 'map-view' },
+                    { title: 'Earnings', icon: 'fas fa-money-bill-wave', action: 'earnings' },
+                    { title: 'Report Issue', icon: 'fas fa-flag', action: 'report-abuse' }
+                ],
+                activities: [
+                    { type: 'delivery', message: 'Completed delivery to Priya Sharma', time: '1 hour ago', icon: 'fas fa-check' },
+                    { type: 'order', message: 'New order assigned from Spice Garden', time: '2 hours ago', icon: 'fas fa-clipboard-list' },
+                    { type: 'route', message: 'Route optimized for 3 deliveries', time: '3 hours ago', icon: 'fas fa-route' }
+                ]
+            }
+        };
+
+        // Initialize dashboard
+        function initializeDashboard() {
+            const user = userData[userRole];
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update user info
+            document.getElementById('userRole').textContent = user.role;
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('sidebarUserName').textContent = user.name;
+            document.getElementById('sidebarUserRole').textContent = user.role;
+            document.getElementById('dashboardTitle').textContent = `${user.role} Dashboard`;
+            document.getElementById('dashboardSubtitle').textContent = `Welcome back, ${user.name}! Here's what's happening today.`;
+
+            // Populate stats
+            populateStats(user.stats);
+            
+            // Populate sidebar menu
+            populateSidebarMenu(user.features);
+            
+            // Populate quick actions
+            populateQuickActions(user.quickActions);
+            
+            // Populate activities
+            populateActivities(user.activities);
+            
+            // Populate features grid
+            populateFeaturesGrid(user.features);
+        }
+
+        // Populate stats cards
+        function populateStats(stats) {
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = stats.map(stat => `
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: ${stat.color}">
+                        <i class="${stat.icon}"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>${stat.value}</h3>
+                        <p>${stat.title}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate sidebar menu
+        function populateSidebarMenu(features) {
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            sidebarMenu.innerHTML = features.map(feature => `
+                <li>
+                    <a href="#" onclick="navigateToFeature('${feature.action}')" class="sidebar-link">
+                        <i class="${feature.icon}"></i>
+                        <span>${feature.title}</span>
+                    </a>
+                </li>
+            `).join('');
+        }
+
+        // Populate quick actions
+        function populateQuickActions(actions) {
+            const quickActions = document.getElementById('quickActions');
+            quickActions.innerHTML = actions.map(action => `
+                <button class="quick-action-btn" onclick="performQuickAction('${action.action}')">
+                    <i class="${action.icon}"></i>
+                    <span>${action.title}</span>
+                </button>
+            `).join('');
+        }
+
+        // Populate activities
+        function populateActivities(activities) {
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = activities.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="${activity.icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p>${activity.message}</p>
+                        <span class="activity-time">${activity.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate features grid
+        function populateFeaturesGrid(features) {
+            const featuresGrid = document.getElementById('featuresGrid');
+            featuresGrid.innerHTML = features.map(feature => `
+                <div class="feature-card" onclick="navigateToFeature('${feature.action}')">
+                    <div class="feature-icon">
+                        <i class="${feature.icon}"></i>
+                    </div>
+                    <h3>${feature.title}</h3>
+                    <p>${feature.description}</p>
+                    <button class="btn-outline">Access Feature</button>
+                </div>
+            `).join('');
+        }
+
+        // Navigation functions
+        function navigateToFeature(feature) {
+            // Map features to their corresponding pages
+            const featurePages = {
+                // User features
+                'browse-menu': 'browse-menu.html',
+                'place-order': 'place-order.html',
+                'donate-meal': 'donate-meal.html',
+                'track-impact': 'track-impact.html',
+                'order-history': 'order-history.html',
+                'personal-impact': 'personal-impact.html',
+                'profile-settings': 'profile-settings.html',
+                
+                // Restaurant features
+                'upload-surplus': 'upload-surplus.html',
+                'manage-orders': 'manage-orders.html',
+                'pickup-status': 'pickup-status.html',
+                'certifications': 'certifications.html',
+                'analytics': 'analytics.html',
+                'settings': 'settings.html',
+                
+                // NGO features
+                'accept-donations': 'accept-donations.html',
+                'ngo-dashboard': 'ngo-dashboard.html',
+                'assign-volunteers': 'assign-volunteers.html',
+                'track-deliveries': 'track-deliveries.html',
+                'volunteer-management': 'volunteer-management.html',
+                'impact-reports': 'impact-reports.html',
+                
+                // Volunteer features
+                'view-pickups': 'view-pickups.html',
+                'route-optimization': 'route-optimization.html',
+                'mark-delivery': 'mark-delivery.html',
+                'schedule': 'schedule.html',
+                'profile': 'profile.html',
+                
+                // Admin features
+                'user-verification': 'user-verification.html',
+                'hunger-zones': 'hunger-zones.html',
+                'analytics-dashboard': 'analytics-dashboard.html',
+                'reports-abuse': 'reports-abuse.html',
+                'system-settings': 'system-settings.html',
+                'user-management': 'user-management.html',
+                
+                // Delivery Agent features
+                'view-assigned-orders': 'view-assigned-orders.html',
+                'map-view': 'map-view.html',
+                'delivery-history': 'delivery-history.html',
+                'earnings': 'earnings.html',
+                'contact-info': 'contact-info.html',
+                'report-abuse': 'report-abuse.html'
+            };
+            
+            const targetPage = featurePages[feature];
+            
+            if (targetPage) {
+                // Redirect to the specific feature page
+                window.location.href = targetPage;
+            } else {
+                // Fallback for features without specific pages
+                alert(`Navigating to ${feature} feature. This would open a dedicated page in a real application.`);
+            }
+        }
+
+        function performQuickAction(action) {
+            // Map quick actions to their corresponding features or pages
+            const quickActionMap = {
+                // User quick actions
+                'order-food': 'browse-menu',
+                'donate-meal': 'donate-meal',
+                'personal-impact': 'personal-impact',
+                
+                // Restaurant quick actions
+                'upload-surplus': 'upload-surplus',
+                'view-orders': 'manage-orders',
+                'analytics': 'analytics',
+                
+                // NGO quick actions
+                'ngo-dashboard': 'ngo-dashboard',
+                'accept-donations': 'accept-donations',
+                'assign-volunteers': 'assign-volunteers',
+                
+                // Volunteer quick actions
+                'view-pickups': 'view-pickups',
+                'route-map': 'route-optimization',
+                'mark-complete': 'mark-delivery',
+                
+                // Admin quick actions
+                'verify-users': 'user-verification',
+                'view-analytics': 'analytics-dashboard',
+                'handle-reports': 'reports-abuse',
+                
+                // Delivery Agent quick actions
+                'view-assigned-orders': 'view-assigned-orders',
+                'map-view': 'map-view',
+                'earnings': 'earnings',
+                'report-abuse': 'report-abuse'
+            };
+            
+            const targetFeature = quickActionMap[action];
+            
+            if (targetFeature) {
+                // Navigate to the corresponding feature page
+                navigateToFeature(targetFeature);
+            } else {
+                // Fallback for actions without specific pages
+                alert(`Performing ${action} action. This would execute the specific functionality in a real application.`);
+            }
+        }
+
+        function showQuickAction() {
+            const modal = document.getElementById('quickActionModal');
+            const title = document.getElementById('quickActionTitle');
+            const body = document.getElementById('quickActionBody');
+            
+            title.textContent = 'Quick Action';
+            body.innerHTML = `
+                <p>Select a quick action to perform:</p>
+                <div class="quick-action-options">
+                    ${userData[userRole].quickActions.map(action => `
+                        <button class="btn-primary btn-full" onclick="performQuickAction('${action.action}'); closeQuickAction();">
+                            <i class="${action.icon}"></i>
+                            ${action.title}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeQuickAction() {
+            document.getElementById('quickActionModal').style.display = 'none';
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html> 

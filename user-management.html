@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="user-verification.html" class="nav-link">User Verification</a>
+                <a href="analytics-dashboard.html" class="nav-link">Analytics</a>
+                <a href="#user-management" class="nav-link active">User Management</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Platform Administrator</span>
+                    <span>Admin User</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>User Management</h1>
+                <p>Manage all platform users and their permissions</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Users</button>
+                    <button class="btn-outline" data-filter="restaurants">Restaurants</button>
+                    <button class="btn-outline" data-filter="ngos">NGOs</button>
+                    <button class="btn-outline" data-filter="volunteers">Volunteers</button>
+                    <button class="btn-outline" data-filter="users">Users</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- User Stats -->
+        <section class="user-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2,456</h3>
+                            <p>Total Users</p>
+                            <span class="stat-change positive">+156 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>Restaurants</p>
+                            <span class="stat-change positive">+12 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>23</h3>
+                            <p>NGOs</p>
+                            <span class="stat-change positive">+3 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Volunteers</p>
+                            <span class="stat-change positive">+8 this month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- User List -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>User Directory</h3>
+                        <div class="search-box">
+                            <input type="text" id="userSearch" placeholder="Search users...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    <div class="users-list" id="usersList">
+                        <!-- Users will be populated -->
+                    </div>
+                </div>
+
+                <!-- User Analytics -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>User Analytics</h3>
+                        <button class="btn-outline" onclick="viewDetailedAnalytics()">View Details</button>
+                    </div>
+                    <div class="analytics-overview" id="analyticsOverview">
+                        <!-- Analytics will be populated -->
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Activities</h3>
+                        <button class="btn-outline" onclick="viewAllActivities()">View All</button>
+                    </div>
+                    <div class="activities-list" id="activitiesList">
+                        <!-- Activities will be populated -->
+                    </div>
+                </div>
+
+                <!-- System Settings -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>System Settings</h3>
+                        <button class="btn-outline" onclick="editSystemSettings()">Edit</button>
+                    </div>
+                    <div class="system-settings" id="systemSettings">
+                        <!-- System settings will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>User Details</h2>
+                <button class="modal-close" onclick="closeUserModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="user-details">
+                    <div class="user-profile">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="profile-info">
+                                <h3 id="modalUserName">User Name</h3>
+                                <p id="modalUserEmail">user@email.com</p>
+                                <span class="user-role" id="modalUserRole">Role</span>
+                            </div>
+                            <div class="profile-status">
+                                <span class="status-badge" id="modalUserStatus">Active</span>
+                            </div>
+                        </div>
+                        
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="modalUserStats">0</span>
+                                <span class="stat-label">Activities</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="modalUserRating">0</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="modalUserJoinDate">Date</span>
+                                <span class="stat-label">Joined</span>
+                            </div>
+                        </div>
+                        
+                        <div class="user-actions">
+                            <button class="btn-outline" onclick="suspendUser()">
+                                <i class="fas fa-ban"></i>
+                                Suspend User
+                            </button>
+                            <button class="btn-outline" onclick="resetPassword()">
+                                <i class="fas fa-key"></i>
+                                Reset Password
+                            </button>
+                            <button class="btn-primary" onclick="editUser()">
+                                <i class="fas fa-edit"></i>
+                                Edit User
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample users data
+        const users = [
+            {
+                id: 1,
+                name: 'Spice Garden Restaurant',
+                email: 'spice.garden@email.com',
+                role: 'restaurant',
+                status: 'active',
+                joinDate: '2023-10-15',
+                rating: 4.8,
+                activities: 156,
+                location: 'Mumbai Central',
+                verified: true
+            },
+            {
+                id: 2,
+                name: 'Hope Foundation',
+                email: 'hope.foundation@email.com',
+                role: 'ngo',
+                status: 'active',
+                joinDate: '2023-09-20',
+                rating: 4.9,
+                activities: 234,
+                location: 'Andheri',
+                verified: true
+            },
+            {
+                id: 3,
+                name: 'Priya Patel',
+                email: 'priya.patel@email.com',
+                role: 'volunteer',
+                status: 'active',
+                joinDate: '2023-11-10',
+                rating: 4.8,
+                activities: 45,
+                location: 'Bandra',
+                verified: true
+            },
+            {
+                id: 4,
+                name: 'Rahul Sharma',
+                email: 'rahul.sharma@email.com',
+                role: 'user',
+                status: 'active',
+                joinDate: '2023-12-01',
+                rating: 4.5,
+                activities: 12,
+                location: 'Thane',
+                verified: false
+            },
+            {
+                id: 5,
+                name: 'Bakery Corner',
+                email: 'bakery.corner@email.com',
+                role: 'restaurant',
+                status: 'pending',
+                joinDate: '2024-01-10',
+                rating: 0,
+                activities: 0,
+                location: 'Navi Mumbai',
+                verified: false
+            }
+        ];
+
+        const activities = [
+            {
+                id: 1,
+                user: 'Spice Garden Restaurant',
+                action: 'Uploaded surplus food',
+                time: '2 hours ago',
+                type: 'upload'
+            },
+            {
+                id: 2,
+                user: 'Hope Foundation',
+                action: 'Accepted donation',
+                time: '3 hours ago',
+                type: 'donation'
+            },
+            {
+                id: 3,
+                user: 'Priya Patel',
+                action: 'Completed delivery',
+                time: '4 hours ago',
+                type: 'delivery'
+            },
+            {
+                id: 4,
+                user: 'Rahul Sharma',
+                action: 'Placed order',
+                time: '1 day ago',
+                type: 'order'
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentUser = null;
+
+        // Initialize page
+        function initializePage() {
+            populateUsers();
+            populateAnalytics();
+            populateActivities();
+            populateSystemSettings();
+            setupEventListeners();
+        }
+
+        // Populate users
+        function populateUsers() {
+            const usersList = document.getElementById('usersList');
+            const filteredUsers = filterUsers();
+            
+            usersList.innerHTML = filteredUsers.map(user => `
+                <div class="user-item ${user.role} ${user.status}" onclick="viewUser(${user.id})">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-${getUserIcon(user.role)}"></i>
+                        </div>
+                        <div class="user-details">
+                            <h4>${user.name}</h4>
+                            <p class="user-email">${user.email}</p>
+                            <p class="user-location"><i class="fas fa-map-marker-alt"></i> ${user.location}</p>
+                        </div>
+                    </div>
+                    <div class="user-meta">
+                        <span class="user-role">${user.role}</span>
+                        <span class="status-badge ${user.status}">${user.status}</span>
+                        ${user.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+                    </div>
+                    <div class="user-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">${user.rating}</span>
+                            <span class="stat-label">Rating</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">${user.activities}</span>
+                            <span class="stat-label">Activities</span>
+                        </div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn-outline btn-small" onclick="event.stopPropagation(); viewUser(${user.id})">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </button>
+                        <button class="btn-outline btn-small" onclick="event.stopPropagation(); editUser(${user.id})">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter users
+        function filterUsers() {
+            if (currentFilter === 'all') {
+                return users;
+            }
+            return users.filter(user => user.role === currentFilter);
+        }
+
+        // Get user icon
+        function getUserIcon(role) {
+            const icons = {
+                'restaurant': 'store',
+                'ngo': 'hands-helping',
+                'volunteer': 'heart',
+                'user': 'user'
+            };
+            return icons[role] || 'user';
+        }
+
+        // Populate analytics
+        function populateAnalytics() {
+            const analyticsOverview = document.getElementById('analyticsOverview');
+            
+            const roleStats = {
+                restaurants: users.filter(u => u.role === 'restaurant').length,
+                ngos: users.filter(u => u.role === 'ngo').length,
+                volunteers: users.filter(u => u.role === 'volunteer').length,
+                users: users.filter(u => u.role === 'user').length
+            };
+            
+            analyticsOverview.innerHTML = `
+                <div class="analytics-grid">
+                    <div class="analytics-item">
+                        <h4>User Distribution</h4>
+                        <div class="distribution-chart">
+                            <div class="chart-bar" style="width: ${(roleStats.restaurants / users.length) * 100}%">
+                                <span>Restaurants: ${roleStats.restaurants}</span>
+                            </div>
+                            <div class="chart-bar" style="width: ${(roleStats.ngos / users.length) * 100}%">
+                                <span>NGOs: ${roleStats.ngos}</span>
+                            </div>
+                            <div class="chart-bar" style="width: ${(roleStats.volunteers / users.length) * 100}%">
+                                <span>Volunteers: ${roleStats.volunteers}</span>
+                            </div>
+                            <div class="chart-bar" style="width: ${(roleStats.users / users.length) * 100}%">
+                                <span>Users: ${roleStats.users}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="analytics-item">
+                        <h4>Status Overview</h4>
+                        <div class="status-stats">
+                            <div class="status-item">
+                                <span class="status-label">Active</span>
+                                <span class="status-count">${users.filter(u => u.status === 'active').length}</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Pending</span>
+                                <span class="status-count">${users.filter(u => u.status === 'pending').length}</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Suspended</span>
+                                <span class="status-count">${users.filter(u => u.status === 'suspended').length}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Populate activities
+        function populateActivities() {
+            const activitiesList = document.getElementById('activitiesList');
+            
+            activitiesList.innerHTML = activities.map(activity => `
+                <div class="activity-item ${activity.type}">
+                    <div class="activity-icon">
+                        <i class="fas fa-${getActivityIcon(activity.type)}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p class="user-name">${activity.user}</p>
+                        <p class="activity-action">${activity.action}</p>
+                        <span class="activity-time">${activity.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get activity icon
+        function getActivityIcon(type) {
+            const icons = {
+                'upload': 'upload',
+                'donation': 'gift',
+                'delivery': 'truck',
+                'order': 'shopping-cart'
+            };
+            return icons[type] || 'circle';
+        }
+
+        // Populate system settings
+        function populateSystemSettings() {
+            const systemSettings = document.getElementById('systemSettings');
+            
+            systemSettings.innerHTML = `
+                <div class="settings-summary">
+                    <div class="setting-item">
+                        <span class="label">User Registration:</span>
+                        <span class="value">Enabled</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Email Verification:</span>
+                        <span class="value">Required</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Auto Approval:</span>
+                        <span class="value">Disabled</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Max Users:</span>
+                        <span class="value">10,000</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Session Timeout:</span>
+                        <span class="value">24 hours</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateUsers();
+                });
+            });
+
+            // Search functionality
+            document.getElementById('userSearch').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                filterUsersBySearch(searchTerm);
+            });
+        }
+
+        // Filter users by search
+        function filterUsersBySearch(searchTerm) {
+            const userItems = document.querySelectorAll('.user-item');
+            
+            userItems.forEach(item => {
+                const userName = item.querySelector('h4').textContent.toLowerCase();
+                const userEmail = item.querySelector('.user-email').textContent.toLowerCase();
+                const userLocation = item.querySelector('.user-location').textContent.toLowerCase();
+                
+                if (userName.includes(searchTerm) || 
+                    userEmail.includes(searchTerm) || 
+                    userLocation.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // View user
+        function viewUser(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            currentUser = user;
+            
+            document.getElementById('modalUserName').textContent = user.name;
+            document.getElementById('modalUserEmail').textContent = user.email;
+            document.getElementById('modalUserRole').textContent = user.role;
+            document.getElementById('modalUserStatus').textContent = user.status;
+            document.getElementById('modalUserStatus').className = `status-badge ${user.status}`;
+            document.getElementById('modalUserStats').textContent = user.activities;
+            document.getElementById('modalUserRating').textContent = user.rating;
+            document.getElementById('modalUserJoinDate').textContent = formatDate(user.joinDate);
+            
+            document.getElementById('userModal').style.display = 'flex';
+        }
+
+        // Close user modal
+        function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+            currentUser = null;
+        }
+
+        // Suspend user
+        function suspendUser() {
+            if (currentUser && confirm(`Are you sure you want to suspend ${currentUser.name}?`)) {
+                currentUser.status = 'suspended';
+                closeUserModal();
+                populateUsers();
+                alert('User suspended successfully.');
+            }
+        }
+
+        // Reset password
+        function resetPassword() {
+            if (currentUser) {
+                alert(`Password reset email sent to ${currentUser.email}`);
+            }
+        }
+
+        // Edit user
+        function editUser(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                alert(`Editing user: ${user.name}. This would open the edit form.`);
+            }
+        }
+
+        // View detailed analytics
+        function viewDetailedAnalytics() {
+            alert('Opening detailed user analytics. This would show comprehensive user statistics.');
+        }
+
+        // View all activities
+        function viewAllActivities() {
+            alert('Viewing all user activities. This would show a complete activity log.');
+        }
+
+        // Edit system settings
+        function editSystemSettings() {
+            alert('Editing system settings. This would open the settings configuration panel.');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=admin';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 8px 12px 8px 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            color: #666;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-item:hover {
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .user-item.restaurant .user-avatar {
+            background: #2196f3;
+        }
+
+        .user-item.ngo .user-avatar {
+            background: #4caf50;
+        }
+
+        .user-item.volunteer .user-avatar {
+            background: #ff9800;
+        }
+
+        .user-item.user .user-avatar {
+            background: #9c27b0;
+        }
+
+        .user-details h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-location {
+            color: #ff8f00;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .user-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-role {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.suspended {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .verified-badge {
+            background: #4caf50;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ff8f00;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .analytics-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .analytics-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .distribution-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .chart-bar {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: width 0.3s ease;
+        }
+
+        .status-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .status-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status-count {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .activity-item.upload .activity-icon {
+            background: #2196f3;
+        }
+
+        .activity-item.donation .activity-icon {
+            background: #4caf50;
+        }
+
+        .activity-item.delivery .activity-icon {
+            background: #ff9800;
+        }
+
+        .activity-item.order .activity-icon {
+            background: #9c27b0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-action {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .settings-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .setting-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .setting-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .user-profile {
+            padding: 1.5rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: #ff8f00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .profile-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-role {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .profile-status {
+            margin-left: auto;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .user-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .user-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-status {
+                margin-left: 0;
+            }
+
+            .user-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

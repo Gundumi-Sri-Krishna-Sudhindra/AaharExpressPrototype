@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="upload-surplus.html" class="nav-link">Upload Surplus</a>
+                <a href="#orders" class="nav-link active">Manage Orders</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Restaurant Partner</span>
+                    <span>Spice Garden</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Manage Orders</h1>
+                <p>Handle incoming orders and track their status</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Orders</button>
+                    <button class="btn-outline" data-filter="pending">Pending</button>
+                    <button class="btn-outline" data-filter="preparing">Preparing</button>
+                    <button class="btn-outline" data-filter="ready">Ready</button>
+                    <button class="btn-outline" data-filter="delivered">Delivered</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Orders Grid -->
+        <section class="orders-section">
+            <div class="orders-container">
+                <div class="orders-grid" id="ordersGrid">
+                    <!-- Orders will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Order #<span id="modalOrderNumber">12345</span></h2>
+                <button class="modal-close" onclick="closeOrderModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="order-details">
+                    <div class="order-info">
+                        <div class="order-status">
+                            <span class="status-badge" id="modalStatus">Pending</span>
+                        </div>
+                        <div class="order-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span id="modalCustomer">Customer Name</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-phone"></i>
+                                <span id="modalPhone">+91 98765 43210</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="modalAddress">Delivery Address</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span id="modalTime">Order Time</span>
+                            </div>
+                        </div>
+                        
+                        <div class="order-items">
+                            <h4>Order Items</h4>
+                            <div id="modalItems">
+                                <!-- Order items will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="order-total">
+                            <h4>Order Total</h4>
+                            <div class="total-amount" id="modalTotal">₹0</div>
+                        </div>
+                        
+                        <div class="order-actions">
+                            <button class="btn-outline" onclick="rejectOrder()">
+                                <i class="fas fa-times"></i>
+                                Reject Order
+                            </button>
+                            <button class="btn-primary" onclick="acceptOrder()">
+                                <i class="fas fa-check"></i>
+                                Accept Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample orders data
+        const orders = [
+            {
+                id: 1,
+                orderNumber: '12345',
+                customer: 'John Doe',
+                phone: '+91 98765 43210',
+                address: '123 Main St, Mumbai',
+                status: 'pending',
+                orderTime: '2024-01-15T14:30',
+                items: [
+                    { name: 'Chicken Biryani', quantity: 2, price: 180 },
+                    { name: 'Butter Chicken', quantity: 1, price: 220 },
+                    { name: 'Naan Bread', quantity: 3, price: 30 }
+                ],
+                total: 610
+            },
+            {
+                id: 2,
+                orderNumber: '12346',
+                customer: 'Jane Smith',
+                phone: '+91 98765 43211',
+                address: '456 Park Ave, Mumbai',
+                status: 'preparing',
+                orderTime: '2024-01-15T14:00',
+                items: [
+                    { name: 'Veg Biryani', quantity: 1, price: 150 },
+                    { name: 'Dal Makhani', quantity: 1, price: 120 }
+                ],
+                total: 270
+            },
+            {
+                id: 3,
+                orderNumber: '12347',
+                customer: 'Mike Johnson',
+                phone: '+91 98765 43212',
+                address: '789 Oak St, Mumbai',
+                status: 'ready',
+                orderTime: '2024-01-15T13:30',
+                items: [
+                    { name: 'Chicken Curry', quantity: 2, price: 200 },
+                    { name: 'Rice', quantity: 2, price: 80 }
+                ],
+                total: 560
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentOrder = null;
+
+        // Initialize page
+        function initializePage() {
+            populateOrders();
+            setupEventListeners();
+        }
+
+        // Populate orders
+        function populateOrders() {
+            const ordersGrid = document.getElementById('ordersGrid');
+            const filteredOrders = filterOrders();
+            
+            ordersGrid.innerHTML = filteredOrders.map(order => `
+                <div class="order-card ${order.status}" onclick="viewOrder(${order.id})">
+                    <div class="order-header">
+                        <h3>Order #${order.orderNumber}</h3>
+                        <span class="status-badge ${order.status}">${order.status}</span>
+                    </div>
+                    <div class="order-content">
+                        <p class="customer-name">${order.customer}</p>
+                        <p class="order-time">${formatTime(order.orderTime)}</p>
+                        <p class="order-items">${order.items.length} items</p>
+                        <p class="order-total">₹${order.total}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter orders
+        function filterOrders() {
+            if (currentFilter === 'all') {
+                return orders;
+            }
+            return orders.filter(order => order.status === currentFilter);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateOrders();
+                });
+            });
+        }
+
+        // View order details
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            currentOrder = order;
+            
+            document.getElementById('modalOrderNumber').textContent = order.orderNumber;
+            document.getElementById('modalCustomer').textContent = order.customer;
+            document.getElementById('modalPhone').textContent = order.phone;
+            document.getElementById('modalAddress').textContent = order.address;
+            document.getElementById('modalTime').textContent = formatDateTime(order.orderTime);
+            document.getElementById('modalStatus').textContent = order.status;
+            document.getElementById('modalStatus').className = `status-badge ${order.status}`;
+            document.getElementById('modalTotal').textContent = `₹${order.total}`;
+            
+            // Populate order items
+            const modalItems = document.getElementById('modalItems');
+            modalItems.innerHTML = order.items.map(item => `
+                <div class="modal-item">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-quantity">x${item.quantity}</span>
+                    <span class="item-price">₹${item.price}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        // Close order modal
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+            currentOrder = null;
+        }
+
+        // Accept order
+        function acceptOrder() {
+            if (currentOrder) {
+                currentOrder.status = 'preparing';
+                closeOrderModal();
+                populateOrders();
+                alert('Order accepted and moved to preparing status.');
+            }
+        }
+
+        // Reject order
+        function rejectOrder() {
+            if (confirm('Are you sure you want to reject this order?')) {
+                if (currentOrder) {
+                    currentOrder.status = 'rejected';
+                    closeOrderModal();
+                    populateOrders();
+                    alert('Order rejected successfully.');
+                }
+            }
+        }
+
+        // Format time
+        function formatTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Format date time
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=restaurant';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .orders-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.preparing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.ready {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-badge.rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: #2e2e2e !important;
+        }
+
+        .order-total {
+            font-weight: 600;
+            color: #ff8f00 !important;
+            font-size: 1.1rem;
+        }
+
+        .order-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .meta-item i {
+            color: #ff8f00;
+            width: 16px;
+        }
+
+        .order-items h4,
+        .order-total h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .modal-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .modal-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .item-quantity {
+            color: #666;
+            margin: 0 1rem;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #ff8f00;
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff8f00;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .orders-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

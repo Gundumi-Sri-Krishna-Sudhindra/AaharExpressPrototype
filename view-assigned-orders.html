@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Assigned Orders - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="map-view.html" class="nav-link">Map View</a>
+                <a href="delivery-history.html" class="nav-link">Delivery History</a>
+                <a href="#view-assigned-orders" class="nav-link active">Assigned Orders</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Delivery Agent</span>
+                    <span>Rajesh Kumar</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Assigned Orders</h1>
+                <p>View and manage your assigned pickup and delivery orders</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Orders</button>
+                    <button class="btn-outline" data-filter="pending">Pending</button>
+                    <button class="btn-outline" data-filter="in-progress">In Progress</button>
+                    <button class="btn-outline" data-filter="completed">Completed</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Order Stats -->
+        <section class="order-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>8</h3>
+                            <p>Assigned Orders</p>
+                            <span class="stat-change neutral">3 urgent</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>45</h3>
+                            <p>Completed Today</p>
+                            <span class="stat-change positive">+12 vs yesterday</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2.3</h3>
+                            <p>Avg Delivery Time</p>
+                            <span class="stat-change positive">-0.4 hours</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4.7</h3>
+                            <p>Customer Rating</p>
+                            <span class="stat-change positive">+0.2 this week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orders Grid -->
+        <section class="orders-section">
+            <div class="orders-container">
+                <div class="orders-grid" id="ordersGrid">
+                    <!-- Orders will be populated -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Order #<span id="modalOrderNumber">12345</span></h2>
+                <button class="modal-close" onclick="closeOrderModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="order-details">
+                    <div class="order-info">
+                        <div class="order-status">
+                            <span class="status-badge" id="modalOrderStatus">Pending</span>
+                        </div>
+                        
+                        <div class="order-locations">
+                            <div class="location pickup">
+                                <h4><i class="fas fa-map-marker-alt"></i> Pickup Location</h4>
+                                <p id="modalPickupLocation">Restaurant Address</p>
+                                <span id="modalPickupTime">Pickup Time</span>
+                            </div>
+                            <div class="location delivery">
+                                <h4><i class="fas fa-flag-checkered"></i> Delivery Location</h4>
+                                <p id="modalDeliveryLocation">Customer Address</p>
+                                <span id="modalDeliveryTime">Delivery Time</span>
+                            </div>
+                        </div>
+                        
+                        <div class="order-items">
+                            <h4>Order Items</h4>
+                            <div class="items-list" id="modalOrderItems">
+                                <!-- Order items will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="order-meta">
+                            <div class="meta-item">
+                                <span class="label">Customer:</span>
+                                <span id="modalCustomerName">Customer Name</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Phone:</span>
+                                <span id="modalCustomerPhone">Customer Phone</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Order Value:</span>
+                                <span id="modalOrderValue">₹0</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Payment Method:</span>
+                                <span id="modalPaymentMethod">Payment Method</span>
+                            </div>
+                        </div>
+                        
+                        <div class="order-actions">
+                            <button class="btn-outline" onclick="startPickup()">
+                                <i class="fas fa-play"></i>
+                                Start Pickup
+                            </button>
+                            <button class="btn-outline" onclick="startDelivery()">
+                                <i class="fas fa-truck"></i>
+                                Start Delivery
+                            </button>
+                            <button class="btn-outline" onclick="contactCustomer()">
+                                <i class="fas fa-phone"></i>
+                                Contact Customer
+                            </button>
+                            <button class="btn-primary" onclick="markComplete()">
+                                <i class="fas fa-check"></i>
+                                Mark Complete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample orders data
+        const orders = [
+            {
+                id: 1,
+                orderNumber: '12345',
+                customer: 'Priya Sharma',
+                customerPhone: '+91 98765 43210',
+                pickupLocation: 'Spice Garden, Mumbai Central',
+                deliveryLocation: 'Andheri West, Mumbai',
+                pickupTime: '2024-01-15T14:00',
+                deliveryTime: '2024-01-15T15:30',
+                status: 'pending',
+                items: [
+                    { name: 'Biryani', quantity: 2, price: 250 },
+                    { name: 'Naan', quantity: 4, price: 30 },
+                    { name: 'Raita', quantity: 1, price: 50 }
+                ],
+                orderValue: 670,
+                paymentMethod: 'Online Payment',
+                priority: 'high'
+            },
+            {
+                id: 2,
+                orderNumber: '12346',
+                customer: 'Amit Patel',
+                customerPhone: '+91 98765 43211',
+                pickupLocation: 'Bakery Corner, Bandra',
+                deliveryLocation: 'Thane, Mumbai',
+                pickupTime: '2024-01-15T15:00',
+                deliveryTime: '2024-01-15T16:30',
+                status: 'in-progress',
+                items: [
+                    { name: 'Bread', quantity: 2, price: 40 },
+                    { name: 'Pastries', quantity: 6, price: 25 },
+                    { name: 'Milk', quantity: 1, price: 60 }
+                ],
+                orderValue: 250,
+                paymentMethod: 'Cash on Delivery',
+                priority: 'medium'
+            },
+            {
+                id: 3,
+                orderNumber: '12347',
+                customer: 'Sita Verma',
+                customerPhone: '+91 98765 43212',
+                pickupLocation: 'Green Kitchen, Navi Mumbai',
+                deliveryLocation: 'Mumbai Central',
+                pickupTime: '2024-01-15T16:00',
+                deliveryTime: '2024-01-15T17:30',
+                status: 'completed',
+                items: [
+                    { name: 'Veg Thali', quantity: 1, price: 150 },
+                    { name: 'Dal', quantity: 1, price: 80 },
+                    { name: 'Rice', quantity: 1, price: 40 }
+                ],
+                orderValue: 270,
+                paymentMethod: 'Online Payment',
+                priority: 'low'
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentOrder = null;
+
+        // Initialize page
+        function initializePage() {
+            populateOrders();
+            setupEventListeners();
+        }
+
+        // Populate orders
+        function populateOrders() {
+            const ordersGrid = document.getElementById('ordersGrid');
+            const filteredOrders = filterOrders();
+            
+            ordersGrid.innerHTML = filteredOrders.map(order => `
+                <div class="order-card ${order.status} ${order.priority}" onclick="viewOrder(${order.id})">
+                    <div class="order-header">
+                        <h3>Order #${order.orderNumber}</h3>
+                        <div class="order-badges">
+                            <span class="status-badge ${order.status}">${order.status}</span>
+                            <span class="priority-badge ${order.priority}">${order.priority}</span>
+                        </div>
+                    </div>
+                    <div class="order-content">
+                        <div class="customer-info">
+                            <p class="customer-name">${order.customer}</p>
+                            <p class="customer-phone"><i class="fas fa-phone"></i> ${order.customerPhone}</p>
+                        </div>
+                        <div class="order-locations">
+                            <p class="pickup"><i class="fas fa-map-marker-alt"></i> ${order.pickupLocation}</p>
+                            <p class="delivery"><i class="fas fa-flag-checkered"></i> ${order.deliveryLocation}</p>
+                        </div>
+                        <div class="order-meta">
+                            <span class="pickup-time">Pickup: ${formatTime(order.pickupTime)}</span>
+                            <span class="delivery-time">Delivery: ${formatTime(order.deliveryTime)}</span>
+                            <span class="order-value">₹${order.orderValue}</span>
+                        </div>
+                        <div class="order-items-preview">
+                            ${order.items.slice(0, 2).map(item => 
+                                `<span class="item">${item.quantity}x ${item.name}</span>`
+                            ).join('')}
+                            ${order.items.length > 2 ? `<span class="more-items">+${order.items.length - 2} more</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="order-actions">
+                        ${order.status === 'pending' ? `
+                            <button class="btn-primary btn-small" onclick="event.stopPropagation(); startPickup(${order.id})">
+                                <i class="fas fa-play"></i>
+                                Start Pickup
+                            </button>
+                        ` : order.status === 'in-progress' ? `
+                            <button class="btn-primary btn-small" onclick="event.stopPropagation(); startDelivery(${order.id})">
+                                <i class="fas fa-truck"></i>
+                                Start Delivery
+                            </button>
+                        ` : order.status === 'completed' ? `
+                            <button class="btn-outline btn-small" onclick="event.stopPropagation(); viewOrderDetails(${order.id})">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </button>
+                        ` : ''}
+                        <button class="btn-outline btn-small" onclick="event.stopPropagation(); contactCustomer(${order.id})">
+                            <i class="fas fa-phone"></i>
+                            Contact
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter orders
+        function filterOrders() {
+            if (currentFilter === 'all') {
+                return orders;
+            }
+            return orders.filter(order => order.status === currentFilter);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateOrders();
+                });
+            });
+        }
+
+        // View order
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            currentOrder = order;
+            
+            document.getElementById('modalOrderNumber').textContent = order.orderNumber;
+            document.getElementById('modalOrderStatus').textContent = order.status;
+            document.getElementById('modalOrderStatus').className = `status-badge ${order.status}`;
+            document.getElementById('modalPickupLocation').textContent = order.pickupLocation;
+            document.getElementById('modalDeliveryLocation').textContent = order.deliveryLocation;
+            document.getElementById('modalPickupTime').textContent = formatTime(order.pickupTime);
+            document.getElementById('modalDeliveryTime').textContent = formatTime(order.deliveryTime);
+            document.getElementById('modalCustomerName').textContent = order.customer;
+            document.getElementById('modalCustomerPhone').textContent = order.customerPhone;
+            document.getElementById('modalOrderValue').textContent = `₹${order.orderValue}`;
+            document.getElementById('modalPaymentMethod').textContent = order.paymentMethod;
+            
+            // Populate order items
+            const orderItems = document.getElementById('modalOrderItems');
+            orderItems.innerHTML = order.items.map(item => `
+                <div class="item">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-quantity">${item.quantity}x</span>
+                    <span class="item-price">₹${item.price}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        // Close order modal
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+            currentOrder = null;
+        }
+
+        // Start pickup
+        function startPickup(orderId) {
+            const order = orderId ? orders.find(o => o.id === orderId) : currentOrder;
+            if (order && order.status === 'pending') {
+                order.status = 'in-progress';
+                closeOrderModal();
+                populateOrders();
+                alert(`Started pickup for Order #${order.orderNumber}`);
+            }
+        }
+
+        // Start delivery
+        function startDelivery(orderId) {
+            const order = orderId ? orders.find(o => o.id === orderId) : currentOrder;
+            if (order && order.status === 'in-progress') {
+                alert(`Started delivery for Order #${order.orderNumber}. This would update the delivery status.`);
+            }
+        }
+
+        // Contact customer
+        function contactCustomer(orderId) {
+            const order = orderId ? orders.find(o => o.id === orderId) : currentOrder;
+            if (order) {
+                alert(`Contacting ${order.customer} at ${order.customerPhone}`);
+            }
+        }
+
+        // Mark complete
+        function markComplete() {
+            if (currentOrder && currentOrder.status === 'in-progress') {
+                currentOrder.status = 'completed';
+                closeOrderModal();
+                populateOrders();
+                alert(`Order #${currentOrder.orderNumber} marked as complete!`);
+            }
+        }
+
+        // View order details
+        function viewOrderDetails(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                alert(`Viewing details for Order #${order.orderNumber}. This would show complete order information.`);
+            }
+        }
+
+        // Format time
+        function formatTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=delivery-agent';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .stat-change.neutral {
+            color: #ff9800;
+        }
+
+        .orders-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .order-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.in-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .priority-badge.high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .priority-badge.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .priority-badge.low {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .customer-info {
+            margin-bottom: 1rem;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .customer-phone {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .order-locations {
+            margin-bottom: 1rem;
+        }
+
+        .pickup,
+        .delivery {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .pickup {
+            color: #ff8f00;
+        }
+
+        .delivery {
+            color: #4caf50;
+        }
+
+        .order-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .pickup-time,
+        .delivery-time {
+            color: #666;
+        }
+
+        .order-value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .order-items-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .item {
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .more-items {
+            color: #ff8f00;
+            font-weight: 500;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .order-locations {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .location {
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .location.pickup {
+            background: #fff3e0;
+            border-left: 4px solid #ff8f00;
+        }
+
+        .location.delivery {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+
+        .location h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .location p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .location span {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .order-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .order-items h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #2e2e2e;
+        }
+
+        .item-quantity {
+            color: #666;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #ff8f00;
+        }
+
+        .order-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .meta-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .meta-item span:last-child {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .orders-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .order-locations {
+                grid-template-columns: 1fr;
+            }
+
+            .order-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-pickups.html" class="nav-link">View Pickups</a>
+                <a href="route-optimization.html" class="nav-link">Route Optimization</a>
+                <a href="#schedule" class="nav-link active">Schedule</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Volunteer</span>
+                    <span>Priya Patel</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>My Schedule</h1>
+                <p>View and manage your volunteer schedule and availability</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="updateAvailability()">
+                    <i class="fas fa-edit"></i>
+                    Update Availability
+                </button>
+            </div>
+        </header>
+
+        <!-- Schedule Stats -->
+        <section class="schedule-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>15</h3>
+                            <p>Hours This Week</p>
+                            <span class="stat-change positive">+3 vs last week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>8</h3>
+                            <p>Scheduled Tasks</p>
+                            <span class="stat-change neutral">2 today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Total Hours</p>
+                            <span class="stat-change positive">+12 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4.8</h3>
+                            <p>Performance Rating</p>
+                            <span class="stat-change positive">+0.2 this month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- Weekly Schedule -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Weekly Schedule</h3>
+                        <div class="schedule-controls">
+                            <button class="btn-outline btn-small" onclick="previousWeek()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span id="currentWeek">January 15-21, 2024</span>
+                            <button class="btn-outline btn-small" onclick="nextWeek()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="weekly-schedule" id="weeklySchedule">
+                        <!-- Weekly schedule will be populated -->
+                    </div>
+                </div>
+
+                <!-- Today's Tasks -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Today's Tasks</h3>
+                        <span class="task-count">3 tasks</span>
+                    </div>
+                    <div class="today-tasks" id="todayTasks">
+                        <!-- Today's tasks will be populated -->
+                    </div>
+                </div>
+
+                <!-- Upcoming Tasks -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Upcoming Tasks</h3>
+                        <button class="btn-outline" onclick="viewAllTasks()">View All</button>
+                    </div>
+                    <div class="upcoming-tasks" id="upcomingTasks">
+                        <!-- Upcoming tasks will be populated -->
+                    </div>
+                </div>
+
+                <!-- Availability Settings -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Availability Settings</h3>
+                        <button class="btn-outline" onclick="editAvailability()">Edit</button>
+                    </div>
+                    <div class="availability-settings" id="availabilitySettings">
+                        <!-- Availability settings will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Update Availability Modal -->
+    <div id="availabilityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Availability</h2>
+                <button class="modal-close" onclick="closeAvailabilityModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="availabilityForm">
+                    <div class="form-group">
+                        <label>Weekly Availability</label>
+                        <div class="availability-grid">
+                            <div class="day-availability">
+                                <label class="day-label">Monday</label>
+                                <div class="time-slots">
+                                    <label><input type="checkbox" name="monday" value="morning"> Morning (9AM-12PM)</label>
+                                    <label><input type="checkbox" name="monday" value="afternoon"> Afternoon (12PM-5PM)</label>
+                                    <label><input type="checkbox" name="monday" value="evening"> Evening (5PM-9PM)</label>
+                                </div>
+                            </div>
+                            <div class="day-availability">
+                                <label class="day-label">Tuesday</label>
+                                <div class="time-slots">
+                                    <label><input type="checkbox" name="tuesday" value="morning"> Morning (9AM-12PM)</label>
+                                    <label><input type="checkbox" name="tuesday" value="afternoon"> Afternoon (12PM-5PM)</label>
+                                    <label><input type="checkbox" name="tuesday" value="evening"> Evening (5PM-9PM)</label>
+                                </div>
+                            </div>
+                            <div class="day-availability">
+                                <label class="day-label">Wednesday</label>
+                                <div class="time-slots">
+                                    <label><input type="checkbox" name="wednesday" value="morning"> Morning (9AM-12PM)</label>
+                                    <label><input type="checkbox" name="wednesday" value="afternoon"> Afternoon (12PM-5PM)</label>
+                                    <label><input type="checkbox" name="wednesday" value="evening"> Evening (5PM-9PM)</label>
+                                </div>
+                            </div>
+                            <div class="day-availability">
+                                <label class="day-label">Thursday</label>
+                                <div class="time-slots">
+                                    <label><input type="checkbox" name="thursday" value="morning"> Morning (9AM-12PM)</label>
+                                    <label><input type="checkbox" name="thursday" value="afternoon"> Afternoon (12PM-5PM)</label>
+                                    <label><input type="checkbox" name="thursday" value="evening"> Evening (5PM-9PM)</label>
+                                </div>
+                            </div>
+                            <div class="day-availability">
+                                <label class="day-label">Friday</label>
+                                <div class="time-slots">
+                                    <label><input type="checkbox" name="friday" value="morning"> Morning (9AM-12PM)</label>
+                                    <label><input type="checkbox" name="friday" value="afternoon"> Afternoon (12PM-5PM)</label>
+                                    <label><input type="checkbox" name="friday" value="evening"> Evening (5PM-9PM)</label>
+                                </div>
+                            </div>
+                            <div class="day-availability">
+                                <label class="day-label">Saturday</label>
+                                <div class="time-slots">
+                                    <label><input type="checkbox" name="saturday" value="morning"> Morning (9AM-12PM)</label>
+                                    <label><input type="checkbox" name="saturday" value="afternoon"> Afternoon (12PM-5PM)</label>
+                                    <label><input type="checkbox" name="saturday" value="evening"> Evening (5PM-9PM)</label>
+                                </div>
+                            </div>
+                            <div class="day-availability">
+                                <label class="day-label">Sunday</label>
+                                <div class="time-slots">
+                                    <label><input type="checkbox" name="sunday" value="morning"> Morning (9AM-12PM)</label>
+                                    <label><input type="checkbox" name="sunday" value="afternoon"> Afternoon (12PM-5PM)</label>
+                                    <label><input type="checkbox" name="sunday" value="evening"> Evening (5PM-9PM)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxHours">Maximum Hours per Week</label>
+                        <input type="number" id="maxHours" name="maxHours" min="1" max="40" value="20">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferredAreas">Preferred Areas</label>
+                        <select id="preferredAreas" name="preferredAreas" multiple>
+                            <option value="mumbai-central">Mumbai Central</option>
+                            <option value="andheri">Andheri</option>
+                            <option value="bandra">Bandra</option>
+                            <option value="thane">Thane</option>
+                            <option value="navi-mumbai">Navi Mumbai</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="availabilityNotes">Notes</label>
+                        <textarea id="availabilityNotes" name="availabilityNotes" rows="3" placeholder="Any special notes about your availability"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closeAvailabilityModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i>
+                            Save Availability
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample schedule data
+        const scheduleData = {
+            currentWeek: '2024-01-15',
+            availability: {
+                monday: ['morning', 'afternoon'],
+                tuesday: ['afternoon', 'evening'],
+                wednesday: ['morning', 'afternoon'],
+                thursday: ['afternoon'],
+                friday: ['morning', 'evening'],
+                saturday: ['morning'],
+                sunday: []
+            },
+            maxHours: 20,
+            preferredAreas: ['mumbai-central', 'andheri'],
+            notes: 'Available for urgent deliveries on weekends'
+        };
+
+        const todayTasks = [
+            {
+                id: 1,
+                title: 'Pickup from Spice Garden',
+                time: '10:00 AM',
+                duration: '1 hour',
+                status: 'upcoming',
+                location: 'Mumbai Central'
+            },
+            {
+                id: 2,
+                title: 'Delivery to Hope Shelter',
+                time: '11:30 AM',
+                duration: '45 minutes',
+                status: 'upcoming',
+                location: 'Andheri'
+            },
+            {
+                id: 3,
+                title: 'Pickup from Bakery Corner',
+                time: '3:00 PM',
+                duration: '30 minutes',
+                status: 'upcoming',
+                location: 'Bandra'
+            }
+        ];
+
+        const upcomingTasks = [
+            {
+                id: 4,
+                title: 'Delivery to Care Center',
+                date: '2024-01-16',
+                time: '2:00 PM',
+                location: 'Thane'
+            },
+            {
+                id: 5,
+                title: 'Pickup from Green Kitchen',
+                date: '2024-01-17',
+                time: '11:00 AM',
+                location: 'Navi Mumbai'
+            },
+            {
+                id: 6,
+                title: 'Delivery to Community Center',
+                date: '2024-01-18',
+                time: '4:00 PM',
+                location: 'Mumbai Central'
+            }
+        ];
+
+        let currentWeekStart = new Date('2024-01-15');
+
+        // Initialize page
+        function initializePage() {
+            populateWeeklySchedule();
+            populateTodayTasks();
+            populateUpcomingTasks();
+            populateAvailabilitySettings();
+            setupEventListeners();
+        }
+
+        // Populate weekly schedule
+        function populateWeeklySchedule() {
+            const weeklySchedule = document.getElementById('weeklySchedule');
+            const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            
+            weeklySchedule.innerHTML = weekDays.map(day => {
+                const dayKey = day.toLowerCase().slice(0, 3);
+                const availability = scheduleData.availability[dayKey] || [];
+                const hasTasks = getTasksForDay(day);
+                
+                return `
+                    <div class="day-schedule ${hasTasks ? 'has-tasks' : ''}">
+                        <div class="day-header">
+                            <h4>${day}</h4>
+                            <span class="day-date">${getDayDate(day)}</span>
+                        </div>
+                        <div class="day-availability">
+                            ${availability.length > 0 ? 
+                                availability.map(slot => `<span class="availability-slot ${slot}">${slot}</span>`).join('') :
+                                '<span class="no-availability">Not Available</span>'
+                            }
+                        </div>
+                        ${hasTasks ? `
+                            <div class="day-tasks">
+                                ${hasTasks.map(task => `
+                                    <div class="task-item">
+                                        <span class="task-time">${task.time}</span>
+                                        <span class="task-title">${task.title}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Get tasks for specific day
+        function getTasksForDay(day) {
+            const dayTasks = [];
+            const dayKey = day.toLowerCase().slice(0, 3);
+            
+            // Add today's tasks if it's today
+            if (day === 'Monday' && isToday(currentWeekStart)) {
+                dayTasks.push(...todayTasks);
+            }
+            
+            // Add upcoming tasks for this day
+            upcomingTasks.forEach(task => {
+                const taskDate = new Date(task.date);
+                const taskDay = taskDate.toLocaleDateString('en-US', { weekday: 'long' });
+                if (taskDay === day) {
+                    dayTasks.push(task);
+                }
+            });
+            
+            return dayTasks;
+        }
+
+        // Get date for day of week
+        function getDayDate(day) {
+            const dayIndex = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].indexOf(day);
+            const date = new Date(currentWeekStart);
+            date.setDate(date.getDate() + dayIndex);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        // Check if date is today
+        function isToday(date) {
+            const today = new Date();
+            return date.toDateString() === today.toDateString();
+        }
+
+        // Populate today's tasks
+        function populateTodayTasks() {
+            const todayTasksList = document.getElementById('todayTasks');
+            
+            todayTasksList.innerHTML = todayTasks.map(task => `
+                <div class="task-item ${task.status}">
+                    <div class="task-info">
+                        <h4>${task.title}</h4>
+                        <p class="task-location"><i class="fas fa-map-marker-alt"></i> ${task.location}</p>
+                        <div class="task-meta">
+                            <span class="task-time"><i class="fas fa-clock"></i> ${task.time}</span>
+                            <span class="task-duration"><i class="fas fa-hourglass-half"></i> ${task.duration}</span>
+                        </div>
+                    </div>
+                    <div class="task-status">
+                        <span class="status-badge ${task.status}">${task.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate upcoming tasks
+        function populateUpcomingTasks() {
+            const upcomingTasksList = document.getElementById('upcomingTasks');
+            
+            upcomingTasksList.innerHTML = upcomingTasks.map(task => `
+                <div class="upcoming-task-item">
+                    <div class="task-info">
+                        <h4>${task.title}</h4>
+                        <p class="task-location"><i class="fas fa-map-marker-alt"></i> ${task.location}</p>
+                        <div class="task-meta">
+                            <span class="task-date">${formatDate(task.date)}</span>
+                            <span class="task-time">${task.time}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate availability settings
+        function populateAvailabilitySettings() {
+            const availabilitySettings = document.getElementById('availabilitySettings');
+            
+            const totalHours = Object.values(scheduleData.availability).reduce((total, day) => total + day.length * 2, 0);
+            
+            availabilitySettings.innerHTML = `
+                <div class="availability-summary">
+                    <div class="summary-item">
+                        <span class="label">Total Available Hours:</span>
+                        <span class="value">${totalHours} hours/week</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Preferred Areas:</span>
+                        <span class="value">${scheduleData.preferredAreas.map(area => area.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())).join(', ')}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Notes:</span>
+                        <span class="value">${scheduleData.notes}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('availabilityForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleAvailabilitySubmission();
+            });
+        }
+
+        // Previous week
+        function previousWeek() {
+            currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+            updateWeekDisplay();
+            populateWeeklySchedule();
+        }
+
+        // Next week
+        function nextWeek() {
+            currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+            updateWeekDisplay();
+            populateWeeklySchedule();
+        }
+
+        // Update week display
+        function updateWeekDisplay() {
+            const endDate = new Date(currentWeekStart);
+            endDate.setDate(endDate.getDate() + 6);
+            
+            document.getElementById('currentWeek').textContent = 
+                `${currentWeekStart.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+        }
+
+        // Update availability
+        function updateAvailability() {
+            document.getElementById('availabilityModal').style.display = 'flex';
+        }
+
+        // Close availability modal
+        function closeAvailabilityModal() {
+            document.getElementById('availabilityModal').style.display = 'none';
+        }
+
+        // Handle availability submission
+        function handleAvailabilitySubmission() {
+            const formData = new FormData(document.getElementById('availabilityForm'));
+            
+            // Update availability data
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            days.forEach(day => {
+                scheduleData.availability[day] = formData.getAll(day);
+            });
+            
+            scheduleData.maxHours = parseInt(formData.get('maxHours'));
+            scheduleData.preferredAreas = formData.getAll('preferredAreas');
+            scheduleData.notes = formData.get('availabilityNotes');
+            
+            populateAvailabilitySettings();
+            populateWeeklySchedule();
+            closeAvailabilityModal();
+            alert('Availability updated successfully!');
+        }
+
+        // Edit availability
+        function editAvailability() {
+            updateAvailability();
+        }
+
+        // View all tasks
+        function viewAllTasks() {
+            alert('Viewing all upcoming tasks. This would show a comprehensive task list.');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric'
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=volunteer';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .stat-change.neutral {
+            color: #ff9800;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .schedule-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .schedule-controls span {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .task-count {
+            background: #ff8f00;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .weekly-schedule {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1rem;
+        }
+
+        .day-schedule {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 120px;
+        }
+
+        .day-schedule.has-tasks {
+            border-color: #ff8f00;
+            background: #fff3e0;
+        }
+
+        .day-header {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-header h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .day-date {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .day-availability {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .availability-slot {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .availability-slot.morning {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .availability-slot.afternoon {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .availability-slot.evening {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .no-availability {
+            font-size: 0.7rem;
+            color: #999;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .day-tasks {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 0.5rem;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-location {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .task-time,
+        .task-duration {
+            color: #666;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.upcoming {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.in-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .upcoming-task-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .upcoming-task-item:last-child {
+            border-bottom: none;
+        }
+
+        .upcoming-task-item h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .availability-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .summary-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .availability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .day-availability {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .day-label {
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .time-slots label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .weekly-schedule {
+                grid-template-columns: 1fr;
+            }
+
+            .availability-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

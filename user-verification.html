@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Verification - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="#verification" class="nav-link active">User Verification</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+                <a href="#settings" class="nav-link">Settings</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Platform Administrator</span>
+                    <span>Admin User</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>User Verification</h1>
+                <p>Verify restaurants and NGOs for platform access</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Users</button>
+                    <button class="btn-outline" data-filter="pending">Pending</button>
+                    <button class="btn-outline" data-filter="verified">Verified</button>
+                    <button class="btn-outline" data-filter="rejected">Rejected</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Verification Grid -->
+        <section class="verification-section">
+            <div class="verification-container">
+                <div class="verification-grid" id="verificationGrid">
+                    <!-- Verification items will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Verification Details Modal -->
+    <div id="verificationModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>User Verification</h2>
+                <button class="modal-close" onclick="closeVerificationModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="verification-details">
+                    <div class="user-info">
+                        <div class="user-header">
+                            <h3 id="modalUserName">User Name</h3>
+                            <span class="status-badge" id="modalStatus">Pending</span>
+                        </div>
+                        <div class="user-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user-tag"></i>
+                                <span id="modalUserType">User Type</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-envelope"></i>
+                                <span id="modalEmail">Email</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-phone"></i>
+                                <span id="modalPhone">Phone</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="modalAddress">Address</span>
+                            </div>
+                        </div>
+                        
+                        <div class="verification-documents">
+                            <h4>Verification Documents</h4>
+                            <div class="document-grid" id="modalDocuments">
+                                <!-- Documents will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="verification-actions">
+                            <button class="btn-outline" onclick="rejectUser()">
+                                <i class="fas fa-times"></i>
+                                Reject
+                            </button>
+                            <button class="btn-primary" onclick="verifyUser()">
+                                <i class="fas fa-check"></i>
+                                Verify User
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample verification data
+        const verificationData = [
+            {
+                id: 1,
+                name: 'Spice Garden Restaurant',
+                type: 'restaurant',
+                email: 'spicegarden@email.com',
+                phone: '+91 98765 43210',
+                address: '123 Main St, Mumbai',
+                status: 'pending',
+                documents: [
+                    { name: 'Business License', url: '#' },
+                    { name: 'Food Safety Certificate', url: '#' },
+                    { name: 'GST Registration', url: '#' }
+                ]
+            },
+            {
+                id: 2,
+                name: 'Hope Foundation',
+                type: 'ngo',
+                email: 'hope@foundation.org',
+                phone: '+91 98765 43211',
+                address: '456 Park Ave, Mumbai',
+                status: 'pending',
+                documents: [
+                    { name: 'NGO Registration', url: '#' },
+                    { name: 'Tax Exemption Certificate', url: '#' },
+                    { name: 'Annual Report', url: '#' }
+                ]
+            },
+            {
+                id: 3,
+                name: 'Bakery Corner',
+                type: 'restaurant',
+                email: 'bakery@corner.com',
+                phone: '+91 98765 43212',
+                address: '789 Oak St, Mumbai',
+                status: 'verified',
+                documents: [
+                    { name: 'Business License', url: '#' },
+                    { name: 'Food Safety Certificate', url: '#' }
+                ]
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentUser = null;
+
+        // Initialize page
+        function initializePage() {
+            populateVerifications();
+            setupEventListeners();
+        }
+
+        // Populate verifications
+        function populateVerifications() {
+            const verificationGrid = document.getElementById('verificationGrid');
+            const filteredVerifications = filterVerifications();
+            
+            verificationGrid.innerHTML = filteredVerifications.map(user => `
+                <div class="verification-card ${user.status}" onclick="viewVerification(${user.id})">
+                    <div class="verification-header">
+                        <h3>${user.name}</h3>
+                        <span class="status-badge ${user.status}">${user.status}</span>
+                    </div>
+                    <div class="verification-content">
+                        <p class="user-type">${user.type.toUpperCase()}</p>
+                        <p class="user-email">${user.email}</p>
+                        <p class="user-phone">${user.phone}</p>
+                        <p class="user-address">${user.address}</p>
+                        <p class="documents-count">${user.documents.length} documents</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter verifications
+        function filterVerifications() {
+            if (currentFilter === 'all') {
+                return verificationData;
+            }
+            return verificationData.filter(user => user.status === currentFilter);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateVerifications();
+                });
+            });
+        }
+
+        // View verification details
+        function viewVerification(userId) {
+            const user = verificationData.find(u => u.id === userId);
+            if (!user) return;
+            
+            currentUser = user;
+            
+            document.getElementById('modalUserName').textContent = user.name;
+            document.getElementById('modalUserType').textContent = user.type.toUpperCase();
+            document.getElementById('modalEmail').textContent = user.email;
+            document.getElementById('modalPhone').textContent = user.phone;
+            document.getElementById('modalAddress').textContent = user.address;
+            document.getElementById('modalStatus').textContent = user.status;
+            document.getElementById('modalStatus').className = `status-badge ${user.status}`;
+            
+            // Populate documents
+            const modalDocuments = document.getElementById('modalDocuments');
+            modalDocuments.innerHTML = user.documents.map(doc => `
+                <div class="document-item">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>${doc.name}</span>
+                    <button class="btn-outline btn-small" onclick="viewDocument('${doc.url}')">
+                        <i class="fas fa-eye"></i>
+                        View
+                    </button>
+                </div>
+            `).join('');
+            
+            document.getElementById('verificationModal').style.display = 'flex';
+        }
+
+        // Close verification modal
+        function closeVerificationModal() {
+            document.getElementById('verificationModal').style.display = 'none';
+            currentUser = null;
+        }
+
+        // Verify user
+        function verifyUser() {
+            if (currentUser) {
+                currentUser.status = 'verified';
+                closeVerificationModal();
+                populateVerifications();
+                alert('User verified successfully.');
+            }
+        }
+
+        // Reject user
+        function rejectUser() {
+            if (confirm('Are you sure you want to reject this user?')) {
+                if (currentUser) {
+                    currentUser.status = 'rejected';
+                    closeVerificationModal();
+                    populateVerifications();
+                    alert('User rejected successfully.');
+                }
+            }
+        }
+
+        // View document
+        function viewDocument(url) {
+            alert('This would open the document for review.');
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=admin';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .verification-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .verification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .verification-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .verification-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .verification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .verification-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.verified {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .verification-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .user-type {
+            font-weight: 600;
+            color: #ff8f00 !important;
+        }
+
+        .user-email {
+            color: #2196f3 !important;
+        }
+
+        .documents-count {
+            font-weight: 500;
+            color: #2e2e2e !important;
+        }
+
+        .user-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .meta-item i {
+            color: #ff8f00;
+            width: 16px;
+        }
+
+        .verification-documents h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .document-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .document-item i {
+            color: #ff5722;
+            font-size: 1.2rem;
+        }
+
+        .document-item span {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .verification-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .verification-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .verification-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .verification-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

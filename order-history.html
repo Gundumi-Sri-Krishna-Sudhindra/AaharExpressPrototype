@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="browse-menu.html" class="nav-link">Browse Menu</a>
+                <a href="#history" class="nav-link active">Order History</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>User</span>
+                    <span>John Doe</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Order History</h1>
+                <p>View your past orders and track their status</p>
+            </div>
+        </header>
+
+        <!-- Order History Grid -->
+        <section class="history-section">
+            <div class="history-container">
+                <div class="history-grid" id="historyGrid">
+                    <!-- Order history will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Sample order history data
+        const orderHistory = [
+            {
+                id: 1,
+                orderNumber: '12345',
+                restaurant: 'Spice Garden',
+                status: 'delivered',
+                orderDate: '2024-01-15',
+                total: 610,
+                items: [
+                    { name: 'Chicken Biryani', quantity: 2, price: 180 },
+                    { name: 'Butter Chicken', quantity: 1, price: 220 },
+                    { name: 'Naan Bread', quantity: 3, price: 30 }
+                ]
+            },
+            {
+                id: 2,
+                orderNumber: '12344',
+                restaurant: 'Bakery Corner',
+                status: 'delivered',
+                orderDate: '2024-01-14',
+                total: 450,
+                items: [
+                    { name: 'Fresh Bread', quantity: 5, price: 30 },
+                    { name: 'Croissants', quantity: 3, price: 50 },
+                    { name: 'Muffins', quantity: 2, price: 75 }
+                ]
+            },
+            {
+                id: 3,
+                orderNumber: '12343',
+                restaurant: 'Green Kitchen',
+                status: 'cancelled',
+                orderDate: '2024-01-13',
+                total: 320,
+                items: [
+                    { name: 'Veg Biryani', quantity: 1, price: 150 },
+                    { name: 'Dal Makhani', quantity: 1, price: 120 },
+                    { name: 'Rice', quantity: 1, price: 50 }
+                ]
+            }
+        ];
+
+        // Initialize page
+        function initializePage() {
+            populateOrderHistory();
+        }
+
+        // Populate order history
+        function populateOrderHistory() {
+            const historyGrid = document.getElementById('historyGrid');
+            
+            historyGrid.innerHTML = orderHistory.map(order => `
+                <div class="history-card ${order.status}">
+                    <div class="history-header">
+                        <h3>Order #${order.orderNumber}</h3>
+                        <span class="status-badge ${order.status}">${order.status}</span>
+                    </div>
+                    <div class="history-content">
+                        <p class="restaurant-name">${order.restaurant}</p>
+                        <p class="order-date">${formatDate(order.orderDate)}</p>
+                        <p class="order-items">${order.items.length} items</p>
+                        <p class="order-total">₹${order.total}</p>
+                        <div class="order-items-list">
+                            ${order.items.map(item => `
+                                <span class="item-tag">${item.name} x${item.quantity}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=user';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .history-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .history-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .history-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .history-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .restaurant-name {
+            font-weight: 600;
+            color: #2e2e2e !important;
+        }
+
+        .order-total {
+            font-weight: 600;
+            color: #ff8f00 !important;
+            font-size: 1.1rem;
+        }
+
+        .order-items-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .item-tag {
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .history-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .history-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html> 

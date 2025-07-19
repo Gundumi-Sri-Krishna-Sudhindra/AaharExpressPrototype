@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Info - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-assigned-orders.html" class="nav-link">Assigned Orders</a>
+                <a href="delivery-history.html" class="nav-link">Delivery History</a>
+                <a href="#contact-info" class="nav-link active">Contact Info</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Delivery Agent</span>
+                    <span>Rajesh Kumar</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Contact Information</h1>
+                <p>Manage your contact details and communication preferences</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="editContactInfo()">
+                    <i class="fas fa-edit"></i>
+                    Edit Info
+                </button>
+            </div>
+        </header>
+
+        <!-- Contact Stats -->
+        <section class="contact-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Calls Made</p>
+                            <span class="stat-change positive">+23 this week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>Messages Sent</p>
+                            <span class="stat-change positive">+12 this week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2.3</h3>
+                            <p>Avg Response Time</p>
+                            <span class="stat-change positive">-0.5 minutes</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4.8</h3>
+                            <p>Communication Rating</p>
+                            <span class="stat-change positive">+0.2 this month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- Personal Contact Info -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Personal Contact Information</h3>
+                        <button class="btn-outline" onclick="editPersonalInfo()">Edit</button>
+                    </div>
+                    <div class="contact-details" id="personalContactInfo">
+                        <!-- Personal contact info will be populated -->
+                    </div>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Emergency Contacts</h3>
+                        <button class="btn-outline" onclick="addEmergencyContact()">Add Contact</button>
+                    </div>
+                    <div class="emergency-contacts" id="emergencyContacts">
+                        <!-- Emergency contacts will be populated -->
+                    </div>
+                </div>
+
+                <!-- Communication Preferences -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Communication Preferences</h3>
+                        <button class="btn-outline" onclick="editPreferences()">Edit</button>
+                    </div>
+                    <div class="communication-preferences" id="communicationPreferences">
+                        <!-- Communication preferences will be populated -->
+                    </div>
+                </div>
+
+                <!-- Recent Communications -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Communications</h3>
+                        <button class="btn-outline" onclick="viewAllCommunications()">View All</button>
+                    </div>
+                    <div class="communications-list" id="communicationsList">
+                        <!-- Communications will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Edit Contact Info Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Contact Information</h2>
+                <button class="modal-close" onclick="closeContactModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" value="Rajesh Kumar" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number *</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" value="+91 98765 43210" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" value="rajesh.kumar@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea id="address" name="address" rows="3">123 Main Street, Mumbai, Maharashtra 400001</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyContact">Emergency Contact</label>
+                        <input type="tel" id="emergencyContact" name="emergencyContact" value="+91 98765 43211">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group</label>
+                        <select id="bloodGroup" name="bloodGroup">
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closeContactModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Emergency Contact Modal -->
+    <div id="emergencyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Emergency Contact</h2>
+                <button class="modal-close" onclick="closeEmergencyModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="emergencyForm">
+                    <div class="form-group">
+                        <label for="emergencyName">Contact Name *</label>
+                        <input type="text" id="emergencyName" name="emergencyName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyPhone">Phone Number *</label>
+                        <input type="tel" id="emergencyPhone" name="emergencyPhone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyRelation">Relationship</label>
+                        <input type="text" id="emergencyRelation" name="emergencyRelation" placeholder="e.g., Spouse, Parent, Friend">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyNotes">Notes</label>
+                        <textarea id="emergencyNotes" name="emergencyNotes" rows="3" placeholder="Any additional notes about this contact"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closeEmergencyModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Add Contact
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample contact data
+        const contactData = {
+            personal: {
+                fullName: 'Rajesh Kumar',
+                phoneNumber: '+91 98765 43210',
+                email: 'rajesh.kumar@email.com',
+                address: '123 Main Street, Mumbai, Maharashtra 400001',
+                bloodGroup: 'B+',
+                emergencyContact: '+91 98765 43211'
+            },
+            emergencyContacts: [
+                {
+                    id: 1,
+                    name: 'Priya Kumar',
+                    phone: '+91 98765 43211',
+                    relation: 'Spouse',
+                    notes: 'Primary emergency contact'
+                },
+                {
+                    id: 2,
+                    name: 'Ramesh Kumar',
+                    phone: '+91 98765 43212',
+                    relation: 'Father',
+                    notes: 'Secondary emergency contact'
+                }
+            ],
+            preferences: {
+                preferredContact: 'phone',
+                notificationTime: 'immediate',
+                language: 'english',
+                autoReply: true,
+                workingHours: {
+                    start: '09:00',
+                    end: '18:00'
+                }
+            },
+            communications: [
+                {
+                    id: 1,
+                    type: 'call',
+                    contact: 'Priya Sharma',
+                    orderNumber: '12345',
+                    time: '2024-01-15T15:30',
+                    duration: '2 minutes',
+                    status: 'completed'
+                },
+                {
+                    id: 2,
+                    type: 'message',
+                    contact: 'Amit Patel',
+                    orderNumber: '12346',
+                    time: '2024-01-15T16:00',
+                    content: 'Delivered successfully',
+                    status: 'sent'
+                },
+                {
+                    id: 3,
+                    type: 'call',
+                    contact: 'Sita Verma',
+                    orderNumber: '12347',
+                    time: '2024-01-14T17:30',
+                    duration: '1 minute',
+                    status: 'completed'
+                }
+            ]
+        };
+
+        // Initialize page
+        function initializePage() {
+            populatePersonalContactInfo();
+            populateEmergencyContacts();
+            populateCommunicationPreferences();
+            populateCommunications();
+            setupEventListeners();
+        }
+
+        // Populate personal contact info
+        function populatePersonalContactInfo() {
+            const personalContactInfo = document.getElementById('personalContactInfo');
+            
+            personalContactInfo.innerHTML = `
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Full Name</h4>
+                            <p>${contactData.personal.fullName}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Phone Number</h4>
+                            <p>${contactData.personal.phoneNumber}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email Address</h4>
+                            <p>${contactData.personal.email}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Address</h4>
+                            <p>${contactData.personal.address}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Blood Group</h4>
+                            <p>${contactData.personal.bloodGroup}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Emergency Contact</h4>
+                            <p>${contactData.personal.emergencyContact}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Populate emergency contacts
+        function populateEmergencyContacts() {
+            const emergencyContacts = document.getElementById('emergencyContacts');
+            
+            emergencyContacts.innerHTML = contactData.emergencyContacts.map(contact => `
+                <div class="emergency-contact-item">
+                    <div class="contact-info">
+                        <h4>${contact.name}</h4>
+                        <p class="relation">${contact.relation}</p>
+                        <p class="phone">${contact.phone}</p>
+                        ${contact.notes ? `<p class="notes">${contact.notes}</p>` : ''}
+                    </div>
+                    <div class="contact-actions">
+                        <button class="btn-outline btn-small" onclick="callContact('${contact.phone}')">
+                            <i class="fas fa-phone"></i>
+                            Call
+                        </button>
+                        <button class="btn-outline btn-small" onclick="messageContact('${contact.phone}')">
+                            <i class="fas fa-comment"></i>
+                            Message
+                        </button>
+                        <button class="btn-outline btn-small" onclick="editEmergencyContact(${contact.id})">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate communication preferences
+        function populateCommunicationPreferences() {
+            const communicationPreferences = document.getElementById('communicationPreferences');
+            
+            communicationPreferences.innerHTML = `
+                <div class="preferences-grid">
+                    <div class="preference-item">
+                        <span class="label">Preferred Contact Method:</span>
+                        <span class="value">${contactData.preferences.preferredContact}</span>
+                    </div>
+                    <div class="preference-item">
+                        <span class="label">Notification Time:</span>
+                        <span class="value">${contactData.preferences.notificationTime}</span>
+                    </div>
+                    <div class="preference-item">
+                        <span class="label">Language:</span>
+                        <span class="value">${contactData.preferences.language}</span>
+                    </div>
+                    <div class="preference-item">
+                        <span class="label">Auto Reply:</span>
+                        <span class="value">${contactData.preferences.autoReply ? 'Enabled' : 'Disabled'}</span>
+                    </div>
+                    <div class="preference-item">
+                        <span class="label">Working Hours:</span>
+                        <span class="value">${contactData.preferences.workingHours.start} - ${contactData.preferences.workingHours.end}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Populate communications
+        function populateCommunications() {
+            const communicationsList = document.getElementById('communicationsList');
+            
+            communicationsList.innerHTML = contactData.communications.map(comm => `
+                <div class="communication-item ${comm.type}">
+                    <div class="comm-icon">
+                        <i class="fas fa-${comm.type === 'call' ? 'phone' : 'comment'}"></i>
+                    </div>
+                    <div class="comm-info">
+                        <h4>${comm.contact}</h4>
+                        <p class="order-number">Order #${comm.orderNumber}</p>
+                        ${comm.type === 'call' ? `<p class="duration">${comm.duration}</p>` : `<p class="content">${comm.content}</p>`}
+                        <span class="comm-time">${formatTime(comm.time)}</span>
+                    </div>
+                    <div class="comm-status">
+                        <span class="status-badge ${comm.status}">${comm.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Form submissions
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleContactSubmission();
+            });
+
+            document.getElementById('emergencyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleEmergencySubmission();
+            });
+        }
+
+        // Edit contact info
+        function editContactInfo() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+
+        // Close contact modal
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // Handle contact submission
+        function handleContactSubmission() {
+            const formData = new FormData(document.getElementById('contactForm'));
+            const contactData = Object.fromEntries(formData.entries());
+            
+            // Update contact data
+            Object.assign(this.contactData.personal, contactData);
+            
+            populatePersonalContactInfo();
+            closeContactModal();
+            alert('Contact information updated successfully!');
+        }
+
+        // Edit personal info
+        function editPersonalInfo() {
+            editContactInfo();
+        }
+
+        // Add emergency contact
+        function addEmergencyContact() {
+            document.getElementById('emergencyModal').style.display = 'flex';
+        }
+
+        // Close emergency modal
+        function closeEmergencyModal() {
+            document.getElementById('emergencyModal').style.display = 'none';
+            document.getElementById('emergencyForm').reset();
+        }
+
+        // Handle emergency submission
+        function handleEmergencySubmission() {
+            const formData = new FormData(document.getElementById('emergencyForm'));
+            const emergencyData = Object.fromEntries(formData.entries());
+            
+            // Add new emergency contact
+            const newContact = {
+                id: contactData.emergencyContacts.length + 1,
+                name: emergencyData.emergencyName,
+                phone: emergencyData.emergencyPhone,
+                relation: emergencyData.emergencyRelation,
+                notes: emergencyData.emergencyNotes
+            };
+            
+            contactData.emergencyContacts.push(newContact);
+            populateEmergencyContacts();
+            closeEmergencyModal();
+            alert('Emergency contact added successfully!');
+        }
+
+        // Edit preferences
+        function editPreferences() {
+            alert('Editing communication preferences. This would open the preferences form.');
+        }
+
+        // View all communications
+        function viewAllCommunications() {
+            alert('Viewing all communications. This would show a complete communication history.');
+        }
+
+        // Call contact
+        function callContact(phone) {
+            alert(`Calling ${phone}`);
+        }
+
+        // Message contact
+        function messageContact(phone) {
+            alert(`Sending message to ${phone}`);
+        }
+
+        // Edit emergency contact
+        function editEmergencyContact(contactId) {
+            const contact = contactData.emergencyContacts.find(c => c.id === contactId);
+            if (contact) {
+                alert(`Editing emergency contact: ${contact.name}`);
+            }
+        }
+
+        // Format time
+        function formatTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=delivery-agent';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: #ff8f00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .contact-details h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-details p {
+            color: #2e2e2e;
+            font-weight: 500;
+        }
+
+        .emergency-contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .emergency-contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .relation {
+            color: #ff8f00;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .phone {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .notes {
+            color: #999;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .preferences-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .preference-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .preference-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .communication-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .communication-item:last-child {
+            border-bottom: none;
+        }
+
+        .comm-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .communication-item.call .comm-icon {
+            background: #4caf50;
+        }
+
+        .communication-item.message .comm-icon {
+            background: #2196f3;
+        }
+
+        .comm-info {
+            flex: 1;
+        }
+
+        .comm-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .order-number {
+            color: #ff8f00;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .duration,
+        .content {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .comm-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.sent {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .emergency-contact-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .contact-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

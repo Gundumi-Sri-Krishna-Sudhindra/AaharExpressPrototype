@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AaharExpress - Unified Food Delivery & Donation Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary" onclick="openLoginModal()">Login</button>
+                <button class="btn-primary" onclick="openSignupModal()">Sign Up</button>
+            </div>
+            <div class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Tackling Hunger, 
+                    <span class="highlight">One Meal at a Time</span>
+                </h1>
+                <p class="hero-subtitle">
+                    AaharExpress is India's unified food delivery and donation platform. 
+                    Order meals, donate surplus food, and empower NGOs to serve those in need.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn-primary btn-large" onclick="openSignupModal()">
+                        <i class="fas fa-rocket"></i>
+                        Get Started
+                    </button>
+                    <button class="btn-outline btn-large" onclick="scrollToFeatures()">
+                        <i class="fas fa-play"></i>
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image">
+                    <i class="fas fa-heart-pulse"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Role Selection Section -->
+    <section id="roles" class="roles-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Choose Your Role</h2>
+                <p>Join our mission to eliminate hunger and food wastage in India</p>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card" onclick="selectRole('user')">
+                    <div class="role-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>User / Donor</h3>
+                    <p>Order food and donate meals to help others</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check"></i> Browse food menu</li>
+                        <li><i class="fas fa-check"></i> Place orders</li>
+                        <li><i class="fas fa-check"></i> Donate meals</li>
+                    </ul>
+                    <button class="btn-outline">Join as User</button>
+                </div>
+
+                <div class="role-card" onclick="selectRole('restaurant')">
+                    <div class="role-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Restaurant</h3>
+                    <p>List surplus food and get Zero Waste certification</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check"></i> Upload surplus food</li>
+                        <li><i class="fas fa-check"></i> Manage orders</li>
+                        <li><i class="fas fa-check"></i> Get certifications</li>
+                    </ul>
+                    <button class="btn-outline">Join as Restaurant</button>
+                </div>
+
+                <div class="role-card" onclick="selectRole('ngo')">
+                    <div class="role-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>NGO</h3>
+                    <p>Accept donations and coordinate with volunteers</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check"></i> Accept donations</li>
+                        <li><i class="fas fa-check"></i> Assign volunteers</li>
+                        <li><i class="fas fa-check"></i> Track deliveries</li>
+                    </ul>
+                    <button class="btn-outline">Join as NGO</button>
+                </div>
+
+                <div class="role-card" onclick="selectRole('volunteer')">
+                    <div class="role-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Volunteer</h3>
+                    <p>Pick up and deliver food to needy areas</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check"></i> View pickups</li>
+                        <li><i class="fas fa-check"></i> Route optimization</li>
+                        <li><i class="fas fa-check"></i> Mark deliveries</li>
+                    </ul>
+                    <button class="btn-outline">Join as Volunteer</button>
+                </div>
+
+                <div class="role-card" onclick="selectRole('admin')">
+                    <div class="role-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Admin</h3>
+                    <p>Manage the platform and verify users</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check"></i> Verify users</li>
+                        <li><i class="fas fa-check"></i> Manage zones</li>
+                        <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                    </ul>
+                    <button class="btn-outline">Admin Access</button>
+                </div>
+
+                <div class="role-card" onclick="selectRole('delivery-agent')">
+                    <div class="role-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Delivery Agent</h3>
+                    <p>Deliver orders and manage customer interactions</p>
+                    <ul class="role-features">
+                        <li><i class="fas fa-check"></i> View assigned orders</li>
+                        <li><i class="fas fa-check"></i> Map view & routing</li>
+                        <li><i class="fas fa-check"></i> Delivery history</li>
+                    </ul>
+                    <button class="btn-outline">Join as Delivery Agent</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Platform Features</h2>
+                <p>Comprehensive tools for every stakeholder in the food ecosystem</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile App</h3>
+                    <p>Easy-to-use mobile application for ordering and donating food on the go</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3>Smart Routing</h3>
+                    <p>AI-powered route optimization for efficient food delivery and pickup</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Impact Tracking</h3>
+                    <p>Real-time analytics and impact measurement for all donations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Zero Waste Certification</h3>
+                    <p>Certification program for restaurants reducing food wastage</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Volunteer Network</h3>
+                    <p>Dedicated network of volunteers for food pickup and delivery</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-check"></i>
+                    </div>
+                    <h3>Quality Assurance</h3>
+                    <p>Rigorous quality checks and safety standards for all food items</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Mission</h2>
+                    <p>AaharExpress is dedicated to creating a sustainable food ecosystem that connects donors, restaurants, NGOs, and volunteers to eliminate hunger and reduce food wastage across India.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3>10,000+</h3>
+                            <p>Meals Donated</p>
+                        </div>
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Restaurants</p>
+                        </div>
+                        <div class="stat">
+                            <h3>50+</h3>
+                            <p>NGOs</p>
+                        </div>
+                        <div class="stat">
+                            <h3>1000+</h3>
+                            <p>Volunteers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="about-image">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get in Touch</h2>
+                <p>Have questions? We'd love to hear from you</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>hello@aaharexpress.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+91 98765 43210</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>Mumbai, Maharashtra, India</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-utensils"></i>
+                        <span>AaharExpress</span>
+                    </div>
+                    <p>Tackling hunger, one meal at a time.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Roles</h4>
+                    <ul>
+                        <li><a href="#roles">User/Donor</a></li>
+                        <li><a href="#roles">Restaurant</a></li>
+                        <li><a href="#roles">NGO</a></li>
+                        <li><a href="#roles">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025l AaharExpress. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to AaharExpress</h2>
+                <button class="modal-close" onclick="closeLoginModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="role-selection">
+                    <h3>Choose Your Role</h3>
+                    <div class="role-options">
+                        <div class="role-option" data-role="user">
+                            <i class="fas fa-user"></i>
+                            <span>User</span>
+                        </div>
+                        <div class="role-option" data-role="restaurant">
+                            <i class="fas fa-store"></i>
+                            <span>Restaurant</span>
+                        </div>
+                        <div class="role-option" data-role="ngo">
+                            <i class="fas fa-hands-helping"></i>
+                            <span>NGO</span>
+                        </div>
+                        <div class="role-option" data-role="volunteer">
+                            <i class="fas fa-heart"></i>
+                            <span>Volunteer</span>
+                        </div>
+                        <div class="role-option" data-role="admin">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Admin</span>
+                        </div>
+                        <div class="role-option" data-role="delivery-agent">
+                            <i class="fas fa-truck"></i>
+                            <span>Delivery Agent</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Join AaharExpress</h2>
+                <button class="modal-close" onclick="closeSignupModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="role-selection">
+                    <h3>Choose Your Role</h3>
+                    <div class="role-options">
+                        <div class="role-option" data-role="user">
+                            <i class="fas fa-user"></i>
+                            <span>User</span>
+                        </div>
+                        <div class="role-option" data-role="restaurant">
+                            <i class="fas fa-store"></i>
+                            <span>Restaurant</span>
+                        </div>
+                        <div class="role-option" data-role="ngo">
+                            <i class="fas fa-hands-helping"></i>
+                            <span>NGO</span>
+                        </div>
+                        <div class="role-option" data-role="volunteer">
+                            <i class="fas fa-heart"></i>
+                            <span>Volunteer</span>
+                        </div>
+                        <div class="role-option" data-role="delivery-agent">
+                            <i class="fas fa-truck"></i>
+                            <span>Delivery Agent</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="signup-form" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signupName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="signupEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signupPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <label class="checkbox">
+                            <input type="checkbox" required>
+                            <span>I agree to the Terms & Conditions</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Modal functions
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function openSignupModal() {
+            document.getElementById('signupModal').style.display = 'flex';
+        }
+
+        function closeSignupModal() {
+            document.getElementById('signupModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Role selection in modals
+        document.querySelectorAll('.role-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.role-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Login handler
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const selectedRole = document.querySelector('#loginModal .role-option.active');
+            
+            if (!selectedRole) {
+                alert('Please select a role first!');
+                return;
+            }
+            
+            const role = selectedRole.getAttribute('data-role');
+            // Redirect to dashboard
+            window.location.href = `dashboard.html?role=${role}`;
+        }
+
+        // Signup handler
+        function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const selectedRole = document.querySelector('#signupModal .role-option.active');
+            
+            if (!selectedRole) {
+                alert('Please select a role first!');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            const role = selectedRole.getAttribute('data-role');
+            // Redirect to dashboard
+            window.location.href = `dashboard.html?role=${role}`;
+        }
+
+        // Role selection on landing page
+        function selectRole(role) {
+            openSignupModal();
+            // Auto-select the role
+            setTimeout(() => {
+                document.querySelector(`#signupModal .role-option[data-role="${role}"]`).click();
+            }, 100);
+        }
+
+        // Scroll to features
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Form submission
+        document.querySelector('.contact-form form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We\'ll get back to you soon.');
+        });
+    </script>
+</body>
+</html>

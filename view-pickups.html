@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Pickups - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="#pickups" class="nav-link active">View Pickups</a>
+                <a href="#schedule" class="nav-link">Schedule</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Volunteer</span>
+                    <span>Priya Patel</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>View Pickups</h1>
+                <p>Manage your food pickup assignments and deliveries</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Pickups</button>
+                    <button class="btn-outline" data-filter="assigned">Assigned</button>
+                    <button class="btn-outline" data-filter="in-progress">In Progress</button>
+                    <button class="btn-outline" data-filter="completed">Completed</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Pickups Grid -->
+        <section class="pickups-section">
+            <div class="pickups-container">
+                <div class="pickups-grid" id="pickupsGrid">
+                    <!-- Pickups will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Pickup Details Modal -->
+    <div id="pickupModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Pickup #<span id="modalPickupNumber">12345</span></h2>
+                <button class="modal-close" onclick="closePickupModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="pickup-details">
+                    <div class="pickup-info">
+                        <div class="pickup-status">
+                            <span class="status-badge" id="modalStatus">Assigned</span>
+                        </div>
+                        <div class="pickup-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-store"></i>
+                                <span id="modalRestaurant">Restaurant Name</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="modalPickupAddress">Pickup Address</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-home"></i>
+                                <span id="modalDeliveryAddress">Delivery Address</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span id="modalPickupTime">Pickup Time</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pickup-items">
+                            <h4>Food Items</h4>
+                            <div id="modalItems">
+                                <!-- Items will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="pickup-actions">
+                            <button class="btn-outline" onclick="startPickup()">
+                                <i class="fas fa-play"></i>
+                                Start Pickup
+                            </button>
+                            <button class="btn-primary" onclick="completePickup()">
+                                <i class="fas fa-check"></i>
+                                Mark Complete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample pickups data
+        const pickups = [
+            {
+                id: 1,
+                pickupNumber: '12345',
+                restaurant: 'Spice Garden',
+                pickupAddress: '123 Main St, Mumbai',
+                deliveryAddress: 'Hope Foundation, 456 Park Ave',
+                status: 'assigned',
+                pickupTime: '2024-01-15T16:00',
+                items: [
+                    { name: 'Surplus Rice', quantity: '5kg' },
+                    { name: 'Cooked Vegetables', quantity: '3kg' }
+                ]
+            },
+            {
+                id: 2,
+                pickupNumber: '12346',
+                restaurant: 'Bakery Corner',
+                pickupAddress: '789 Oak St, Mumbai',
+                deliveryAddress: 'Care for Children, 321 Pine St',
+                status: 'in-progress',
+                pickupTime: '2024-01-15T15:30',
+                items: [
+                    { name: 'Fresh Bread', quantity: '20 pieces' }
+                ]
+            },
+            {
+                id: 3,
+                pickupNumber: '12347',
+                restaurant: 'Green Kitchen',
+                pickupAddress: '654 Elm St, Mumbai',
+                deliveryAddress: 'Community Center, 987 Maple St',
+                status: 'completed',
+                pickupTime: '2024-01-15T14:00',
+                items: [
+                    { name: 'Mixed Vegetables', quantity: '4kg' }
+                ]
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentPickup = null;
+
+        // Initialize page
+        function initializePage() {
+            populatePickups();
+            setupEventListeners();
+        }
+
+        // Populate pickups
+        function populatePickups() {
+            const pickupsGrid = document.getElementById('pickupsGrid');
+            const filteredPickups = filterPickups();
+            
+            pickupsGrid.innerHTML = filteredPickups.map(pickup => `
+                <div class="pickup-card ${pickup.status}" onclick="viewPickup(${pickup.id})">
+                    <div class="pickup-header">
+                        <h3>Pickup #${pickup.pickupNumber}</h3>
+                        <span class="status-badge ${pickup.status}">${pickup.status}</span>
+                    </div>
+                    <div class="pickup-content">
+                        <p class="restaurant-name">${pickup.restaurant}</p>
+                        <p class="pickup-time">${formatTime(pickup.pickupTime)}</p>
+                        <p class="pickup-items">${pickup.items.length} items</p>
+                        <div class="pickup-addresses">
+                            <p><strong>From:</strong> ${pickup.pickupAddress}</p>
+                            <p><strong>To:</strong> ${pickup.deliveryAddress}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter pickups
+        function filterPickups() {
+            if (currentFilter === 'all') {
+                return pickups;
+            }
+            return pickups.filter(pickup => pickup.status === currentFilter);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populatePickups();
+                });
+            });
+        }
+
+        // View pickup details
+        function viewPickup(pickupId) {
+            const pickup = pickups.find(p => p.id === pickupId);
+            if (!pickup) return;
+            
+            currentPickup = pickup;
+            
+            document.getElementById('modalPickupNumber').textContent = pickup.pickupNumber;
+            document.getElementById('modalRestaurant').textContent = pickup.restaurant;
+            document.getElementById('modalPickupAddress').textContent = pickup.pickupAddress;
+            document.getElementById('modalDeliveryAddress').textContent = pickup.deliveryAddress;
+            document.getElementById('modalPickupTime').textContent = formatDateTime(pickup.pickupTime);
+            document.getElementById('modalStatus').textContent = pickup.status;
+            document.getElementById('modalStatus').className = `status-badge ${pickup.status}`;
+            
+            // Populate items
+            const modalItems = document.getElementById('modalItems');
+            modalItems.innerHTML = pickup.items.map(item => `
+                <div class="modal-item">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-quantity">${item.quantity}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('pickupModal').style.display = 'flex';
+        }
+
+        // Close pickup modal
+        function closePickupModal() {
+            document.getElementById('pickupModal').style.display = 'none';
+            currentPickup = null;
+        }
+
+        // Start pickup
+        function startPickup() {
+            if (currentPickup) {
+                currentPickup.status = 'in-progress';
+                closePickupModal();
+                populatePickups();
+                alert('Pickup started successfully.');
+            }
+        }
+
+        // Complete pickup
+        function completePickup() {
+            if (currentPickup) {
+                currentPickup.status = 'completed';
+                closePickupModal();
+                populatePickups();
+                alert('Pickup completed successfully.');
+            }
+        }
+
+        // Format time
+        function formatTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Format date time
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=volunteer';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .pickups-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .pickups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pickup-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pickup-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .pickup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .pickup-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.assigned {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.in-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .pickup-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .restaurant-name {
+            font-weight: 600;
+            color: #2e2e2e !important;
+        }
+
+        .pickup-addresses {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .pickup-addresses p {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .pickup-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .meta-item i {
+            color: #ff8f00;
+            width: 16px;
+        }
+
+        .pickup-items h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .modal-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .modal-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .item-quantity {
+            color: #666;
+        }
+
+        .pickup-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .pickups-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .pickups-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pickup-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Deliveries - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="ngo-dashboard.html" class="nav-link">NGO Dashboard</a>
+                <a href="accept-donations.html" class="nav-link">Accept Donations</a>
+                <a href="#track-deliveries" class="nav-link active">Track Deliveries</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>NGO Representative</span>
+                    <span>Hope Foundation</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Track Deliveries</h1>
+                <p>Monitor delivery progress and status in real-time</p>
+            </div>
+            <div class="feature-header-actions">
+                <div class="filter-buttons">
+                    <button class="btn-outline active" data-filter="all">All Deliveries</button>
+                    <button class="btn-outline" data-filter="in-progress">In Progress</button>
+                    <button class="btn-outline" data-filter="completed">Completed</button>
+                    <button class="btn-outline" data-filter="scheduled">Scheduled</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Delivery Stats -->
+        <section class="delivery-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>12</h3>
+                            <p>Active Deliveries</p>
+                            <span class="stat-change positive">+3 today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>Completed Today</p>
+                            <span class="stat-change positive">+12 vs yesterday</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2.3</h3>
+                            <p>Avg Delivery Time</p>
+                            <span class="stat-change positive">-0.5 hours</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>234</h3>
+                            <p>People Helped</p>
+                            <span class="stat-change positive">+45 today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deliveries Grid -->
+        <section class="deliveries-section">
+            <div class="deliveries-container">
+                <div class="deliveries-grid" id="deliveriesGrid">
+                    <!-- Deliveries will be populated -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Delivery Details Modal -->
+    <div id="deliveryModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Delivery #<span id="modalDeliveryNumber">12345</span></h2>
+                <button class="modal-close" onclick="closeDeliveryModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delivery-details">
+                    <div class="delivery-info">
+                        <div class="delivery-status">
+                            <span class="status-badge" id="modalStatus">In Progress</span>
+                        </div>
+                        <div class="delivery-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span id="modalVolunteer">Volunteer Name</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="modalDestination">Destination</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-utensils"></i>
+                                <span id="modalFood">Food Items</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users"></i>
+                                <span id="modalPeople">People to Help</span>
+                            </div>
+                        </div>
+                        
+                        <div class="delivery-timeline">
+                            <h4>Delivery Timeline</h4>
+                            <div class="timeline" id="deliveryTimeline">
+                                <!-- Timeline will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="delivery-map">
+                            <h4>Live Tracking</h4>
+                            <div class="map-placeholder">
+                                <i class="fas fa-map"></i>
+                                <p>Real-time delivery tracking map</p>
+                                <div class="tracking-info">
+                                    <span id="modalETA">ETA: 15 minutes</span>
+                                    <span id="modalDistance">Distance: 2.5 km</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="delivery-actions">
+                            <button class="btn-outline" onclick="contactVolunteer()">
+                                <i class="fas fa-phone"></i>
+                                Contact Volunteer
+                            </button>
+                            <button class="btn-outline" onclick="updateStatus()">
+                                <i class="fas fa-edit"></i>
+                                Update Status
+                            </button>
+                            <button class="btn-primary" onclick="markComplete()">
+                                <i class="fas fa-check"></i>
+                                Mark Complete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample deliveries data
+        const deliveries = [
+            {
+                id: 1,
+                deliveryNumber: '12345',
+                volunteer: 'Priya Patel',
+                destination: 'Hope Shelter',
+                food: 'Rice, Bread, Vegetables',
+                people: 25,
+                status: 'in-progress',
+                pickupTime: '2024-01-15T14:00',
+                estimatedDelivery: '2024-01-15T15:30',
+                actualDelivery: null,
+                timeline: [
+                    { time: '2024-01-15T13:30', event: 'Task Assigned', status: 'completed' },
+                    { time: '2024-01-15T14:00', event: 'Pickup Started', status: 'completed' },
+                    { time: '2024-01-15T14:30', event: 'Food Collected', status: 'completed' },
+                    { time: '2024-01-15T15:00', event: 'In Transit', status: 'in-progress' },
+                    { time: '', event: 'Delivered', status: 'pending' }
+                ],
+                eta: '15 minutes',
+                distance: '2.5 km'
+            },
+            {
+                id: 2,
+                deliveryNumber: '12346',
+                volunteer: 'Rahul Kumar',
+                destination: 'Care for Children',
+                food: 'Bread, Milk, Fruits',
+                people: 15,
+                status: 'completed',
+                pickupTime: '2024-01-15T12:00',
+                estimatedDelivery: '2024-01-15T13:30',
+                actualDelivery: '2024-01-15T13:15',
+                timeline: [
+                    { time: '2024-01-15T11:30', event: 'Task Assigned', status: 'completed' },
+                    { time: '2024-01-15T12:00', event: 'Pickup Started', status: 'completed' },
+                    { time: '2024-01-15T12:30', event: 'Food Collected', status: 'completed' },
+                    { time: '2024-01-15T13:00', event: 'In Transit', status: 'completed' },
+                    { time: '2024-01-15T13:15', event: 'Delivered', status: 'completed' }
+                ],
+                eta: 'Completed',
+                distance: '1.8 km'
+            },
+            {
+                id: 3,
+                deliveryNumber: '12347',
+                volunteer: 'Sita Sharma',
+                destination: 'Community Center',
+                food: 'Cooked Meals, Bread',
+                people: 30,
+                status: 'scheduled',
+                pickupTime: '2024-01-15T16:00',
+                estimatedDelivery: '2024-01-15T17:30',
+                actualDelivery: null,
+                timeline: [
+                    { time: '2024-01-15T15:30', event: 'Task Assigned', status: 'completed' },
+                    { time: '2024-01-15T16:00', event: 'Pickup Scheduled', status: 'pending' },
+                    { time: '', event: 'Pickup Started', status: 'pending' },
+                    { time: '', event: 'In Transit', status: 'pending' },
+                    { time: '', event: 'Delivered', status: 'pending' }
+                ],
+                eta: '1 hour 30 minutes',
+                distance: '3.2 km'
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentDelivery = null;
+
+        // Initialize page
+        function initializePage() {
+            populateDeliveries();
+            setupEventListeners();
+        }
+
+        // Populate deliveries
+        function populateDeliveries() {
+            const deliveriesGrid = document.getElementById('deliveriesGrid');
+            const filteredDeliveries = filterDeliveries();
+            
+            deliveriesGrid.innerHTML = filteredDeliveries.map(delivery => `
+                <div class="delivery-card ${delivery.status}" onclick="viewDelivery(${delivery.id})">
+                    <div class="delivery-header">
+                        <h3>Delivery #${delivery.deliveryNumber}</h3>
+                        <span class="status-badge ${delivery.status}">${delivery.status}</span>
+                    </div>
+                    <div class="delivery-content">
+                        <p class="volunteer">Volunteer: ${delivery.volunteer}</p>
+                        <p class="destination">To: ${delivery.destination}</p>
+                        <p class="food">Food: ${delivery.food}</p>
+                        <p class="people">People: ${delivery.people}</p>
+                        <div class="delivery-meta">
+                            <span class="eta">ETA: ${delivery.eta}</span>
+                            <span class="distance">${delivery.distance}</span>
+                        </div>
+                    </div>
+                    <div class="delivery-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${getProgressPercentage(delivery)}%"></div>
+                        </div>
+                        <span class="progress-text">${getProgressText(delivery)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter deliveries
+        function filterDeliveries() {
+            if (currentFilter === 'all') {
+                return deliveries;
+            }
+            return deliveries.filter(delivery => delivery.status === currentFilter);
+        }
+
+        // Get progress percentage
+        function getProgressPercentage(delivery) {
+            const completedSteps = delivery.timeline.filter(step => step.status === 'completed').length;
+            const totalSteps = delivery.timeline.length;
+            return Math.round((completedSteps / totalSteps) * 100);
+        }
+
+        // Get progress text
+        function getProgressText(delivery) {
+            const completedSteps = delivery.timeline.filter(step => step.status === 'completed').length;
+            const totalSteps = delivery.timeline.length;
+            return `${completedSteps}/${totalSteps} steps completed`;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    populateDeliveries();
+                });
+            });
+        }
+
+        // View delivery details
+        function viewDelivery(deliveryId) {
+            const delivery = deliveries.find(d => d.id === deliveryId);
+            if (!delivery) return;
+            
+            currentDelivery = delivery;
+            
+            document.getElementById('modalDeliveryNumber').textContent = delivery.deliveryNumber;
+            document.getElementById('modalVolunteer').textContent = delivery.volunteer;
+            document.getElementById('modalDestination').textContent = delivery.destination;
+            document.getElementById('modalFood').textContent = delivery.food;
+            document.getElementById('modalPeople').textContent = delivery.people;
+            document.getElementById('modalStatus').textContent = delivery.status;
+            document.getElementById('modalStatus').className = `status-badge ${delivery.status}`;
+            document.getElementById('modalETA').textContent = `ETA: ${delivery.eta}`;
+            document.getElementById('modalDistance').textContent = `Distance: ${delivery.distance}`;
+            
+            // Populate timeline
+            const timeline = document.getElementById('deliveryTimeline');
+            timeline.innerHTML = delivery.timeline.map(item => `
+                <div class="timeline-item ${item.status}">
+                    <div class="timeline-icon">
+                        <i class="fas fa-${item.status === 'completed' ? 'check-circle' : item.status === 'in-progress' ? 'clock' : 'circle'}"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h5>${item.event}</h5>
+                        ${item.time ? `<span class="timeline-time">${formatDateTime(item.time)}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('deliveryModal').style.display = 'flex';
+        }
+
+        // Close delivery modal
+        function closeDeliveryModal() {
+            document.getElementById('deliveryModal').style.display = 'none';
+            currentDelivery = null;
+        }
+
+        // Contact volunteer
+        function contactVolunteer() {
+            if (currentDelivery) {
+                alert(`Contacting ${currentDelivery.volunteer} for delivery #${currentDelivery.deliveryNumber}`);
+            }
+        }
+
+        // Update status
+        function updateStatus() {
+            if (currentDelivery) {
+                alert(`Updating status for delivery #${currentDelivery.deliveryNumber}`);
+            }
+        }
+
+        // Mark complete
+        function markComplete() {
+            if (currentDelivery && currentDelivery.status !== 'completed') {
+                currentDelivery.status = 'completed';
+                currentDelivery.actualDelivery = new Date().toISOString();
+                currentDelivery.timeline[currentDelivery.timeline.length - 1].status = 'completed';
+                currentDelivery.timeline[currentDelivery.timeline.length - 1].time = new Date().toISOString();
+                
+                closeDeliveryModal();
+                populateDeliveries();
+                alert('Delivery marked as complete!');
+            }
+        }
+
+        // Format date time
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=ngo';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .deliveries-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .deliveries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .delivery-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .delivery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .delivery-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.in-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.scheduled {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .delivery-content p {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .volunteer {
+            font-weight: 600;
+            color: #2196f3 !important;
+        }
+
+        .destination {
+            color: #ff8f00 !important;
+            font-weight: 500;
+        }
+
+        .delivery-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .eta,
+        .distance {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .delivery-progress {
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .delivery-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .meta-item i {
+            color: #ff8f00;
+            width: 16px;
+        }
+
+        .delivery-timeline h4,
+        .delivery-map h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .timeline-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .timeline-item.completed .timeline-icon {
+            background: #4caf50;
+        }
+
+        .timeline-item.in-progress .timeline-icon {
+            background: #ff9800;
+        }
+
+        .timeline-item.pending .timeline-icon {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .timeline-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .map-placeholder {
+            height: 200px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-align: center;
+        }
+
+        .map-placeholder i {
+            font-size: 3rem;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .tracking-info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .tracking-info span {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .delivery-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .deliveries-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .deliveries-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .delivery-actions {
+                flex-direction: column;
+            }
+
+            .tracking-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</body>
+</html> 

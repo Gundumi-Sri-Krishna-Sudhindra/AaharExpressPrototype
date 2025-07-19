@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html?role=user" class="nav-link">Dashboard</a>
+                <a href="#profile-settings" class="nav-link active">Profile Settings</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span id="userRole">User / Donor</span>
+                    <span id="userName">Rahul Sharma</span>
+                </div>
+                <button class="btn-secondary" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main class="main-content">
+        <section class="content-card profile-settings-section">
+            <h2 class="card-header">Profile Settings</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" value="Rahul Sharma" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="rahul.sharma@email.com" required class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter new password" class="input-field">
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Save Changes</button>
+                <div id="successMsg" style="display:none; color:green; margin-top:1rem;">Profile updated successfully!</div>
+            </form>
+        </section>
+    </main>
+    <script>
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('successMsg').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('successMsg').style.display = 'none';
+            }, 2000);
+        });
+        function logout() {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <style>
+        .profile-settings-section {
+            max-width: 600px;
+            margin: 4rem auto 2rem auto;
+            padding-top: 2.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f8f9fa;
+            color: #2e2e2e;
+            transition: border 0.2s;
+        }
+        .input-field:focus {
+            border-color: #ff8f00;
+            outline: none;
+            background: #fff;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+        }
+        #successMsg {
+            color: #388e3c;
+            font-weight: 500;
+        }
+    </style>
+</body>
+</html> 

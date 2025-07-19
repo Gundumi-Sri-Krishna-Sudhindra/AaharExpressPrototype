@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery History - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-assigned-orders.html" class="nav-link">Assigned Orders</a>
+                <a href="map-view.html" class="nav-link">Map View</a>
+                <a href="#delivery-history" class="nav-link active">Delivery History</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Delivery Agent</span>
+                    <span>Rajesh Kumar</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Delivery History</h1>
+                <p>View your delivery history and performance metrics</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="exportHistory()">
+                    <i class="fas fa-download"></i>
+                    Export History
+                </button>
+            </div>
+        </header>
+
+        <!-- Performance Stats -->
+        <section class="performance-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>1,234</h3>
+                            <p>Total Deliveries</p>
+                            <span class="stat-change positive">+156 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4.8</h3>
+                            <p>Average Rating</p>
+                            <span class="stat-change positive">+0.2 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2.1</h3>
+                            <p>Avg Delivery Time</p>
+                            <span class="stat-change positive">-0.3 hours</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>15</h3>
+                            <p>Achievement Badges</p>
+                            <span class="stat-change positive">+2 this month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- Recent Deliveries -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Deliveries</h3>
+                        <div class="filter-controls">
+                            <select id="timeFilter" onchange="filterDeliveries()">
+                                <option value="all">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month" selected>This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="deliveries-list" id="deliveriesList">
+                        <!-- Deliveries will be populated -->
+                    </div>
+                </div>
+
+                <!-- Performance Chart -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Performance Trends</h3>
+                        <button class="btn-outline" onclick="viewDetailedAnalytics()">View Details</button>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Delivery Performance Chart</h4>
+                            <p>Visual representation of your delivery metrics over time</p>
+                            <div class="chart-stats">
+                                <div class="chart-stat">
+                                    <span class="stat-number">156</span>
+                                    <span class="stat-label">This Month</span>
+                                </div>
+                                <div class="chart-stat">
+                                    <span class="stat-number">4.8</span>
+                                    <span class="stat-label">Avg Rating</span>
+                                </div>
+                                <div class="chart-stat">
+                                    <span class="stat-number">2.1h</span>
+                                    <span class="stat-label">Avg Time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievement Badges -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Achievement Badges</h3>
+                        <button class="btn-outline" onclick="viewAllBadges()">View All</button>
+                    </div>
+                    <div class="badges-grid" id="badgesGrid">
+                        <!-- Badges will be populated -->
+                    </div>
+                </div>
+
+                <!-- Customer Reviews -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Reviews</h3>
+                        <button class="btn-outline" onclick="viewAllReviews()">View All</button>
+                    </div>
+                    <div class="reviews-list" id="reviewsList">
+                        <!-- Reviews will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Delivery Details Modal -->
+    <div id="deliveryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Delivery Details</h2>
+                <button class="modal-close" onclick="closeDeliveryModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delivery-details">
+                    <div class="delivery-info">
+                        <h4 id="modalDeliveryTitle">Order #12345</h4>
+                        <p id="modalDeliveryDate">Delivery Date</p>
+                        
+                        <div class="delivery-meta">
+                            <div class="meta-item">
+                                <span class="label">Customer:</span>
+                                <span id="modalCustomerName">Customer Name</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Pickup:</span>
+                                <span id="modalPickupLocation">Pickup Location</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Delivery:</span>
+                                <span id="modalDeliveryLocation">Delivery Location</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Distance:</span>
+                                <span id="modalDistance">Distance</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Time Taken:</span>
+                                <span id="modalTimeTaken">Time Taken</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="label">Rating:</span>
+                                <span id="modalRating">Rating</span>
+                            </div>
+                        </div>
+                        
+                        <div class="delivery-timeline">
+                            <h4>Delivery Timeline</h4>
+                            <div class="timeline" id="deliveryTimeline">
+                                <!-- Timeline will be populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="delivery-actions">
+                            <button class="btn-outline" onclick="viewRoute()">
+                                <i class="fas fa-route"></i>
+                                View Route
+                            </button>
+                            <button class="btn-outline" onclick="contactCustomer()">
+                                <i class="fas fa-phone"></i>
+                                Contact Customer
+                            </button>
+                            <button class="btn-primary" onclick="reportIssue()">
+                                <i class="fas fa-flag"></i>
+                                Report Issue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample delivery history data
+        const deliveryHistory = [
+            {
+                id: 1,
+                orderNumber: '12345',
+                customer: 'Priya Sharma',
+                pickupLocation: 'Spice Garden, Mumbai Central',
+                deliveryLocation: 'Andheri West, Mumbai',
+                date: '2024-01-15',
+                time: '15:30',
+                distance: '8.5 km',
+                timeTaken: '45 minutes',
+                rating: 5,
+                status: 'completed',
+                review: 'Excellent service! Food was delivered hot and on time.',
+                timeline: [
+                    { time: '14:00', event: 'Order Assigned', status: 'completed' },
+                    { time: '14:15', event: 'Started Pickup', status: 'completed' },
+                    { time: '14:45', event: 'Food Collected', status: 'completed' },
+                    { time: '15:00', event: 'Started Delivery', status: 'completed' },
+                    { time: '15:30', event: 'Delivered Successfully', status: 'completed' }
+                ]
+            },
+            {
+                id: 2,
+                orderNumber: '12346',
+                customer: 'Amit Patel',
+                pickupLocation: 'Bakery Corner, Bandra',
+                deliveryLocation: 'Thane, Mumbai',
+                date: '2024-01-15',
+                time: '16:30',
+                distance: '12.3 km',
+                timeTaken: '1 hour 15 minutes',
+                rating: 4,
+                status: 'completed',
+                review: 'Good delivery, but slightly delayed due to traffic.',
+                timeline: [
+                    { time: '15:00', event: 'Order Assigned', status: 'completed' },
+                    { time: '15:15', event: 'Started Pickup', status: 'completed' },
+                    { time: '15:45', event: 'Food Collected', status: 'completed' },
+                    { time: '16:00', event: 'Started Delivery', status: 'completed' },
+                    { time: '16:30', event: 'Delivered Successfully', status: 'completed' }
+                ]
+            },
+            {
+                id: 3,
+                orderNumber: '12347',
+                customer: 'Sita Verma',
+                pickupLocation: 'Green Kitchen, Navi Mumbai',
+                deliveryLocation: 'Mumbai Central',
+                date: '2024-01-14',
+                time: '17:30',
+                distance: '15.2 km',
+                timeTaken: '1 hour 30 minutes',
+                rating: 5,
+                status: 'completed',
+                review: 'Perfect delivery! Very professional service.',
+                timeline: [
+                    { time: '16:00', event: 'Order Assigned', status: 'completed' },
+                    { time: '16:15', event: 'Started Pickup', status: 'completed' },
+                    { time: '16:45', event: 'Food Collected', status: 'completed' },
+                    { time: '17:00', event: 'Started Delivery', status: 'completed' },
+                    { time: '17:30', event: 'Delivered Successfully', status: 'completed' }
+                ]
+            }
+        ];
+
+        const badges = [
+            {
+                id: 1,
+                name: 'Speed Demon',
+                description: 'Complete 50 deliveries under 30 minutes',
+                icon: 'fas fa-bolt',
+                earned: true,
+                date: '2024-01-10'
+            },
+            {
+                id: 2,
+                name: 'Customer Favorite',
+                description: 'Receive 100 5-star ratings',
+                icon: 'fas fa-heart',
+                earned: true,
+                date: '2024-01-08'
+            },
+            {
+                id: 3,
+                name: 'Distance Master',
+                description: 'Travel 1000 km in deliveries',
+                icon: 'fas fa-road',
+                earned: true,
+                date: '2024-01-05'
+            },
+            {
+                id: 4,
+                name: 'Perfect Week',
+                description: 'Complete a week with 100% on-time deliveries',
+                icon: 'fas fa-calendar-check',
+                earned: false,
+                progress: 85
+            }
+        ];
+
+        const reviews = [
+            {
+                id: 1,
+                customer: 'Priya Sharma',
+                rating: 5,
+                review: 'Excellent service! Food was delivered hot and on time.',
+                date: '2024-01-15',
+                orderNumber: '12345'
+            },
+            {
+                id: 2,
+                customer: 'Amit Patel',
+                rating: 4,
+                review: 'Good delivery, but slightly delayed due to traffic.',
+                date: '2024-01-15',
+                orderNumber: '12346'
+            },
+            {
+                id: 3,
+                customer: 'Sita Verma',
+                rating: 5,
+                review: 'Perfect delivery! Very professional service.',
+                date: '2024-01-14',
+                orderNumber: '12347'
+            }
+        ];
+
+        let currentDelivery = null;
+
+        // Initialize page
+        function initializePage() {
+            populateDeliveries();
+            populateBadges();
+            populateReviews();
+            setupEventListeners();
+        }
+
+        // Populate deliveries
+        function populateDeliveries() {
+            const deliveriesList = document.getElementById('deliveriesList');
+            
+            deliveriesList.innerHTML = deliveryHistory.map(delivery => `
+                <div class="delivery-item ${delivery.status}" onclick="viewDelivery(${delivery.id})">
+                    <div class="delivery-info">
+                        <h4>Order #${delivery.orderNumber}</h4>
+                        <p class="customer">${delivery.customer}</p>
+                        <div class="delivery-locations">
+                            <p class="pickup"><i class="fas fa-map-marker-alt"></i> ${delivery.pickupLocation}</p>
+                            <p class="delivery"><i class="fas fa-flag-checkered"></i> ${delivery.deliveryLocation}</p>
+                        </div>
+                        <div class="delivery-meta">
+                            <span class="date">${formatDate(delivery.date)}</span>
+                            <span class="time">${delivery.time}</span>
+                            <span class="distance">${delivery.distance}</span>
+                            <span class="time-taken">${delivery.timeTaken}</span>
+                        </div>
+                    </div>
+                    <div class="delivery-rating">
+                        <div class="stars">
+                            ${generateStars(delivery.rating)}
+                        </div>
+                        <span class="rating-text">${delivery.rating}/5</span>
+                    </div>
+                    <div class="delivery-actions">
+                        <button class="btn-outline btn-small" onclick="event.stopPropagation(); viewDelivery(${delivery.id})">
+                            <i class="fas fa-eye"></i>
+                            Details
+                        </button>
+                        <button class="btn-outline btn-small" onclick="event.stopPropagation(); viewRoute(${delivery.id})">
+                            <i class="fas fa-route"></i>
+                            Route
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate badges
+        function populateBadges() {
+            const badgesGrid = document.getElementById('badgesGrid');
+            
+            badgesGrid.innerHTML = badges.map(badge => `
+                <div class="badge-item ${badge.earned ? 'earned' : 'locked'}">
+                    <div class="badge-icon">
+                        <i class="${badge.icon}"></i>
+                    </div>
+                    <div class="badge-info">
+                        <h4>${badge.name}</h4>
+                        <p>${badge.description}</p>
+                        ${badge.earned ? `
+                            <span class="earned-date">Earned ${formatDate(badge.date)}</span>
+                        ` : `
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${badge.progress}%"></div>
+                            </div>
+                            <span class="progress-text">${badge.progress}% complete</span>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate reviews
+        function populateReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            
+            reviewsList.innerHTML = reviews.map(review => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <h4>${review.customer}</h4>
+                            <span class="order-number">Order #${review.orderNumber}</span>
+                        </div>
+                        <div class="review-rating">
+                            <div class="stars">
+                                ${generateStars(review.rating)}
+                            </div>
+                            <span class="rating-text">${review.rating}/5</span>
+                        </div>
+                    </div>
+                    <p class="review-text">${review.review}</p>
+                    <span class="review-date">${formatDate(review.date)}</span>
+                </div>
+            `).join('');
+        }
+
+        // Generate stars
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star filled"></i>';
+                } else {
+                    stars += '<i class="fas fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Time filter
+            document.getElementById('timeFilter').addEventListener('change', function() {
+                filterDeliveries();
+            });
+        }
+
+        // Filter deliveries
+        function filterDeliveries() {
+            const timeFilter = document.getElementById('timeFilter').value;
+            // This would filter deliveries based on the selected time period
+            alert(`Filtering deliveries for ${timeFilter} period`);
+        }
+
+        // View delivery
+        function viewDelivery(deliveryId) {
+            const delivery = deliveryHistory.find(d => d.id === deliveryId);
+            if (!delivery) return;
+            
+            currentDelivery = delivery;
+            
+            document.getElementById('modalDeliveryTitle').textContent = `Order #${delivery.orderNumber}`;
+            document.getElementById('modalDeliveryDate').textContent = `${formatDate(delivery.date)} at ${delivery.time}`;
+            document.getElementById('modalCustomerName').textContent = delivery.customer;
+            document.getElementById('modalPickupLocation').textContent = delivery.pickupLocation;
+            document.getElementById('modalDeliveryLocation').textContent = delivery.deliveryLocation;
+            document.getElementById('modalDistance').textContent = delivery.distance;
+            document.getElementById('modalTimeTaken').textContent = delivery.timeTaken;
+            document.getElementById('modalRating').innerHTML = generateStars(delivery.rating);
+            
+            // Populate timeline
+            const timeline = document.getElementById('deliveryTimeline');
+            timeline.innerHTML = delivery.timeline.map(item => `
+                <div class="timeline-item ${item.status}">
+                    <div class="timeline-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h5>${item.event}</h5>
+                        <span class="timeline-time">${item.time}</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('deliveryModal').style.display = 'flex';
+        }
+
+        // Close delivery modal
+        function closeDeliveryModal() {
+            document.getElementById('deliveryModal').style.display = 'none';
+            currentDelivery = null;
+        }
+
+        // View route
+        function viewRoute(deliveryId) {
+            const delivery = deliveryId ? deliveryHistory.find(d => d.id === deliveryId) : currentDelivery;
+            if (delivery) {
+                alert(`Viewing route for Order #${delivery.orderNumber}`);
+            }
+        }
+
+        // Contact customer
+        function contactCustomer() {
+            if (currentDelivery) {
+                alert(`Contacting ${currentDelivery.customer} for Order #${currentDelivery.orderNumber}`);
+            }
+        }
+
+        // Report issue
+        function reportIssue() {
+            if (currentDelivery) {
+                alert(`Reporting issue for Order #${currentDelivery.orderNumber}`);
+            }
+        }
+
+        // Export history
+        function exportHistory() {
+            alert('Exporting delivery history. This would generate a CSV/PDF report.');
+        }
+
+        // View detailed analytics
+        function viewDetailedAnalytics() {
+            alert('Opening detailed analytics dashboard.');
+        }
+
+        // View all badges
+        function viewAllBadges() {
+            alert('Viewing all achievement badges.');
+        }
+
+        // View all reviews
+        function viewAllReviews() {
+            alert('Viewing all customer reviews.');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=delivery-agent';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .filter-controls select {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .delivery-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-item:last-child {
+            border-bottom: none;
+        }
+
+        .delivery-item:hover {
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .delivery-info {
+            flex: 1;
+        }
+
+        .delivery-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .customer {
+            color: #ff8f00;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .delivery-locations {
+            margin-bottom: 0.5rem;
+        }
+
+        .pickup,
+        .delivery {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .pickup {
+            color: #ff8f00;
+        }
+
+        .delivery {
+            color: #4caf50;
+        }
+
+        .delivery-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .date,
+        .time,
+        .distance,
+        .time-taken {
+            color: #666;
+        }
+
+        .delivery-rating {
+            text-align: center;
+        }
+
+        .stars {
+            margin-bottom: 0.25rem;
+        }
+
+        .stars i {
+            color: #ddd;
+            font-size: 0.8rem;
+        }
+
+        .stars i.filled {
+            color: #ffc107;
+        }
+
+        .rating-text {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .delivery-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .chart-container {
+            height: 300px;
+        }
+
+        .chart-placeholder {
+            height: 100%;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-align: center;
+        }
+
+        .chart-placeholder i {
+            font-size: 3rem;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .chart-placeholder h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-placeholder p {
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .chart-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .chart-stat {
+            text-align: center;
+        }
+
+        .chart-stat .stat-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff8f00;
+        }
+
+        .chart-stat .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-item.earned {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+
+        .badge-item.locked {
+            background: #f8f9fa;
+            border-left: 4px solid #ddd;
+            opacity: 0.7;
+        }
+
+        .badge-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .badge-item.earned .badge-icon {
+            background: #4caf50;
+        }
+
+        .badge-item.locked .badge-icon {
+            background: #ddd;
+        }
+
+        .badge-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .badge-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .earned-date {
+            font-size: 0.8rem;
+            color: #4caf50;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff8f00;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .review-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviewer-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .order-number {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .review-rating {
+            text-align: right;
+        }
+
+        .review-text {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-date {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .delivery-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .meta-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .meta-item span:last-child {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .delivery-timeline {
+            margin-bottom: 1.5rem;
+        }
+
+        .delivery-timeline h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .timeline-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .timeline-item.completed .timeline-icon {
+            background: #4caf50;
+        }
+
+        .timeline-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .delivery-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .delivery-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .delivery-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .chart-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .badges-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .delivery-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .delivery-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="#earnings" class="nav-link active">Earnings</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span id="userRole">Volunteer</span>
+                    <span id="userName">Priya Patel</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>My Earnings</h1>
+                <p>Track your earnings and payment history</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="requestPayout()">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Request Payout
+                </button>
+            </div>
+        </header>
+
+        <!-- Earnings Overview -->
+        <section class="earnings-overview">
+            <div class="overview-container">
+                <div class="earnings-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>₹3,250</h3>
+                            <p>Total Earnings</p>
+                            <span class="stat-change positive">+₹450 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>₹1,500</h3>
+                            <p>Available Balance</p>
+                            <span class="stat-change neutral">Ready for payout</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Completed Deliveries</p>
+                            <span class="stat-change positive">+12 this week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>₹85</h3>
+                            <p>Average per Delivery</p>
+                            <span class="stat-change positive">+₹12 this month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- Recent Earnings -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Earnings</h3>
+                        <button class="btn-outline" onclick="viewAllEarnings()">View All</button>
+                    </div>
+                    <div class="earnings-list" id="earningsList">
+                        <!-- Earnings will be populated -->
+                    </div>
+                </div>
+
+                <!-- Payment History -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Payment History</h3>
+                        <button class="btn-outline" onclick="viewAllPayments()">View All</button>
+                    </div>
+                    <div class="payments-list" id="paymentsList">
+                        <!-- Payments will be populated -->
+                    </div>
+                </div>
+
+                <!-- Earnings Chart -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Earnings Trend</h3>
+                        <div class="chart-controls">
+                            <select id="chartPeriod" onchange="updateChart()">
+                                <option value="week">This Week</option>
+                                <option value="month" selected>This Month</option>
+                                <option value="quarter">This Quarter</option>
+                                <option value="year">This Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-bar"></i>
+                            <h4>Earnings Growth Chart</h4>
+                            <p>Visual representation of your earnings over time</p>
+                            <div class="chart-stats">
+                                <div class="chart-stat">
+                                    <span class="stat-number">₹350</span>
+                                    <span class="stat-label">This Month</span>
+                                </div>
+                                <div class="chart-stat">
+                                    <span class="stat-number">₹1,200</span>
+                                    <span class="stat-label">Last Month</span>
+                                </div>
+                                <div class="chart-stat">
+                                    <span class="stat-number">+29%</span>
+                                    <span class="stat-label">Growth</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payout Settings -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Payout Settings</h3>
+                        <button class="btn-outline" onclick="editPayoutSettings()">Edit</button>
+                    </div>
+                    <div class="payout-settings" id="payoutSettings">
+                        <!-- Payout settings will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Request Payout Modal -->
+    <div id="payoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Request Payout</h2>
+                <button class="modal-close" onclick="closePayoutModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="payout-summary">
+                    <h4>Available Balance</h4>
+                    <div class="balance-amount">₹1,200</div>
+                    <p>You can request a payout for any amount up to your available balance.</p>
+                </div>
+                
+                <form id="payoutForm">
+                    <div class="form-group">
+                        <label for="payoutAmount">Payout Amount (₹) *</label>
+                        <input type="number" id="payoutAmount" name="payoutAmount" min="100" max="1200" value="1200" required>
+                        <small>Minimum payout: ₹100</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="payoutMethod">Payout Method *</label>
+                        <select id="payoutMethod" name="payoutMethod" required>
+                            <option value="">Select Method</option>
+                            <option value="bank-transfer" selected>Bank Transfer</option>
+                            <option value="upi">UPI</option>
+                            <option value="paytm">Paytm</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accountDetails">Account Details *</label>
+                        <input type="text" id="accountDetails" name="accountDetails" placeholder="Enter account number or UPI ID" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="payoutNotes">Notes (Optional)</label>
+                        <textarea id="payoutNotes" name="payoutNotes" rows="3" placeholder="Any additional notes for the payout"></textarea>
+                    </div>
+                    
+                    <div class="payout-info">
+                        <div class="info-item">
+                            <span class="label">Processing Time:</span>
+                            <span class="value">2-3 business days</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Processing Fee:</span>
+                            <span class="value">₹10 per transaction</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closePayoutModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-check"></i>
+                            Request Payout
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample earnings data
+        const earnings = [
+            {
+                id: 1,
+                task: 'Order #12345 - Priya Sharma',
+                amount: 85,
+                date: '2024-01-15',
+                status: 'completed',
+                type: 'delivery'
+            },
+            {
+                id: 2,
+                task: 'Order #12346 - Amit Patel',
+                amount: 120,
+                date: '2024-01-15',
+                status: 'completed',
+                type: 'delivery'
+            },
+            {
+                id: 3,
+                task: 'Order #12347 - Sita Verma',
+                amount: 95,
+                date: '2024-01-14',
+                status: 'completed',
+                type: 'delivery'
+            },
+            {
+                id: 4,
+                task: 'Order #12340 - Rahul Singh',
+                amount: 110,
+                date: '2024-01-14',
+                status: 'completed',
+                type: 'delivery'
+            }
+        ];
+
+        const payments = [
+            {
+                id: 1,
+                amount: 500,
+                date: '2024-01-10',
+                method: 'bank-transfer',
+                status: 'completed',
+                reference: 'TXN123456'
+            },
+            {
+                id: 2,
+                amount: 350,
+                date: '2024-01-03',
+                method: 'upi',
+                status: 'completed',
+                reference: 'TXN123455'
+            },
+            {
+                id: 3,
+                amount: 400,
+                date: '2023-12-27',
+                method: 'bank-transfer',
+                status: 'completed',
+                reference: 'TXN123454'
+            }
+        ];
+
+        const payoutSettings = {
+            method: 'bank-transfer',
+            accountNumber: '9876543210',
+            bankName: 'HDFC Bank',
+            ifscCode: 'HDFC0001234',
+            upiId: 'rajesh.kumar@upi',
+            autoPayout: false,
+            minPayoutAmount: 500
+        };
+
+        // Initialize page
+        function initializePage() {
+            setupRoleBasedNavigation();
+            populateEarnings();
+            populatePayments();
+            populatePayoutSettings();
+            setupEventListeners();
+        }
+
+        // Setup role-based navigation
+        function setupRoleBasedNavigation() {
+            // Get role from URL parameter or default to volunteer
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role') || 'volunteer';
+            
+            // Update user info based on role
+            const userData = {
+                volunteer: {
+                    name: 'Priya Patel',
+                    role: 'Volunteer'
+                },
+                'delivery-agent': {
+                    name: 'Rajesh Kumar',
+                    role: 'Delivery Agent'
+                }
+            };
+            
+            const user = userData[role] || userData.volunteer;
+            document.getElementById('userRole').textContent = user.role;
+            document.getElementById('userName').textContent = user.name;
+            
+            // Update navigation menu based on role
+            const navMenu = document.getElementById('navMenu');
+            if (role === 'delivery-agent') {
+                navMenu.innerHTML = `
+                    <a href="dashboard.html?role=delivery-agent" class="nav-link">Dashboard</a>
+                    <a href="view-assigned-orders.html" class="nav-link">Assigned Orders</a>
+                    <a href="map-view.html" class="nav-link">Map View</a>
+                    <a href="delivery-history.html" class="nav-link">Delivery History</a>
+                    <a href="#earnings" class="nav-link active">Earnings</a>
+                `;
+            } else {
+                navMenu.innerHTML = `
+                    <a href="dashboard.html?role=volunteer" class="nav-link">Dashboard</a>
+                    <a href="view-pickups.html" class="nav-link">View Pickups</a>
+                    <a href="schedule.html" class="nav-link">Schedule</a>
+                    <a href="#earnings" class="nav-link active">Earnings</a>
+                `;
+            }
+        }
+
+        // Populate earnings
+        function populateEarnings() {
+            const earningsList = document.getElementById('earningsList');
+            
+            earningsList.innerHTML = earnings.map(earning => `
+                <div class="earning-item ${earning.type}">
+                    <div class="earning-info">
+                        <h4>${earning.task}</h4>
+                        <p class="earning-date">${formatDate(earning.date)}</p>
+                        <span class="earning-type">${earning.type}</span>
+                    </div>
+                    <div class="earning-amount">
+                        <span class="amount">₹${earning.amount}</span>
+                        <span class="status-badge ${earning.status}">${earning.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate payments
+        function populatePayments() {
+            const paymentsList = document.getElementById('paymentsList');
+            
+            paymentsList.innerHTML = payments.map(payment => `
+                <div class="payment-item">
+                    <div class="payment-info">
+                        <h4>₹${payment.amount}</h4>
+                        <p class="payment-date">${formatDate(payment.date)}</p>
+                        <p class="payment-method">${getPaymentMethodName(payment.method)}</p>
+                    </div>
+                    <div class="payment-details">
+                        <span class="status-badge ${payment.status}">${payment.status}</span>
+                        <p class="reference">Ref: ${payment.reference}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate payout settings
+        function populatePayoutSettings() {
+            const payoutSettingsDiv = document.getElementById('payoutSettings');
+            
+            payoutSettingsDiv.innerHTML = `
+                <div class="settings-summary">
+                    <div class="setting-item">
+                        <span class="label">Payout Method:</span>
+                        <span class="value">${getPaymentMethodName(payoutSettings.method)}</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Account Number:</span>
+                        <span class="value">${payoutSettings.accountNumber}</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Bank Name:</span>
+                        <span class="value">${payoutSettings.bankName}</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">IFSC Code:</span>
+                        <span class="value">${payoutSettings.ifscCode}</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">UPI ID:</span>
+                        <span class="value">${payoutSettings.upiId}</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Auto Payout:</span>
+                        <span class="value">${payoutSettings.autoPayout ? 'Enabled' : 'Disabled'}</span>
+                    </div>
+                    <div class="setting-item">
+                        <span class="label">Min Payout Amount:</span>
+                        <span class="value">₹${payoutSettings.minPayoutAmount}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('payoutForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handlePayoutSubmission();
+            });
+        }
+
+        // Get payment method name
+        function getPaymentMethodName(method) {
+            const methods = {
+                'bank-transfer': 'Bank Transfer',
+                'upi': 'UPI',
+                'paytm': 'Paytm'
+            };
+            return methods[method] || method;
+        }
+
+        // Request payout
+        function requestPayout() {
+            document.getElementById('payoutModal').style.display = 'flex';
+        }
+
+        // Close payout modal
+        function closePayoutModal() {
+            document.getElementById('payoutModal').style.display = 'none';
+            document.getElementById('payoutForm').reset();
+        }
+
+        // Handle payout submission
+        function handlePayoutSubmission() {
+            const formData = new FormData(document.getElementById('payoutForm'));
+            const payoutData = Object.fromEntries(formData.entries());
+            
+            // Validate form
+            if (!validatePayoutForm(payoutData)) {
+                return;
+            }
+            
+            // Process payout request
+            const newPayment = {
+                id: payments.length + 1,
+                amount: parseInt(payoutData.payoutAmount),
+                date: new Date().toISOString().split('T')[0],
+                method: payoutData.payoutMethod,
+                status: 'pending',
+                reference: `TXN${Date.now()}`
+            };
+            
+            payments.unshift(newPayment);
+            populatePayments();
+            closePayoutModal();
+            alert('Payout request submitted successfully! It will be processed within 2-3 business days.');
+        }
+
+        // Validate payout form
+        function validatePayoutForm(data) {
+            if (!data.payoutAmount || !data.payoutMethod || !data.accountDetails) {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            
+            const amount = parseInt(data.payoutAmount);
+            if (amount < 100) {
+                alert('Minimum payout amount is ₹100.');
+                return false;
+            }
+            
+            if (amount > 1200) {
+                alert('Payout amount cannot exceed available balance.');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // View all earnings
+        function viewAllEarnings() {
+            alert('Viewing all earnings. This would show a comprehensive earnings history.');
+        }
+
+        // View all payments
+        function viewAllPayments() {
+            alert('Viewing all payments. This would show a complete payment history.');
+        }
+
+        // Update chart
+        function updateChart() {
+            const period = document.getElementById('chartPeriod').value;
+            alert(`Updating earnings chart for ${period} period. This would refresh the chart data.`);
+        }
+
+        // Edit payout settings
+        function editPayoutSettings() {
+            alert('Editing payout settings. This would open the settings form.');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role') || 'volunteer';
+            window.location.href = `dashboard.html?role=${role}`;
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .overview-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .earnings-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .stat-change.neutral {
+            color: #ff9800;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .chart-controls select {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .earning-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .earning-item:last-child {
+            border-bottom: none;
+        }
+
+        .earning-item:hover {
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .earning-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .earning-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .earning-type {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .earning-amount {
+            text-align: right;
+        }
+
+        .amount {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4caf50;
+            margin-bottom: 0.25rem;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-info h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-method {
+            color: #ff8f00;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .payment-details {
+            text-align: right;
+        }
+
+        .reference {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .chart-container {
+            height: 300px;
+        }
+
+        .chart-placeholder {
+            height: 100%;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-align: center;
+        }
+
+        .chart-placeholder i {
+            font-size: 3rem;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .chart-placeholder h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-placeholder p {
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .chart-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .chart-stat {
+            text-align: center;
+        }
+
+        .chart-stat .stat-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff8f00;
+        }
+
+        .chart-stat .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .settings-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .setting-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .setting-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .payout-summary {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .payout-summary h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4caf50;
+            margin-bottom: 0.5rem;
+        }
+
+        .payout-summary p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .payout-info {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-item .label {
+            color: #1976d2;
+            font-weight: 500;
+        }
+
+        .info-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .overview-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .earning-item,
+            .payment-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .earning-amount,
+            .payment-details {
+                text-align: left;
+            }
+
+            .chart-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

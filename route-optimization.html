@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Optimization - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-pickups.html" class="nav-link">View Pickups</a>
+                <a href="#routes" class="nav-link active">Route Optimization</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Volunteer</span>
+                    <span>Priya Patel</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Route Optimization</h1>
+                <p>Optimize your pickup and delivery routes for maximum efficiency</p>
+            </div>
+        </header>
+
+        <!-- Route Map Section -->
+        <section class="route-map-section">
+            <div class="route-container">
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map"></i>
+                        <h3>Interactive Route Map</h3>
+                        <p>Your optimized route would be displayed here with real-time navigation</p>
+                        <div class="route-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">5</span>
+                                <span class="stat-label">Stops</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">12.5</span>
+                                <span class="stat-label">km</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">45</span>
+                                <span class="stat-label">min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="route-details">
+                    <div class="route-summary">
+                        <h3>Route Summary</h3>
+                        <div class="summary-stats">
+                            <div class="summary-item">
+                                <i class="fas fa-route"></i>
+                                <div>
+                                    <span class="label">Total Distance</span>
+                                    <span class="value">12.5 km</span>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <span class="label">Estimated Time</span>
+                                    <span class="value">45 minutes</span>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <i class="fas fa-gas-pump"></i>
+                                <div>
+                                    <span class="label">Fuel Savings</span>
+                                    <span class="value">₹150</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="route-stops">
+                        <h3>Route Stops</h3>
+                        <div class="stops-list" id="stopsList">
+                            <!-- Route stops will be populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Optimization Options -->
+        <section class="optimization-section">
+            <div class="optimization-container">
+                <h2>Optimization Options</h2>
+                <div class="options-grid">
+                    <div class="option-card">
+                        <div class="option-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Time-Based</h4>
+                        <p>Optimize for fastest delivery time</p>
+                        <button class="btn-outline" onclick="optimizeByTime()">Apply</button>
+                    </div>
+                    <div class="option-card">
+                        <div class="option-icon">
+                            <i class="fas fa-gas-pump"></i>
+                        </div>
+                        <h4>Fuel-Efficient</h4>
+                        <p>Minimize fuel consumption</p>
+                        <button class="btn-outline" onclick="optimizeByFuel()">Apply</button>
+                    </div>
+                    <div class="option-card">
+                        <div class="option-icon">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <h4>Distance-Based</h4>
+                        <p>Shortest total distance</p>
+                        <button class="btn-outline" onclick="optimizeByDistance()">Apply</button>
+                    </div>
+                    <div class="option-card">
+                        <div class="option-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h4>Priority-Based</h4>
+                        <p>Prioritize urgent deliveries</p>
+                        <button class="btn-outline" onclick="optimizeByPriority()">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Sample route data
+        const routeStops = [
+            {
+                id: 1,
+                type: 'pickup',
+                name: 'Spice Garden',
+                address: '123 Main St, Mumbai',
+                time: '10:00 AM',
+                duration: '15 min',
+                priority: 'high'
+            },
+            {
+                id: 2,
+                type: 'delivery',
+                name: 'Hope Foundation',
+                address: '456 Park Ave, Mumbai',
+                time: '10:30 AM',
+                duration: '10 min',
+                priority: 'high'
+            },
+            {
+                id: 3,
+                type: 'pickup',
+                name: 'Bakery Corner',
+                address: '789 Oak St, Mumbai',
+                time: '11:00 AM',
+                duration: '10 min',
+                priority: 'medium'
+            },
+            {
+                id: 4,
+                type: 'delivery',
+                name: 'Care for Children',
+                address: '321 Pine St, Mumbai',
+                time: '11:20 AM',
+                duration: '10 min',
+                priority: 'medium'
+            }
+        ];
+
+        // Initialize page
+        function initializePage() {
+            populateRouteStops();
+        }
+
+        // Populate route stops
+        function populateRouteStops() {
+            const stopsList = document.getElementById('stopsList');
+            
+            stopsList.innerHTML = routeStops.map((stop, index) => `
+                <div class="stop-item ${stop.type}">
+                    <div class="stop-number">${index + 1}</div>
+                    <div class="stop-icon">
+                        <i class="fas fa-${stop.type === 'pickup' ? 'arrow-down' : 'arrow-up'}"></i>
+                    </div>
+                    <div class="stop-content">
+                        <h4>${stop.name}</h4>
+                        <p class="stop-address">${stop.address}</p>
+                        <div class="stop-meta">
+                            <span class="stop-time">${stop.time}</span>
+                            <span class="stop-duration">${stop.duration}</span>
+                            <span class="stop-priority priority-${stop.priority}">${stop.priority}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Optimization functions
+        function optimizeByTime() {
+            alert('Route optimized for fastest delivery time. New route: 40 minutes total.');
+            updateRouteStats(40, 12.5, 150);
+        }
+
+        function optimizeByFuel() {
+            alert('Route optimized for fuel efficiency. New route: 11.2 km total distance.');
+            updateRouteStats(48, 11.2, 180);
+        }
+
+        function optimizeByDistance() {
+            alert('Route optimized for shortest distance. New route: 10.8 km total distance.');
+            updateRouteStats(42, 10.8, 160);
+        }
+
+        function optimizeByPriority() {
+            alert('Route optimized by priority. Urgent deliveries scheduled first.');
+            updateRouteStats(45, 12.5, 150);
+        }
+
+        // Update route statistics
+        function updateRouteStats(time, distance, savings) {
+            document.querySelector('.route-stats .stat-item:nth-child(2) .stat-number').textContent = distance;
+            document.querySelector('.route-stats .stat-item:nth-child(3) .stat-number').textContent = time;
+            document.querySelector('.summary-item:nth-child(2) .value').textContent = `${time} minutes`;
+            document.querySelector('.summary-item:nth-child(1) .value').textContent = `${distance} km`;
+            document.querySelector('.summary-item:nth-child(3) .value').textContent = `₹${savings}`;
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=volunteer';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .route-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .map-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-placeholder {
+            height: 400px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-align: center;
+        }
+
+        .map-placeholder i {
+            font-size: 4rem;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .map-placeholder h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-placeholder p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .route-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff8f00;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .route-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .route-summary,
+        .route-stops {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .route-summary h3,
+        .route-stops h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .summary-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .summary-item i {
+            color: #ff8f00;
+            font-size: 1.2rem;
+            width: 20px;
+        }
+
+        .summary-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .stops-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .stop-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stop-number {
+            width: 30px;
+            height: 30px;
+            background: #ff8f00;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .stop-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .stop-item.pickup .stop-icon {
+            background: #4caf50;
+        }
+
+        .stop-item.delivery .stop-icon {
+            background: #2196f3;
+        }
+
+        .stop-content {
+            flex: 1;
+        }
+
+        .stop-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stop-address {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stop-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .stop-time {
+            color: #ff8f00;
+            font-weight: 500;
+        }
+
+        .stop-duration {
+            color: #666;
+        }
+
+        .stop-priority {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .priority-high {
+            color: #f44336;
+        }
+
+        .priority-medium {
+            color: #ff9800;
+        }
+
+        .priority-low {
+            color: #4caf50;
+        }
+
+        .optimization-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .optimization-container h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1.5rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .option-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .option-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .option-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .route-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 1rem 1rem;
+            }
+
+            .optimization-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .route-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</body>
+</html> 

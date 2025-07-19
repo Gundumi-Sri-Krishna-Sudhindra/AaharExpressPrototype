@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Management - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="ngo-dashboard.html" class="nav-link">NGO Dashboard</a>
+                <a href="assign-volunteers.html" class="nav-link">Assign Volunteers</a>
+                <a href="#volunteer-management" class="nav-link active">Volunteer Management</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>NGO Representative</span>
+                    <span>Hope Foundation</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Volunteer Management</h1>
+                <p>Manage your volunteer network and assignments</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="addVolunteer()">
+                    <i class="fas fa-user-plus"></i>
+                    Add Volunteer
+                </button>
+            </div>
+        </header>
+
+        <!-- Volunteer Stats -->
+        <section class="volunteer-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>24</h3>
+                            <p>Total Volunteers</p>
+                            <span class="stat-change positive">+3 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>18</h3>
+                            <p>Active Volunteers</p>
+                            <span class="stat-change positive">75% active rate</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4.7</h3>
+                            <p>Average Rating</p>
+                            <span class="stat-change positive">+0.2 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Hours This Week</p>
+                            <span class="stat-change positive">+12 vs last week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- Volunteer List -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Volunteer Directory</h3>
+                        <div class="search-box">
+                            <input type="text" id="volunteerSearch" placeholder="Search volunteers...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                    <div class="volunteers-list" id="volunteersList">
+                        <!-- Volunteers will be populated -->
+                    </div>
+                </div>
+
+                <!-- Volunteer Performance -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Performance Overview</h3>
+                        <button class="btn-outline" onclick="viewPerformanceReport()">View Report</button>
+                    </div>
+                    <div class="performance-stats" id="performanceStats">
+                        <!-- Performance stats will be populated -->
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Recent Activities</h3>
+                        <button class="btn-outline" onclick="viewAllActivities()">View All</button>
+                    </div>
+                    <div class="activities-list" id="activitiesList">
+                        <!-- Activities will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add Volunteer Modal -->
+    <div id="volunteerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Volunteer</h2>
+                <button class="modal-close" onclick="closeVolunteerModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="volunteerForm">
+                    <div class="form-group">
+                        <label for="volunteerName">Full Name *</label>
+                        <input type="text" id="volunteerName" name="volunteerName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volunteerEmail">Email *</label>
+                        <input type="email" id="volunteerEmail" name="volunteerEmail" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volunteerPhone">Phone Number *</label>
+                        <input type="tel" id="volunteerPhone" name="volunteerPhone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volunteerLocation">Location *</label>
+                        <input type="text" id="volunteerLocation" name="volunteerLocation" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volunteerSkills">Skills</label>
+                        <select id="volunteerSkills" name="volunteerSkills" multiple>
+                            <option value="pickup">Food Pickup</option>
+                            <option value="delivery">Food Delivery</option>
+                            <option value="driving">Driving</option>
+                            <option value="cooking">Cooking</option>
+                            <option value="packaging">Food Packaging</option>
+                            <option value="coordination">Coordination</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volunteerAvailability">Availability</label>
+                        <div class="availability-grid">
+                            <label><input type="checkbox" name="availability" value="monday"> Monday</label>
+                            <label><input type="checkbox" name="availability" value="tuesday"> Tuesday</label>
+                            <label><input type="checkbox" name="availability" value="wednesday"> Wednesday</label>
+                            <label><input type="checkbox" name="availability" value="thursday"> Thursday</label>
+                            <label><input type="checkbox" name="availability" value="friday"> Friday</label>
+                            <label><input type="checkbox" name="availability" value="saturday"> Saturday</label>
+                            <label><input type="checkbox" name="availability" value="sunday"> Sunday</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="volunteerNotes">Notes</label>
+                        <textarea id="volunteerNotes" name="volunteerNotes" rows="3" placeholder="Additional notes about the volunteer"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-outline" onclick="closeVolunteerModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i>
+                            Add Volunteer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample volunteers data
+        const volunteers = [
+            {
+                id: 1,
+                name: 'Priya Patel',
+                email: 'priya.patel@email.com',
+                phone: '+91 98765 43210',
+                location: 'Mumbai Central',
+                rating: 4.8,
+                completedTasks: 45,
+                totalHours: 156,
+                status: 'active',
+                skills: ['pickup', 'delivery', 'driving'],
+                availability: ['monday', 'wednesday', 'friday', 'saturday'],
+                joinDate: '2023-10-15',
+                lastActive: '2024-01-15T14:30'
+            },
+            {
+                id: 2,
+                name: 'Rahul Kumar',
+                email: 'rahul.kumar@email.com',
+                phone: '+91 98765 43211',
+                location: 'Andheri',
+                rating: 4.6,
+                completedTasks: 32,
+                totalHours: 98,
+                status: 'active',
+                skills: ['pickup', 'delivery'],
+                availability: ['tuesday', 'thursday', 'sunday'],
+                joinDate: '2023-11-20',
+                lastActive: '2024-01-15T12:00'
+            },
+            {
+                id: 3,
+                name: 'Sita Sharma',
+                email: 'sita.sharma@email.com',
+                phone: '+91 98765 43212',
+                location: 'Bandra',
+                rating: 4.9,
+                completedTasks: 67,
+                totalHours: 234,
+                status: 'active',
+                skills: ['pickup', 'delivery', 'driving', 'cooking'],
+                availability: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+                joinDate: '2023-09-10',
+                lastActive: '2024-01-15T16:45'
+            },
+            {
+                id: 4,
+                name: 'Amit Singh',
+                email: 'amit.singh@email.com',
+                phone: '+91 98765 43213',
+                location: 'Thane',
+                rating: 4.3,
+                completedTasks: 18,
+                totalHours: 67,
+                status: 'inactive',
+                skills: ['pickup'],
+                availability: ['saturday', 'sunday'],
+                joinDate: '2023-12-05',
+                lastActive: '2024-01-10T10:15'
+            }
+        ];
+
+        const activities = [
+            {
+                id: 1,
+                volunteer: 'Priya Patel',
+                action: 'Completed delivery to Hope Shelter',
+                time: '2 hours ago',
+                type: 'delivery'
+            },
+            {
+                id: 2,
+                volunteer: 'Rahul Kumar',
+                action: 'Picked up food from Spice Garden',
+                time: '3 hours ago',
+                type: 'pickup'
+            },
+            {
+                id: 3,
+                volunteer: 'Sita Sharma',
+                action: 'Started new delivery route',
+                time: '4 hours ago',
+                type: 'delivery'
+            },
+            {
+                id: 4,
+                volunteer: 'Priya Patel',
+                action: 'Reached 50 deliveries milestone',
+                time: '1 day ago',
+                type: 'milestone'
+            }
+        ];
+
+        // Initialize page
+        function initializePage() {
+            populateVolunteers();
+            populatePerformanceStats();
+            populateActivities();
+            setupEventListeners();
+        }
+
+        // Populate volunteers
+        function populateVolunteers() {
+            const volunteersList = document.getElementById('volunteersList');
+            
+            volunteersList.innerHTML = volunteers.map(volunteer => `
+                <div class="volunteer-item ${volunteer.status}">
+                    <div class="volunteer-info">
+                        <div class="volunteer-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="volunteer-details">
+                            <h4>${volunteer.name}</h4>
+                            <p class="email">${volunteer.email}</p>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> ${volunteer.location}</p>
+                            <p class="phone"><i class="fas fa-phone"></i> ${volunteer.phone}</p>
+                        </div>
+                    </div>
+                    <div class="volunteer-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">${volunteer.rating}</span>
+                            <span class="stat-label">Rating</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">${volunteer.completedTasks}</span>
+                            <span class="stat-label">Tasks</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">${volunteer.totalHours}</span>
+                            <span class="stat-label">Hours</span>
+                        </div>
+                    </div>
+                    <div class="volunteer-skills">
+                        ${volunteer.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                    <div class="volunteer-status">
+                        <span class="status-badge ${volunteer.status}">${volunteer.status}</span>
+                        <p class="last-active">Last active: ${formatTime(volunteer.lastActive)}</p>
+                    </div>
+                    <div class="volunteer-actions">
+                        <button class="btn-outline btn-small" onclick="viewVolunteerProfile(${volunteer.id})">
+                            <i class="fas fa-eye"></i>
+                            Profile
+                        </button>
+                        <button class="btn-outline btn-small" onclick="contactVolunteer(${volunteer.id})">
+                            <i class="fas fa-phone"></i>
+                            Contact
+                        </button>
+                        <button class="btn-outline btn-small" onclick="editVolunteer(${volunteer.id})">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate performance stats
+        function populatePerformanceStats() {
+            const performanceStats = document.getElementById('performanceStats');
+            
+            const topPerformers = volunteers
+                .sort((a, b) => b.completedTasks - a.completedTasks)
+                .slice(0, 3);
+            
+            performanceStats.innerHTML = `
+                <div class="performance-overview">
+                    <h4>Top Performers</h4>
+                    ${topPerformers.map((volunteer, index) => `
+                        <div class="performer-item">
+                            <div class="performer-rank">#${index + 1}</div>
+                            <div class="performer-info">
+                                <h5>${volunteer.name}</h5>
+                                <p>${volunteer.completedTasks} tasks completed</p>
+                            </div>
+                            <div class="performer-rating">⭐ ${volunteer.rating}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="performance-metrics">
+                    <div class="metric-item">
+                        <span class="metric-label">Average Tasks/Week</span>
+                        <span class="metric-value">12.5</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Response Time</span>
+                        <span class="metric-value">15 min</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Completion Rate</span>
+                        <span class="metric-value">94%</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Populate activities
+        function populateActivities() {
+            const activitiesList = document.getElementById('activitiesList');
+            
+            activitiesList.innerHTML = activities.map(activity => `
+                <div class="activity-item ${activity.type}">
+                    <div class="activity-icon">
+                        <i class="fas fa-${getActivityIcon(activity.type)}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p class="volunteer-name">${activity.volunteer}</p>
+                        <p class="activity-action">${activity.action}</p>
+                        <span class="activity-time">${activity.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get activity icon
+        function getActivityIcon(type) {
+            const icons = {
+                'delivery': 'truck',
+                'pickup': 'arrow-down',
+                'milestone': 'trophy'
+            };
+            return icons[type] || 'circle';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search functionality
+            document.getElementById('volunteerSearch').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                filterVolunteers(searchTerm);
+            });
+
+            // Form submission
+            document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleVolunteerSubmission();
+            });
+        }
+
+        // Filter volunteers
+        function filterVolunteers(searchTerm) {
+            const volunteerItems = document.querySelectorAll('.volunteer-item');
+            
+            volunteerItems.forEach(item => {
+                const volunteerName = item.querySelector('h4').textContent.toLowerCase();
+                const volunteerEmail = item.querySelector('.email').textContent.toLowerCase();
+                const volunteerLocation = item.querySelector('.location').textContent.toLowerCase();
+                
+                if (volunteerName.includes(searchTerm) || 
+                    volunteerEmail.includes(searchTerm) || 
+                    volunteerLocation.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Add volunteer
+        function addVolunteer() {
+            document.getElementById('volunteerModal').style.display = 'flex';
+        }
+
+        // Close volunteer modal
+        function closeVolunteerModal() {
+            document.getElementById('volunteerModal').style.display = 'none';
+            document.getElementById('volunteerForm').reset();
+        }
+
+        // Handle volunteer submission
+        function handleVolunteerSubmission() {
+            const formData = new FormData(document.getElementById('volunteerForm'));
+            const volunteerData = Object.fromEntries(formData.entries());
+            
+            // Validate form
+            if (!validateVolunteerForm(volunteerData)) {
+                return;
+            }
+            
+            // Add new volunteer
+            const newVolunteer = {
+                id: volunteers.length + 1,
+                name: volunteerData.volunteerName,
+                email: volunteerData.volunteerEmail,
+                phone: volunteerData.volunteerPhone,
+                location: volunteerData.volunteerLocation,
+                rating: 0,
+                completedTasks: 0,
+                totalHours: 0,
+                status: 'active',
+                skills: volunteerData.volunteerSkills ? [volunteerData.volunteerSkills] : [],
+                availability: formData.getAll('availability'),
+                joinDate: new Date().toISOString().split('T')[0],
+                lastActive: new Date().toISOString(),
+                notes: volunteerData.volunteerNotes
+            };
+            
+            volunteers.push(newVolunteer);
+            populateVolunteers();
+            populatePerformanceStats();
+            closeVolunteerModal();
+            alert('Volunteer added successfully!');
+        }
+
+        // Validate volunteer form
+        function validateVolunteerForm(data) {
+            if (!data.volunteerName || !data.volunteerEmail || !data.volunteerPhone || !data.volunteerLocation) {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.volunteerEmail)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // View volunteer profile
+        function viewVolunteerProfile(volunteerId) {
+            const volunteer = volunteers.find(v => v.id === volunteerId);
+            if (volunteer) {
+                alert(`Viewing profile for ${volunteer.name}. This would show detailed volunteer information.`);
+            }
+        }
+
+        // Contact volunteer
+        function contactVolunteer(volunteerId) {
+            const volunteer = volunteers.find(v => v.id === volunteerId);
+            if (volunteer) {
+                alert(`Contacting ${volunteer.name} at ${volunteer.phone}`);
+            }
+        }
+
+        // Edit volunteer
+        function editVolunteer(volunteerId) {
+            const volunteer = volunteers.find(v => v.id === volunteerId);
+            if (volunteer) {
+                alert(`Editing volunteer ${volunteer.name}. This would open the edit form.`);
+            }
+        }
+
+        // View performance report
+        function viewPerformanceReport() {
+            alert('Opening detailed performance report. This would show comprehensive volunteer analytics.');
+        }
+
+        // View all activities
+        function viewAllActivities() {
+            alert('Viewing all volunteer activities. This would show a complete activity log.');
+        }
+
+        // Format time
+        function formatTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=ngo';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 8px 12px 8px 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            color: #666;
+        }
+
+        .volunteer-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .volunteer-item:last-child {
+            border-bottom: none;
+        }
+
+        .volunteer-item:hover {
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .volunteer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .volunteer-avatar {
+            width: 50px;
+            height: 50px;
+            background: #2196f3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .volunteer-details h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .volunteer-details p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .volunteer-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ff8f00;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .volunteer-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            max-width: 150px;
+        }
+
+        .skill-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .volunteer-status {
+            text-align: center;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-badge.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .last-active {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .volunteer-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .performance-overview h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .performer-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .performer-rank {
+            width: 30px;
+            height: 30px;
+            background: #ff8f00;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .performer-info h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .performer-info p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .performer-rating {
+            color: #ff8f00;
+            font-weight: 600;
+        }
+
+        .performance-metrics {
+            margin-top: 1.5rem;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .activity-item.delivery .activity-icon {
+            background: #4caf50;
+        }
+
+        .activity-item.pickup .activity-icon {
+            background: #2196f3;
+        }
+
+        .activity-item.milestone .activity-icon {
+            background: #ff9800;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .volunteer-name {
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-action {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .availability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .availability-grid label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .volunteer-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .volunteer-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

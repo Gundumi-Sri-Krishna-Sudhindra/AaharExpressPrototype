@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map View - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-assigned-orders.html" class="nav-link">Assigned Orders</a>
+                <a href="delivery-history.html" class="nav-link">Delivery History</a>
+                <a href="#map-view" class="nav-link active">Map View</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Delivery Agent</span>
+                    <span>Rajesh Kumar</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Map View</h1>
+                <p>View delivery routes and optimize your delivery path</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="optimizeRoute()">
+                    <i class="fas fa-route"></i>
+                    Optimize Route
+                </button>
+            </div>
+        </header>
+
+        <!-- Map Stats -->
+        <section class="map-stats">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>5</h3>
+                            <p>Active Deliveries</p>
+                            <span class="stat-change neutral">2 pending pickup</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>12.5</h3>
+                            <p>Total Distance (km)</p>
+                            <span class="stat-change positive">Optimized route</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>45</h3>
+                            <p>Estimated Time (min)</p>
+                            <span class="stat-change positive">-15 min saved</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-gas-pump"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2.3</h3>
+                            <p>Fuel Cost (L)</p>
+                            <span class="stat-change positive">Efficient route</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <section class="main-content">
+            <div class="content-container">
+                <!-- Map View -->
+                <div class="content-card map-card">
+                    <div class="card-header">
+                        <h3>Delivery Route</h3>
+                        <div class="map-controls">
+                            <button class="btn-outline btn-small" onclick="toggleTraffic()">
+                                <i class="fas fa-car"></i>
+                                Traffic
+                            </button>
+                            <button class="btn-outline btn-small" onclick="toggleSatellite()">
+                                <i class="fas fa-satellite"></i>
+                                Satellite
+                            </button>
+                            <button class="btn-outline btn-small" onclick="centerMap()">
+                                <i class="fas fa-crosshairs"></i>
+                                Center
+                            </button>
+                        </div>
+                    </div>
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map"></i>
+                            <h4>Interactive Delivery Map</h4>
+                            <p>Real-time route optimization and delivery tracking</p>
+                            <div class="map-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color pickup"></span>
+                                    <span>Pickup Points</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color delivery"></span>
+                                    <span>Delivery Points</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color route"></span>
+                                    <span>Optimized Route</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color current"></span>
+                                    <span>Current Location</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Route Details -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Route Details</h3>
+                        <button class="btn-outline" onclick="viewFullRoute()">View Full</button>
+                    </div>
+                    <div class="route-details" id="routeDetails">
+                        <!-- Route details will be populated -->
+                    </div>
+                </div>
+
+                <!-- Delivery Points -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Delivery Points</h3>
+                        <span class="point-count">5 points</span>
+                    </div>
+                    <div class="delivery-points" id="deliveryPoints">
+                        <!-- Delivery points will be populated -->
+                    </div>
+                </div>
+
+                <!-- Traffic Info -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Traffic Information</h3>
+                        <button class="btn-outline" onclick="refreshTraffic()">Refresh</button>
+                    </div>
+                    <div class="traffic-info" id="trafficInfo">
+                        <!-- Traffic info will be populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Route Optimization Modal -->
+    <div id="routeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Route Optimization</h2>
+                <button class="modal-close" onclick="closeRouteModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="optimization-options">
+                    <h4>Optimization Preferences</h4>
+                    
+                    <div class="form-group">
+                        <label for="optimizationType">Optimization Type</label>
+                        <select id="optimizationType" name="optimizationType">
+                            <option value="time">Fastest Route</option>
+                            <option value="distance">Shortest Distance</option>
+                            <option value="fuel">Fuel Efficient</option>
+                            <option value="traffic">Traffic Avoidance</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="avoidTolls">Avoid Tolls</label>
+                        <input type="checkbox" id="avoidTolls" name="avoidTolls">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="avoidHighways">Avoid Highways</label>
+                        <input type="checkbox" id="avoidHighways" name="avoidHighways">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priorityOrders">Priority Orders First</label>
+                        <input type="checkbox" id="priorityOrders" name="priorityOrders" checked>
+                    </div>
+                </div>
+                
+                <div class="optimization-results">
+                    <h4>Optimization Results</h4>
+                    <div class="result-item">
+                        <span class="label">Total Distance:</span>
+                        <span class="value">12.5 km</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Estimated Time:</span>
+                        <span class="value">45 minutes</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Fuel Cost:</span>
+                        <span class="value">₹180</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Time Saved:</span>
+                        <span class="value positive">15 minutes</span>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-outline" onclick="closeRouteModal()">Cancel</button>
+                    <button class="btn-primary" onclick="applyOptimization()">
+                        <i class="fas fa-check"></i>
+                        Apply Route
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample route data
+        const routeData = {
+            currentLocation: 'Mumbai Central',
+            totalDistance: 12.5,
+            estimatedTime: 45,
+            fuelCost: 180,
+            timeSaved: 15,
+            deliveryPoints: [
+                {
+                    id: 1,
+                    type: 'pickup',
+                    name: 'Spice Garden',
+                    address: 'Mumbai Central, Mumbai',
+                    orderNumber: '12345',
+                    time: '14:00',
+                    status: 'pending',
+                    priority: 'high'
+                },
+                {
+                    id: 2,
+                    type: 'delivery',
+                    name: 'Priya Sharma',
+                    address: 'Andheri West, Mumbai',
+                    orderNumber: '12345',
+                    time: '15:30',
+                    status: 'pending',
+                    priority: 'high'
+                },
+                {
+                    id: 3,
+                    type: 'pickup',
+                    name: 'Bakery Corner',
+                    address: 'Bandra, Mumbai',
+                    orderNumber: '12346',
+                    time: '15:00',
+                    status: 'pending',
+                    priority: 'medium'
+                },
+                {
+                    id: 4,
+                    type: 'delivery',
+                    name: 'Amit Patel',
+                    address: 'Thane, Mumbai',
+                    orderNumber: '12346',
+                    time: '16:30',
+                    status: 'pending',
+                    priority: 'medium'
+                },
+                {
+                    id: 5,
+                    type: 'pickup',
+                    name: 'Green Kitchen',
+                    address: 'Navi Mumbai',
+                    orderNumber: '12347',
+                    time: '16:00',
+                    status: 'pending',
+                    priority: 'low'
+                }
+            ],
+            trafficInfo: [
+                {
+                    location: 'Mumbai Central to Andheri',
+                    status: 'moderate',
+                    delay: '5 minutes',
+                    description: 'Regular traffic flow'
+                },
+                {
+                    location: 'Bandra to Thane',
+                    status: 'heavy',
+                    delay: '15 minutes',
+                    description: 'Rush hour traffic'
+                },
+                {
+                    location: 'Navi Mumbai route',
+                    status: 'light',
+                    delay: '2 minutes',
+                    description: 'Clear roads'
+                }
+            ]
+        };
+
+        // Initialize page
+        function initializePage() {
+            populateRouteDetails();
+            populateDeliveryPoints();
+            populateTrafficInfo();
+            setupEventListeners();
+        }
+
+        // Populate route details
+        function populateRouteDetails() {
+            const routeDetails = document.getElementById('routeDetails');
+            
+            routeDetails.innerHTML = `
+                <div class="route-summary">
+                    <div class="summary-item">
+                        <span class="label">Current Location:</span>
+                        <span class="value">${routeData.currentLocation}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Total Distance:</span>
+                        <span class="value">${routeData.totalDistance} km</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Estimated Time:</span>
+                        <span class="value">${routeData.estimatedTime} minutes</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Fuel Cost:</span>
+                        <span class="value">₹${routeData.fuelCost}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Time Saved:</span>
+                        <span class="value positive">${routeData.timeSaved} minutes</span>
+                    </div>
+                </div>
+                
+                <div class="route-steps">
+                    <h4>Route Steps</h4>
+                    <div class="steps-list">
+                        ${routeData.deliveryPoints.map((point, index) => `
+                            <div class="step-item ${point.type}">
+                                <div class="step-number">${index + 1}</div>
+                                <div class="step-content">
+                                    <h5>${point.name}</h5>
+                                    <p>${point.address}</p>
+                                    <span class="step-time">${point.time}</span>
+                                    <span class="step-status ${point.status}">${point.status}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Populate delivery points
+        function populateDeliveryPoints() {
+            const deliveryPoints = document.getElementById('deliveryPoints');
+            
+            deliveryPoints.innerHTML = routeData.deliveryPoints.map(point => `
+                <div class="point-item ${point.type} ${point.priority}">
+                    <div class="point-icon">
+                        <i class="fas fa-${point.type === 'pickup' ? 'map-marker-alt' : 'flag-checkered'}"></i>
+                    </div>
+                    <div class="point-info">
+                        <h4>${point.name}</h4>
+                        <p class="point-address">${point.address}</p>
+                        <p class="point-order">Order #${point.orderNumber}</p>
+                        <div class="point-meta">
+                            <span class="point-time">${point.time}</span>
+                            <span class="point-status ${point.status}">${point.status}</span>
+                            <span class="point-priority ${point.priority}">${point.priority}</span>
+                        </div>
+                    </div>
+                    <div class="point-actions">
+                        <button class="btn-outline btn-small" onclick="navigateToPoint(${point.id})">
+                            <i class="fas fa-location-arrow"></i>
+                            Navigate
+                        </button>
+                        <button class="btn-outline btn-small" onclick="viewPointDetails(${point.id})">
+                            <i class="fas fa-eye"></i>
+                            Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate traffic info
+        function populateTrafficInfo() {
+            const trafficInfo = document.getElementById('trafficInfo');
+            
+            trafficInfo.innerHTML = routeData.trafficInfo.map(info => `
+                <div class="traffic-item ${info.status}">
+                    <div class="traffic-header">
+                        <h4>${info.location}</h4>
+                        <span class="traffic-status ${info.status}">${info.status}</span>
+                    </div>
+                    <div class="traffic-details">
+                        <p class="traffic-description">${info.description}</p>
+                        <span class="traffic-delay">Delay: ${info.delay}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Map control buttons
+            document.querySelectorAll('.map-controls button').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Toggle active state
+                    this.classList.toggle('active');
+                });
+            });
+        }
+
+        // Toggle traffic
+        function toggleTraffic() {
+            alert('Toggling traffic overlay on map');
+        }
+
+        // Toggle satellite
+        function toggleSatellite() {
+            alert('Toggling satellite view on map');
+        }
+
+        // Center map
+        function centerMap() {
+            alert('Centering map on current location');
+        }
+
+        // Optimize route
+        function optimizeRoute() {
+            document.getElementById('routeModal').style.display = 'flex';
+        }
+
+        // Close route modal
+        function closeRouteModal() {
+            document.getElementById('routeModal').style.display = 'none';
+        }
+
+        // Apply optimization
+        function applyOptimization() {
+            const optimizationType = document.getElementById('optimizationType').value;
+            const avoidTolls = document.getElementById('avoidTolls').checked;
+            const avoidHighways = document.getElementById('avoidHighways').checked;
+            const priorityOrders = document.getElementById('priorityOrders').checked;
+            
+            alert(`Applying route optimization:\nType: ${optimizationType}\nAvoid Tolls: ${avoidTolls}\nAvoid Highways: ${avoidHighways}\nPriority Orders: ${priorityOrders}`);
+            
+            closeRouteModal();
+        }
+
+        // View full route
+        function viewFullRoute() {
+            alert('Opening full route view with detailed navigation');
+        }
+
+        // Refresh traffic
+        function refreshTraffic() {
+            alert('Refreshing traffic information');
+        }
+
+        // Navigate to point
+        function navigateToPoint(pointId) {
+            const point = routeData.deliveryPoints.find(p => p.id === pointId);
+            if (point) {
+                alert(`Navigating to ${point.name} at ${point.address}`);
+            }
+        }
+
+        // View point details
+        function viewPointDetails(pointId) {
+            const point = routeData.deliveryPoints.find(p => p.id === pointId);
+            if (point) {
+                alert(`Viewing details for ${point.name} (Order #${point.orderNumber})`);
+            }
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=delivery-agent';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .stats-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #4caf50;
+        }
+
+        .stat-change.neutral {
+            color: #ff9800;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-card {
+            grid-column: 1 / -1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+
+        .map-container {
+            height: 400px;
+        }
+
+        .map-placeholder {
+            height: 100%;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-align: center;
+        }
+
+        .map-placeholder i {
+            font-size: 4rem;
+            color: #ff8f00;
+            margin-bottom: 1rem;
+        }
+
+        .map-placeholder h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-placeholder p {
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .map-legend {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .legend-color.pickup {
+            background: #ff8f00;
+        }
+
+        .legend-color.delivery {
+            background: #4caf50;
+        }
+
+        .legend-color.route {
+            background: #2196f3;
+        }
+
+        .legend-color.current {
+            background: #f44336;
+        }
+
+        .route-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .summary-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .summary-item .value.positive {
+            color: #4caf50;
+        }
+
+        .route-steps h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .step-item.pickup {
+            background: #fff3e0;
+            border-left: 4px solid #ff8f00;
+        }
+
+        .step-item.delivery {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: #ff8f00;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .step-content h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-time {
+            font-size: 0.8rem;
+            color: #ff8f00;
+            font-weight: 500;
+            margin-right: 1rem;
+        }
+
+        .step-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: capitalize;
+        }
+
+        .step-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .point-count {
+            background: #ff8f00;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .point-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .point-item:last-child {
+            border-bottom: none;
+        }
+
+        .point-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .point-item.pickup .point-icon {
+            background: #ff8f00;
+        }
+
+        .point-item.delivery .point-icon {
+            background: #4caf50;
+        }
+
+        .point-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .point-address {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .point-order {
+            color: #ff8f00;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .point-meta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .point-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .point-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: capitalize;
+        }
+
+        .point-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .point-priority {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: capitalize;
+        }
+
+        .point-priority.high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .point-priority.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .point-priority.low {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .point-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .traffic-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .traffic-item:last-child {
+            border-bottom: none;
+        }
+
+        .traffic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .traffic-header h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .traffic-status {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .traffic-status.light {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .traffic-status.moderate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .traffic-status.heavy {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .traffic-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .traffic-delay {
+            font-size: 0.8rem;
+            color: #ff8f00;
+            font-weight: 500;
+        }
+
+        .optimization-options h4,
+        .optimization-results h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1rem;
+        }
+
+        .optimization-results {
+            margin-top: 2rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .result-item .value {
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .result-item .value.positive {
+            color: #4caf50;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container,
+            .content-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .map-legend {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .point-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .point-actions {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html> 

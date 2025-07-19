@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Impact - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="browse-menu.html" class="nav-link">Browse Menu</a>
+                <a href="#impact" class="nav-link active">Track Impact</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>User</span>
+                    <span>John Doe</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>Track Your Impact</h1>
+                <p>See how your donations and orders are making a difference</p>
+            </div>
+        </header>
+
+        <!-- Impact Overview -->
+        <section class="impact-overview">
+            <div class="overview-container">
+                <div class="impact-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Meals Donated</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>People Helped</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>45kg</h3>
+                            <p>Food Saved</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>15</h3>
+                            <p>Your Rank</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Timeline -->
+        <section class="impact-timeline">
+            <div class="timeline-container">
+                <h2>Your Impact Journey</h2>
+                <div class="timeline" id="impactTimeline">
+                    <!-- Timeline items will be populated -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activities -->
+        <section class="recent-activities">
+            <div class="activities-container">
+                <h2>Recent Activities</h2>
+                <div class="activities-grid" id="activitiesGrid">
+                    <!-- Activities will be populated -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Sample impact data
+        const impactData = [
+            {
+                id: 1,
+                type: 'donation',
+                amount: 500,
+                meals: 10,
+                date: '2024-01-15',
+                description: 'Donated ₹500 to Hope Foundation',
+                people: 8
+            },
+            {
+                id: 2,
+                type: 'order',
+                amount: 300,
+                date: '2024-01-14',
+                description: 'Ordered from Spice Garden',
+                restaurant: 'Spice Garden'
+            },
+            {
+                id: 3,
+                type: 'donation',
+                amount: 200,
+                meals: 4,
+                date: '2024-01-12',
+                description: 'Donated ₹200 to Care for Children',
+                people: 4
+            }
+        ];
+
+        const timelineData = [
+            {
+                date: '2024-01-15',
+                title: 'Donation Milestone',
+                description: 'Reached 150 meals donated!',
+                icon: 'fas fa-trophy',
+                type: 'milestone'
+            },
+            {
+                date: '2024-01-14',
+                title: 'Order Completed',
+                description: 'Your order helped reduce food waste',
+                icon: 'fas fa-utensils',
+                type: 'order'
+            },
+            {
+                date: '2024-01-12',
+                title: 'New NGO Supported',
+                description: 'First donation to Care for Children',
+                icon: 'fas fa-hands-helping',
+                type: 'donation'
+            }
+        ];
+
+        // Initialize page
+        function initializePage() {
+            populateTimeline();
+            populateActivities();
+        }
+
+        // Populate timeline
+        function populateTimeline() {
+            const timeline = document.getElementById('impactTimeline');
+            
+            timeline.innerHTML = timelineData.map(item => `
+                <div class="timeline-item ${item.type}">
+                    <div class="timeline-icon">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${formatDate(item.date)}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Populate activities
+        function populateActivities() {
+            const activitiesGrid = document.getElementById('activitiesGrid');
+            
+            activitiesGrid.innerHTML = impactData.map(activity => `
+                <div class="activity-card ${activity.type}">
+                    <div class="activity-icon">
+                        <i class="${activity.type === 'donation' ? 'fas fa-heart' : 'fas fa-utensils'}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h3>${activity.description}</h3>
+                        <p class="activity-date">${formatDate(activity.date)}</p>
+                        ${activity.meals ? `<p class="activity-impact">${activity.meals} meals provided</p>` : ''}
+                        ${activity.people ? `<p class="activity-impact">${activity.people} people helped</p>` : ''}
+                        ${activity.restaurant ? `<p class="activity-restaurant">${activity.restaurant}</p>` : ''}
+                    </div>
+                    <div class="activity-amount">
+                        ₹${activity.amount}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        // Go back to dashboard
+        function goToDashboard() {
+            window.location.href = 'dashboard.html?role=user';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+
+    <style>
+        .overview-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .stat-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2e2e2e;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-content p {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .timeline-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .timeline-container h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -1rem;
+            width: 2rem;
+            height: 2rem;
+            background: #ff8f00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .timeline-content {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-date {
+            color: #ff8f00;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .activities-container {
+            padding: 0 2rem 2rem;
+        }
+
+        .activities-container h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 1.5rem;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .activity-card.donation .activity-icon {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+        }
+
+        .activity-card.order .activity-icon {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e2e2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-impact {
+            color: #ff8f00;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-restaurant {
+            color: #4caf50;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .activity-amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2e2e2e;
+        }
+
+        @media (max-width: 768px) {
+            .overview-container,
+            .timeline-container,
+            .activities-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html> 
