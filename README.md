@@ -44,6 +44,3 @@ In India, millions go hungry daily while tons of food are wasted.
 git clone https://github.com/yourusername/aaharexpress.git
 cd aaharexpress
 open index.html in your browser
-
-
-
