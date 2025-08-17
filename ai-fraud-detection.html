@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fraud Detection - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="reports-abuse.html" class="nav-link">Reports</a>
+                <a href="#fraud-detection" class="nav-link active">AI Fraud Detection</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Admin</span>
+                    <span>Admin User</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>AI Fraud Detection</h1>
+                <p>AI-powered monitoring system to detect and prevent fraudulent activities on the platform</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="runFraudScan()">
+                    <i class="fas fa-shield-alt"></i>
+                    Run Fraud Scan
+                </button>
+                <button class="btn-outline" onclick="configureAI()">
+                    <i class="fas fa-cog"></i>
+                    Configure AI
+                </button>
+            </div>
+        </header>
+
+        <!-- Fraud Detection Overview -->
+        <section class="fraud-overview-section">
+            <div class="overview-container">
+                <div class="overview-grid">
+                    <div class="overview-card fraud-alert">
+                        <div class="overview-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Active Alerts</h3>
+                            <p>3 high-priority alerts</p>
+                            <span class="alert-status critical">Critical</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Detection Rate</h3>
+                            <p>98.5% accurate</p>
+                            <span class="accuracy-high">Excellent</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Response Time</h3>
+                            <p>2.1 minutes avg</p>
+                            <span class="speed-fast">Fast</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Fraud Prevented</h3>
+                            <p>₹2.3L saved</p>
+                            <span class="savings-high">High Impact</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Active Fraud Alerts -->
+        <section class="fraud-alerts-section">
+            <div class="alerts-container">
+                <div class="section-header">
+                    <h2>Active Fraud Alerts</h2>
+                    <p>Real-time AI-detected suspicious activities requiring immediate attention</p>
+                </div>
+                <div class="alerts-grid">
+                    <div class="alert-card critical">
+                        <div class="alert-header">
+                            <div class="alert-priority critical">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Critical
+                            </div>
+                            <span class="alert-time">5 minutes ago</span>
+                        </div>
+                        <h3>Multiple Fake Donation Attempts</h3>
+                        <p>User ID #7890 attempted to create 15 fake donations in 2 hours. AI confidence: 97%</p>
+                        <div class="alert-details">
+                            <div class="detail-item">
+                                <span class="detail-label">User:</span>
+                                <span class="detail-value">john_doe_123</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value">Mumbai, Maharashtra</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Risk Score:</span>
+                                <span class="detail-value high-risk">95/100</span>
+                            </div>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="btn-danger btn-sm" onclick="blockUser('7890')">
+                                <i class="fas fa-ban"></i>
+                                Block User
+                            </button>
+                            <button class="btn-outline btn-sm" onclick="investigateUser('7890')">
+                                <i class="fas fa-search"></i>
+                                Investigate
+                            </button>
+                            <button class="btn-primary btn-sm" onclick="resolveAlert('alert1')">
+                                <i class="fas fa-check"></i>
+                                Resolve
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="alert-card warning">
+                        <div class="alert-header">
+                            <div class="alert-priority warning">
+                                <i class="fas fa-exclamation-circle"></i>
+                                Warning
+                            </div>
+                            <span class="alert-time">15 minutes ago</span>
+                        </div>
+                        <h3>Suspicious Pickup Pattern</h3>
+                        <p>Volunteer #4567 requested pickups from 8 different restaurants in 1 hour. AI confidence: 89%</p>
+                        <div class="alert-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Volunteer:</span>
+                                <span class="detail-value">priya_patel</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Pattern:</span>
+                                <span class="detail-value">Unusual frequency</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Risk Score:</span>
+                                <span class="detail-value medium-risk">72/100</span>
+                            </div>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="btn-warning btn-sm" onclick="flagVolunteer('4567')">
+                                <i class="fas fa-flag"></i>
+                                Flag
+                            </button>
+                            <button class="btn-outline btn-sm" onclick="investigateVolunteer('4567')">
+                                <i class="fas fa-search"></i>
+                                Investigate
+                            </button>
+                            <button class="btn-primary btn-sm" onclick="resolveAlert('alert2')">
+                                <i class="fas fa-check"></i>
+                                Resolve
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="alert-card info">
+                        <div class="alert-header">
+                            <div class="alert-priority info">
+                                <i class="fas fa-info-circle"></i>
+                                Info
+                            </div>
+                            <span class="alert-time">1 hour ago</span>
+                        </div>
+                        <h3>Unusual Donation Amount</h3>
+                        <p>Restaurant #2345 donated 500kg of food, 3x their usual amount. AI confidence: 76%</p>
+                        <div class="alert-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Restaurant:</span>
+                                <span class="detail-value">Spice Garden</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Amount:</span>
+                                <span class="detail-value">500kg (unusual)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Risk Score:</span>
+                                <span class="detail-value low-risk">45/100</span>
+                            </div>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="btn-outline btn-sm" onclick="verifyDonation('2345')">
+                                <i class="fas fa-check-circle"></i>
+                                Verify
+                            </button>
+                            <button class="btn-primary btn-sm" onclick="resolveAlert('alert3')">
+                                <i class="fas fa-check"></i>
+                                Resolve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Detection Patterns -->
+        <section class="ai-patterns-section">
+            <div class="patterns-container">
+                <div class="section-header">
+                    <h2>AI Detection Patterns</h2>
+                    <p>Machine learning models and patterns used for fraud detection</p>
+                </div>
+                <div class="patterns-grid">
+                    <div class="pattern-card">
+                        <div class="pattern-header">
+                            <h3>Behavioral Analysis</h3>
+                            <span class="ai-badge">ML Model</span>
+                        </div>
+                        <div class="pattern-content">
+                            <p>Analyzes user behavior patterns to detect anomalies in donation, pickup, and delivery activities.</p>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Accuracy:</span>
+                                    <span class="stat-value">96.2%</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">False Positives:</span>
+                                    <span class="stat-value">2.1%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-header">
+                            <h3>Geographic Anomalies</h3>
+                            <span class="ai-badge">Spatial AI</span>
+                        </div>
+                        <div class="pattern-content">
+                            <p>Detects suspicious activities based on location patterns and travel time inconsistencies.</p>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Accuracy:</span>
+                                    <span class="stat-value">94.8%</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">False Positives:</span>
+                                    <span class="stat-value">3.5%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-header">
+                            <h3>Temporal Patterns</h3>
+                            <span class="ai-badge">Time Series</span>
+                        </div>
+                        <div class="pattern-content">
+                            <p>Identifies unusual timing patterns in user activities and transaction frequencies.</p>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Accuracy:</span>
+                                    <span class="stat-value">92.7%</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">False Positives:</span>
+                                    <span class="stat-value">4.2%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fraud Statistics -->
+        <section class="fraud-stats-section">
+            <div class="stats-container">
+                <div class="section-header">
+                    <h2>Fraud Detection Statistics</h2>
+                    <p>Platform security metrics and AI performance indicators</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <h3>This Month</h3>
+                            <span class="stat-period">June 2024</span>
+                        </div>
+                        <div class="stat-metrics">
+                            <div class="metric-row">
+                                <span class="metric-label">Alerts Generated:</span>
+                                <span class="metric-value">156</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Fraud Confirmed:</span>
+                                <span class="metric-value">23</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">False Positives:</span>
+                                <span class="metric-value">8</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Prevention Rate:</span>
+                                <span class="metric-value">94.2%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <h3>AI Performance</h3>
+                            <span class="stat-period">Real-time</span>
+                        </div>
+                        <div class="stat-metrics">
+                            <div class="metric-row">
+                                <span class="metric-label">Detection Speed:</span>
+                                <span class="metric-value">1.8s</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Model Accuracy:</span>
+                                <span class="metric-value">98.5%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Learning Rate:</span>
+                                <span class="metric-value">Active</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Coverage:</span>
+                                <span class="metric-value">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function initializePage() {
+            // Initialize fraud detection page
+            console.log('AI Fraud Detection page initialized');
+        }
+
+        function runFraudScan() {
+            // Simulate AI fraud scan
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-shield-check"></i> Scan Complete';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                    button.disabled = false;
+                    alert('AI fraud scan completed! 2 new alerts detected.');
+                }, 2000);
+            }, 4000);
+        }
+
+        function configureAI() {
+            // Simulate AI configuration
+            alert('Opening AI configuration panel... This would allow admins to adjust detection sensitivity and model parameters.');
+        }
+
+        function blockUser(userId) {
+            // Simulate user blocking
+            if (confirm(`Are you sure you want to block user ${userId}?`)) {
+                alert(`User ${userId} has been blocked. AI will continue monitoring for similar patterns.`);
+            }
+        }
+
+        function investigateUser(userId) {
+            // Simulate user investigation
+            alert(`Opening detailed investigation panel for user ${userId}... This would show comprehensive user activity logs and AI analysis.`);
+        }
+
+        function flagVolunteer(volunteerId) {
+            // Simulate volunteer flagging
+            alert(`Volunteer ${volunteerId} has been flagged for review. AI will monitor their future activities more closely.`);
+        }
+
+        function investigateVolunteer(volunteerId) {
+            // Simulate volunteer investigation
+            alert(`Opening volunteer investigation panel for ${volunteerId}... This would show pickup history and route analysis.`);
+        }
+
+        function verifyDonation(restaurantId) {
+            // Simulate donation verification
+            alert(`Initiating verification process for restaurant ${restaurantId}... This would contact the restaurant to confirm the donation.`);
+        }
+
+        function resolveAlert(alertId) {
+            // Simulate alert resolution
+            const alertCard = event.target.closest('.alert-card');
+            alertCard.style.opacity = '0.5';
+            alertCard.style.pointerEvents = 'none';
+            alert(`Alert ${alertId} has been resolved. AI will continue monitoring for similar patterns.`);
+        }
+
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

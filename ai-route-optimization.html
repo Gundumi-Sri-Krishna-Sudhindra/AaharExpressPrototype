@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Route Optimization - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="view-pickups.html" class="nav-link">View Pickups</a>
+                <a href="#route-optimization" class="nav-link active">AI Route Optimization</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Volunteer</span>
+                    <span>Priya Patel</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>AI Route Optimization</h1>
+                <p>Intelligent route planning to maximize efficiency and minimize delivery time</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="optimizeRoute()">
+                    <i class="fas fa-route"></i>
+                    Optimize Route
+                </button>
+                <button class="btn-outline" onclick="viewTrafficData()">
+                    <i class="fas fa-traffic-light"></i>
+                    View Traffic Data
+                </button>
+            </div>
+        </header>
+
+        <!-- Route Overview -->
+        <section class="route-overview-section">
+            <div class="overview-container">
+                <div class="overview-grid">
+                    <div class="overview-card ai-highlight">
+                        <div class="overview-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Current Route</h3>
+                            <p>3 pickups, 2 deliveries</p>
+                            <span class="ai-status">Optimized</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Estimated Time</h3>
+                            <p>2h 15m</p>
+                            <span class="time-saved">25min saved</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Total Distance</h3>
+                            <p>18.5 km</p>
+                            <span class="distance-optimized">3.2km saved</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Fuel Efficiency</h3>
+                            <p>+15%</p>
+                            <span class="efficiency-high">Eco-friendly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Route Map and Details -->
+        <section class="route-details-section">
+            <div class="route-container">
+                <div class="route-grid">
+                    <!-- Route Map -->
+                    <div class="route-card large">
+                        <div class="card-header">
+                            <h3>Optimized Route Map</h3>
+                            <div class="card-actions">
+                                <button class="btn-outline btn-sm" onclick="refreshMap()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Refresh
+                                </button>
+                                <button class="btn-outline btn-sm" onclick="fullscreenMap()">
+                                    <i class="fas fa-expand"></i>
+                                    Fullscreen
+                                </button>
+                            </div>
+                        </div>
+                        <div class="route-map-container">
+                            <div class="route-map-placeholder">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <h4>Interactive Route Map</h4>
+                                <p>AI-optimized route with real-time traffic updates</p>
+                                <div class="route-stats">
+                                    <div class="route-stat">
+                                        <span class="stat-label">Start:</span>
+                                        <span class="stat-value">Spice Garden</span>
+                                    </div>
+                                    <div class="route-stat">
+                                        <span class="stat-label">End:</span>
+                                        <span class="stat-value">Hope Foundation</span>
+                                    </div>
+                                    <div class="route-stat">
+                                        <span class="stat-label">Stops:</span>
+                                        <span class="stat-value">5 locations</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Route Steps -->
+                    <div class="route-card">
+                        <div class="card-header">
+                            <h3>Route Steps</h3>
+                            <span class="ai-badge">AI Optimized</span>
+                        </div>
+                        <div class="route-steps">
+                            <div class="route-step active">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Spice Garden</h4>
+                                    <p>Pickup: 50kg cooked meals</p>
+                                    <span class="step-time">9:00 AM - 9:15 AM</span>
+                                    <span class="step-status">Current</span>
+                                </div>
+                            </div>
+                            <div class="route-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Fresh Bakes</h4>
+                                    <p>Pickup: 25kg bread items</p>
+                                    <span class="step-time">9:25 AM - 9:35 AM</span>
+                                    <span class="step-status">Next</span>
+                                </div>
+                            </div>
+                            <div class="route-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>MegaMart</h4>
+                                    <p>Pickup: 30kg packaged food</p>
+                                    <span class="step-time">9:45 AM - 9:55 AM</span>
+                                    <span class="step-status">Pending</span>
+                                </div>
+                            </div>
+                            <div class="route-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Care Center</h4>
+                                    <p>Delivery: 40kg food items</p>
+                                    <span class="step-time">10:15 AM - 10:30 AM</span>
+                                    <span class="step-status">Pending</span>
+                                </div>
+                            </div>
+                            <div class="route-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h4>Hope Foundation</h4>
+                                    <p>Delivery: 65kg food items</p>
+                                    <span class="step-time">10:45 AM - 11:00 AM</span>
+                                    <span class="step-status">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Route Analytics -->
+                    <div class="route-card">
+                        <div class="card-header">
+                            <h3>Route Analytics</h3>
+                            <span class="ai-badge">Real-time</span>
+                        </div>
+                        <div class="route-analytics">
+                            <div class="analytics-item">
+                                <div class="analytics-label">Traffic Conditions</div>
+                                <div class="analytics-value good">
+                                    <i class="fas fa-check-circle"></i>
+                                    Good
+                                </div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Weather Impact</div>
+                                <div class="analytics-value neutral">
+                                    <i class="fas fa-cloud"></i>
+                                    Minimal
+                                </div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Road Conditions</div>
+                                <div class="analytics-value good">
+                                    <i class="fas fa-road"></i>
+                                    Clear
+                                </div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Fuel Efficiency</div>
+                                <div class="analytics-value excellent">
+                                    <i class="fas fa-leaf"></i>
+                                    +15%
+                                </div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Time Savings</div>
+                                <div class="analytics-value excellent">
+                                    <i class="fas fa-clock"></i>
+                                    25 minutes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Optimization Insights -->
+        <section class="ai-insights-section">
+            <div class="insights-container">
+                <div class="section-header">
+                    <h2>AI Optimization Insights</h2>
+                    <p>How AI improved your route and suggestions for further optimization</p>
+                </div>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Route Improvements</h3>
+                            <span class="ai-badge">AI Analysis</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>AI optimized your route by:</p>
+                            <ul class="improvement-list">
+                                <li>Reordering stops for better flow</li>
+                                <li>Avoiding high-traffic areas</li>
+                                <li>Optimizing pickup timing</li>
+                                <li>Reducing backtracking</li>
+                            </ul>
+                            <div class="improvement-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">Time Saved:</span>
+                                    <span class="metric-value">25 minutes</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Distance Saved:</span>
+                                    <span class="metric-value">3.2 km</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Fuel Saved:</span>
+                                    <span class="metric-value">15%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Traffic Predictions</h3>
+                            <span class="ai-badge">ML Forecast</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>AI predicts traffic patterns:</p>
+                            <div class="traffic-predictions">
+                                <div class="prediction-item">
+                                    <span class="prediction-label">9:00-9:30 AM:</span>
+                                    <span class="prediction-value low">Low traffic</span>
+                                </div>
+                                <div class="prediction-item">
+                                    <span class="prediction-label">9:30-10:00 AM:</span>
+                                    <span class="prediction-value medium">Medium traffic</span>
+                                </div>
+                                <div class="prediction-item">
+                                    <span class="prediction-label">10:00-10:30 AM:</span>
+                                    <span class="prediction-value high">High traffic</span>
+                                </div>
+                            </div>
+                            <p class="traffic-note">Route optimized to avoid peak traffic hours</p>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Future Optimizations</h3>
+                            <span class="ai-badge">AI Suggestions</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>AI suggests for future routes:</p>
+                            <ul class="suggestion-list">
+                                <li>Start 15 minutes earlier for better traffic</li>
+                                <li>Group pickups by area for efficiency</li>
+                                <li>Consider weather forecasts in planning</li>
+                                <li>Coordinate with other volunteers</li>
+                            </ul>
+                            <button class="btn-outline btn-sm" onclick="applySuggestions()">
+                                Apply Suggestions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alternative Routes -->
+        <section class="alternative-routes-section">
+            <div class="routes-container">
+                <div class="section-header">
+                    <h2>Alternative Routes</h2>
+                    <p>AI-generated alternative routes for different scenarios</p>
+                </div>
+                <div class="routes-grid">
+                    <div class="route-option-card">
+                        <div class="route-option-header">
+                            <h3>Fastest Route</h3>
+                            <span class="route-badge fastest">Fastest</span>
+                        </div>
+                        <div class="route-option-content">
+                            <div class="route-metric">
+                                <span class="metric-label">Time:</span>
+                                <span class="metric-value">1h 50m</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Distance:</span>
+                                <span class="metric-value">20.1 km</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Traffic:</span>
+                                <span class="metric-value">High</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Fuel:</span>
+                                <span class="metric-value">+8%</span>
+                            </div>
+                        </div>
+                        <div class="route-option-actions">
+                            <button class="btn-outline btn-sm" onclick="viewRoute('fastest')">
+                                View Route
+                            </button>
+                            <button class="btn-primary btn-sm" onclick="selectRoute('fastest')">
+                                Select Route
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="route-option-card">
+                        <div class="route-option-header">
+                            <h3>Most Efficient</h3>
+                            <span class="route-badge efficient">Efficient</span>
+                        </div>
+                        <div class="route-option-content">
+                            <div class="route-metric">
+                                <span class="metric-label">Time:</span>
+                                <span class="metric-value">2h 15m</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Distance:</span>
+                                <span class="metric-value">18.5 km</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Traffic:</span>
+                                <span class="metric-value">Low</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Fuel:</span>
+                                <span class="metric-value">+15%</span>
+                            </div>
+                        </div>
+                        <div class="route-option-actions">
+                            <button class="btn-outline btn-sm" onclick="viewRoute('efficient')">
+                                View Route
+                            </button>
+                            <button class="btn-primary btn-sm" onclick="selectRoute('efficient')">
+                                Select Route
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="route-option-card">
+                        <div class="route-option-header">
+                            <h3>Eco-Friendly</h3>
+                            <span class="route-badge eco">Eco</span>
+                        </div>
+                        <div class="route-option-content">
+                            <div class="route-metric">
+                                <span class="metric-label">Time:</span>
+                                <span class="metric-value">2h 30m</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Distance:</span>
+                                <span class="metric-value">22.3 km</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Traffic:</span>
+                                <span class="metric-value">Very Low</span>
+                            </div>
+                            <div class="route-metric">
+                                <span class="metric-label">Fuel:</span>
+                                <span class="metric-value">+25%</span>
+                            </div>
+                        </div>
+                        <div class="route-option-actions">
+                            <button class="btn-outline btn-sm" onclick="viewRoute('eco')">
+                                View Route
+                            </button>
+                            <button class="btn-primary btn-sm" onclick="selectRoute('eco')">
+                                Select Route
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function initializePage() {
+            // Initialize AI route optimization page
+            console.log('AI Route Optimization page initialized');
+        }
+
+        function optimizeRoute() {
+            // Simulate route optimization
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Optimizing...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-check"></i> Route Optimized!';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                    button.disabled = false;
+                    alert('Route optimized! AI saved you 25 minutes and 3.2km distance.');
+                }, 2000);
+            }, 3000);
+        }
+
+        function viewTrafficData() {
+            // Simulate viewing traffic data
+            alert('Opening traffic data dashboard... This would show real-time traffic conditions, historical patterns, and AI predictions.');
+        }
+
+        function refreshMap() {
+            // Simulate map refresh
+            const button = event.target;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                button.disabled = false;
+                alert('Map refreshed with latest traffic and route data!');
+            }, 2000);
+        }
+
+        function fullscreenMap() {
+            // Simulate fullscreen map
+            alert('Opening fullscreen route map... This would provide an immersive view of the optimized route.');
+        }
+
+        function applySuggestions() {
+            // Simulate applying AI suggestions
+            alert('AI suggestions applied! Your future routes will now consider these optimizations automatically.');
+        }
+
+        function viewRoute(routeType) {
+            // Simulate viewing alternative route
+            alert(`Opening detailed view for ${routeType} route... This would show the complete route with turn-by-turn directions.`);
+        }
+
+        function selectRoute(routeType) {
+            // Simulate selecting alternative route
+            alert(`${routeType} route selected! AI will now update your navigation and provide new directions.`);
+        }
+
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

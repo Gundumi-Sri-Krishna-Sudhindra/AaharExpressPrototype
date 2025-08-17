@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Route Intelligence - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html?role=admin" class="nav-link">Dashboard</a>
+                <a href="#features" class="nav-link active">AI Route Intelligence</a>
+                <a href="#profile" class="nav-link">Profile</a>
+                <a href="#help" class="nav-link">Help</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Admin</span>
+                    <span>Admin User</span>
+                </div>
+                <button class="btn-secondary" onclick="window.location.href='index.html'">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="header-content">
+                <h1><i class="fas fa-route"></i> AI Route Intelligence</h1>
+                <p>Comprehensive overview of AI-powered route optimization across the platform</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Data
+                </button>
+                <button class="btn-secondary" onclick="exportReport()">
+                    <i class="fas fa-download"></i>
+                    Export Report
+                </button>
+            </div>
+        </header>
+
+        <!-- AI Overview Section -->
+        <section class="ai-overview-section">
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Total Routes Optimized</h3>
+                        <p class="metric-value">1,247</p>
+                        <p class="metric-change positive">+12% this week</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Time Saved</h3>
+                        <p class="metric-value">342 hours</p>
+                        <p class="metric-change positive">+8% this week</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>Fuel Savings</h3>
+                        <p class="metric-value">156 liters</p>
+                        <p class="metric-change positive">+15% this week</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3>CO2 Reduced</h3>
+                        <p class="metric-value">89 kg</p>
+                        <p class="metric-change positive">+18% this week</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Route Analytics Dashboard -->
+        <section class="ai-dashboard-section">
+            <div class="section-header">
+                <h2>Route Performance Analytics</h2>
+                <p>AI-generated insights on route optimization effectiveness</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Route Efficiency by Zone</h3>
+                        <div class="card-actions">
+                            <button class="btn-outline btn-sm">View Details</button>
+                        </div>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-header">
+                                <span>Zone 1 (Downtown)</span>
+                                <span class="score-high">92%</span>
+                            </div>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-header">
+                                <span>Zone 2 (Suburban)</span>
+                                <span class="score-high">88%</span>
+                            </div>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-header">
+                                <span>Zone 3 (Industrial)</span>
+                                <span class="score-high">85%</span>
+                            </div>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-header">
+                                <span>Zone 4 (Rural)</span>
+                                <span class="score-high">78%</span>
+                            </div>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 78%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>AI Route Accuracy</h3>
+                        <div class="card-actions">
+                            <button class="btn-outline btn-sm">View Details</button>
+                        </div>
+                    </div>
+                    <div class="performance-metrics">
+                        <div class="performance-item">
+                            <div class="performance-label">Traffic Prediction</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill excellent" style="width: 94%"></div>
+                            </div>
+                            <div class="performance-value">94%</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-label">Time Estimation</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill excellent" style="width: 91%"></div>
+                            </div>
+                            <div class="performance-value">91%</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-label">Fuel Optimization</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill good" style="width: 87%"></div>
+                            </div>
+                            <div class="performance-value">87%</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-label">Route Suggestions</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill excellent" style="width: 93%"></div>
+                            </div>
+                            <div class="performance-value">93%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Insights Section -->
+        <section class="ai-insights-section">
+            <div class="section-header">
+                <h2>AI Route Intelligence Insights</h2>
+                <p>Key recommendations and patterns identified by AI</p>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Peak Time Optimization</h3>
+                    </div>
+                    <div class="insight-content">
+                        <p>AI analysis shows 23% better route efficiency when pickups are scheduled between 2-4 PM, avoiding morning and evening traffic peaks.</p>
+                        <div class="insight-metrics">
+                            <span class="ai-badge">Traffic Pattern</span>
+                            <span class="ai-badge">Time Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Zone Clustering Strategy</h3>
+                    </div>
+                    <div class="insight-content">
+                        <p>Grouping pickups within 2km radius improves efficiency by 34%. AI recommends implementing zone-based pickup scheduling.</p>
+                        <div class="insight-metrics">
+                            <span class="ai-badge">Geographic Analysis</span>
+                            <span class="ai-badge">Efficiency Gain</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="fas fa-robot"></i>
+                        <h3>Dynamic Route Adjustment</h3>
+                    </div>
+                    <div class="insight-content">
+                        <p>Real-time traffic data integration has improved route accuracy by 18%. AI now adjusts routes based on live conditions.</p>
+                        <div class="insight-metrics">
+                            <span class="ai-badge">Real-time Data</span>
+                            <span class="ai-badge">Adaptive Routing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="fas fa-users"></i>
+                        <h3>Volunteer Preference Learning</h3>
+                    </div>
+                    <div class="insight-content">
+                        <p>AI has learned volunteer route preferences, resulting in 27% higher satisfaction scores and 15% better completion rates.</p>
+                        <div class="insight-metrics">
+                            <span class="ai-badge">User Behavior</span>
+                            <span class="ai-badge">Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Route Optimization Trends -->
+        <section class="ai-dashboard-section">
+            <div class="section-header">
+                <h2>Optimization Trends & Predictions</h2>
+                <p>AI-powered forecasting for route optimization improvements</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Weekly Performance Trends</h3>
+                    </div>
+                    <div class="predictions-list">
+                        <div class="prediction-item">
+                            <div class="prediction-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="prediction-content">
+                                <h4>Route Efficiency</h4>
+                                <p>Expected to improve by 8-12% over the next 4 weeks</p>
+                                <span class="confidence">AI Confidence: 89%</span>
+                            </div>
+                        </div>
+                        <div class="prediction-item">
+                            <div class="prediction-icon">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <div class="prediction-content">
+                                <h4>Fuel Consumption</h4>
+                                <p>Predicted to decrease by 15-20% with new AI algorithms</p>
+                                <span class="confidence">AI Confidence: 92%</span>
+                            </div>
+                        </div>
+                        <div class="prediction-item">
+                            <div class="prediction-icon">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="prediction-content">
+                                <h4>Delivery Speed</h4>
+                                <p>Average delivery time expected to reduce by 18-25%</p>
+                                <span class="confidence">AI Confidence: 85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>AI Learning Progress</h3>
+                    </div>
+                    <div class="performance-metrics">
+                        <div class="performance-item">
+                            <div class="performance-label">Route Pattern Recognition</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill excellent" style="width: 96%"></div>
+                            </div>
+                            <div class="performance-value">96%</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-label">Traffic Prediction Model</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill excellent" style="width: 93%"></div>
+                            </div>
+                            <div class="performance-value">93%</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-label">User Preference Learning</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill good" style="width: 87%"></div>
+                            </div>
+                            <div class="performance-value">87%</div>
+                        </div>
+                        <div class="performance-item">
+                            <div class="performance-label">Real-time Adaptation</div>
+                            <div class="performance-bar">
+                                <div class="performance-fill excellent" style="width: 91%"></div>
+                            </div>
+                            <div class="performance-value">91%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function refreshData() {
+            // Simulate data refresh
+            const refreshBtn = event.target;
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            refreshBtn.disabled = true;
+            
+            setTimeout(() => {
+                refreshBtn.innerHTML = originalText;
+                refreshBtn.disabled = false;
+                showNotification('Data refreshed successfully!', 'success');
+            }, 2000);
+        }
+
+        function exportReport() {
+            // Simulate report export
+            showNotification('Report export started...', 'info');
+            setTimeout(() => {
+                showNotification('Report exported successfully!', 'success');
+            }, 1500);
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add notification styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            .notification.success {
+                background: linear-gradient(135deg, #4caf50, #45a049);
+            }
+            
+            .notification.info {
+                background: linear-gradient(135deg, #2196f3, #1976d2);
+            }
+            
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Donation Recommendations - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="upload-surplus.html" class="nav-link">Upload Surplus</a>
+                <a href="#ai-recommendations" class="nav-link active">AI Recommendations</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Restaurant</span>
+                    <span>Spice Garden</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>AI Donation Recommendations</h1>
+                <p>Intelligent suggestions for optimal donation strategies to maximize your social impact</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="generateRecommendations()">
+                    <i class="fas fa-robot"></i>
+                    Generate AI Tips
+                </button>
+                <button class="btn-outline" onclick="viewImpactHistory()">
+                    <i class="fas fa-chart-line"></i>
+                    View Impact History
+                </button>
+            </div>
+        </header>
+
+        <!-- AI Recommendations Overview -->
+        <section class="recommendations-overview-section">
+            <div class="overview-container">
+                <div class="overview-grid">
+                    <div class="overview-card ai-highlight">
+                        <div class="overview-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>AI Tips Generated</h3>
+                            <p>12 recommendations today</p>
+                            <span class="ai-status">Active</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Impact Score</h3>
+                            <p>8.9/10</p>
+                            <span class="score-high">Excellent</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>People Helped</h3>
+                            <p>89 this month</p>
+                            <span class="impact-high">High Impact</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Waste Reduced</h3>
+                            <p>67% reduction</p>
+                            <span class="reduction-high">Significant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Donation Tips -->
+        <section class="ai-tips-section">
+            <div class="tips-container">
+                <div class="section-header">
+                    <h2>AI Donation Tips</h2>
+                    <p>Personalized recommendations to optimize your donation strategy and maximize impact</p>
+                </div>
+                
+                <div class="tips-grid">
+                    <div class="tip-card priority-high">
+                        <div class="tip-header">
+                            <div class="tip-priority high">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                High Priority
+                            </div>
+                            <span class="tip-time">2 hours ago</span>
+                        </div>
+                        <h3>Optimal Donation Timing</h3>
+                        <p>AI analysis shows that donating surplus food between 4-6 PM results in 40% faster pickup and 25% higher impact.</p>
+                        <div class="tip-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Best Time:</span>
+                                <span class="detail-value">4:00 PM - 6:00 PM</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Impact Increase:</span>
+                                <span class="detail-value">25% higher</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Pickup Speed:</span>
+                                <span class="detail-value">40% faster</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">AI Confidence:</span>
+                                <span class="detail-value">94%</span>
+                            </div>
+                        </div>
+                        <div class="tip-actions">
+                            <button class="btn-primary" onclick="applyTip('timing')">
+                                <i class="fas fa-check"></i>
+                                Apply Tip
+                            </button>
+                            <button class="btn-outline" onclick="viewAnalysis('timing')">
+                                <i class="fas fa-chart-bar"></i>
+                                View Analysis
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tip-card priority-medium">
+                        <div class="tip-header">
+                            <div class="tip-priority medium">
+                                <i class="fas fa-lightbulb"></i>
+                                Medium Priority
+                            </div>
+                            <span class="tip-time">4 hours ago</span>
+                        </div>
+                        <h3>Strategic NGO Partnerships</h3>
+                        <p>Partnering with NGOs in Zone 2 and Zone 3 could increase your donation success rate by 35% and reduce pickup delays.</p>
+                        <div class="tip-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Recommended NGOs:</span>
+                                <span class="detail-value">Hope Foundation, Care Center</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Success Rate:</span>
+                                <span class="detail-value">+35% improvement</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Pickup Efficiency:</span>
+                                <span class="detail-value">+28% faster</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">AI Confidence:</span>
+                                <span class="detail-value">87%</span>
+                            </div>
+                        </div>
+                        <div class="tip-actions">
+                            <button class="btn-primary" onclick="applyTip('partnerships')">
+                                <i class="fas fa-check"></i>
+                                Apply Tip
+                            </button>
+                            <button class="btn-outline" onclick="viewAnalysis('partnerships')">
+                                <i class="fas fa-chart-bar"></i>
+                                View Analysis
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tip-card priority-low">
+                        <div class="tip-header">
+                            <div class="tip-priority low">
+                                <i class="fas fa-info-circle"></i>
+                                Low Priority
+                            </div>
+                            <span class="tip-time">6 hours ago</span>
+                        </div>
+                        <h3>Food Packaging Optimization</h3>
+                        <p>Using standardized packaging sizes (500g, 1kg, 2kg) could increase volunteer pickup efficiency by 20% and reduce food waste.</p>
+                        <div class="tip-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Recommended Sizes:</span>
+                                <span class="detail-value">500g, 1kg, 2kg</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Pickup Efficiency:</span>
+                                <span class="detail-value">+20% improvement</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Waste Reduction:</span>
+                                <span class="detail-value">+15% less waste</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">AI Confidence:</span>
+                                <span class="detail-value">78%</span>
+                            </div>
+                        </div>
+                        <div class="tip-actions">
+                            <button class="btn-outline" onclick="applyTip('packaging')">
+                                <i class="fas fa-check"></i>
+                                Apply Tip
+                            </button>
+                            <button class="btn-outline" onclick="viewAnalysis('packaging')">
+                                <i class="fas fa-chart-bar"></i>
+                                View Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Impact Predictions -->
+        <section class="ai-predictions-section">
+            <div class="predictions-container">
+                <div class="section-header">
+                    <h2>AI Impact Predictions</h2>
+                    <p>Forecast your donation impact and optimize your strategy for maximum social good</p>
+                </div>
+                <div class="predictions-grid">
+                    <div class="prediction-card">
+                        <div class="prediction-header">
+                            <h3>This Week's Impact</h3>
+                            <span class="ai-badge">AI Forecast</span>
+                        </div>
+                        <div class="prediction-content">
+                            <div class="prediction-metric">
+                                <span class="metric-label">People Helped:</span>
+                                <span class="metric-value">45-52</span>
+                            </div>
+                            <div class="prediction-metric">
+                                <span class="metric-label">Food Waste Reduced:</span>
+                                <span class="metric-value">28-32kg</span>
+                            </div>
+                            <div class="prediction-metric">
+                                <span class="metric-label">Pickup Success Rate:</span>
+                                <span class="metric-value">92-96%</span>
+                            </div>
+                            <div class="prediction-metric">
+                                <span class="metric-label">Impact Score:</span>
+                                <span class="metric-value">8.7-9.1</span>
+                            </div>
+                        </div>
+                        <div class="prediction-actions">
+                            <button class="btn-outline btn-sm" onclick="viewDetailedForecast()">
+                                View Detailed Forecast
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="prediction-card">
+                        <div class="prediction-header">
+                            <h3>Monthly Trends</h3>
+                            <span class="ai-badge">AI Analysis</span>
+                        </div>
+                        <div class="prediction-content">
+                            <div class="trend-item positive">
+                                <span class="trend-label">Donation Volume:</span>
+                                <span class="trend-value">↗️ +15%</span>
+                            </div>
+                            <div class="trend-item positive">
+                                <span class="trend-label">Pickup Efficiency:</span>
+                                <span class="trend-value">↗️ +22%</span>
+                            </div>
+                            <div class="trend-item positive">
+                                <span class="trend-label">Impact Score:</span>
+                                <span class="trend-value">↗️ +8%</span>
+                            </div>
+                            <div class="trend-item neutral">
+                                <span class="trend-label">NGO Partnerships:</span>
+                                <span class="trend-value">→ Stable</span>
+                            </div>
+                        </div>
+                        <div class="prediction-actions">
+                            <button class="btn-outline btn-sm" onclick="viewTrendAnalysis()">
+                                View Trend Analysis
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="prediction-card">
+                        <div class="prediction-header">
+                            <h3>Optimization Opportunities</h3>
+                            <span class="ai-badge">AI Suggestions</span>
+                        </div>
+                        <div class="prediction-content">
+                            <div class="opportunity-item">
+                                <span class="opportunity-label">Donation Timing:</span>
+                                <span class="opportunity-value">+25% impact potential</span>
+                            </div>
+                            <div class="opportunity-item">
+                                <span class="opportunity-label">NGO Coordination:</span>
+                                <span class="opportunity-value">+35% efficiency gain</span>
+                            </div>
+                            <div class="opportunity-item">
+                                <span class="opportunity-label">Packaging:</span>
+                                <span class="opportunity-value">+20% pickup speed</span>
+                            </div>
+                            <div class="opportunity-item">
+                                <span class="opportunity-label">Communication:</span>
+                                <span class="opportunity-value">+18% success rate</span>
+                            </div>
+                        </div>
+                        <div class="prediction-actions">
+                            <button class="btn-primary btn-sm" onclick="optimizeStrategy()">
+                                Optimize Strategy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Learning Insights -->
+        <section class="ai-insights-section">
+            <div class="insights-container">
+                <div class="section-header">
+                    <h2>AI Learning Insights</h2>
+                    <p>How AI improves recommendations based on your donation patterns and feedback</p>
+                </div>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Your Donation Patterns</h3>
+                            <span class="ai-badge">AI Learning</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>AI has learned from your patterns:</p>
+                            <ul class="pattern-list">
+                                <li>Peak surplus times: 2-4 PM daily</li>
+                                <li>Most successful food types: Cooked meals, bread</li>
+                                <li>Optimal donation quantities: 5-15kg per batch</li>
+                                <li>Best pickup coordination: 1-hour advance notice</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Success Factors</h3>
+                            <span class="ai-badge">Analysis</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>Key factors for successful donations:</p>
+                            <div class="success-factors">
+                                <div class="factor-item">
+                                    <span class="factor-label">Timing:</span>
+                                    <span class="factor-value">4-6 PM (40% better)</span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-label">Communication:</span>
+                                    <span class="factor-value">Clear descriptions (35% better)</span>
+                                </div>
+                                <div class="factor-item">
+                                    <span class="factor-label">Quantity:</span>
+                                    <span class="factor-value">Standardized portions (25% better)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Improvement Areas</h3>
+                            <span class="ai-badge">AI Tips</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>Areas for improvement:</p>
+                            <ul class="improvement-list">
+                                <li>Consider donating during morning hours (8-10 AM)</li>
+                                <li>Partner with more NGOs in Zone 3</li>
+                                <li>Use consistent packaging sizes</li>
+                                <li>Provide detailed food descriptions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function initializePage() {
+            // Initialize AI donation recommendations page
+            console.log('AI Donation Recommendations page initialized');
+        }
+
+        function generateRecommendations() {
+            // Simulate AI recommendation generation
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-check"></i> Generated!';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                    button.disabled = false;
+                    alert('AI recommendations generated! 3 new tips available.');
+                }, 2000);
+            }, 3000);
+        }
+
+        function viewImpactHistory() {
+            // Simulate viewing impact history
+            alert('Opening impact history dashboard... This would show detailed analytics of your donation impact over time.');
+        }
+
+        function applyTip(tipType) {
+            // Simulate applying a tip
+            alert(`Tip "${tipType}" applied! AI will now optimize your donation strategy based on this recommendation.`);
+        }
+
+        function viewAnalysis(tipType) {
+            // Simulate viewing tip analysis
+            alert(`Opening detailed analysis for tip "${tipType}"... This would show comprehensive data and reasoning behind the recommendation.`);
+        }
+
+        function viewDetailedForecast() {
+            // Simulate viewing detailed forecast
+            alert('Opening detailed impact forecast... This would show day-by-day predictions and confidence intervals.');
+        }
+
+        function viewTrendAnalysis() {
+            // Simulate viewing trend analysis
+            alert('Opening trend analysis... This would show historical data and trend predictions for your donation performance.');
+        }
+
+        function optimizeStrategy() {
+            // Simulate strategy optimization
+            alert('AI is optimizing your donation strategy... This would analyze all factors and create a personalized optimization plan.');
+        }
+
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

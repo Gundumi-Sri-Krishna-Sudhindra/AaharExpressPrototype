@@ -170,31 +170,36 @@
                 ]
             },
             restaurant: {
-                name: 'Spice Garden Restaurant',
+                name: 'Spice Garden',
                 role: 'Restaurant Partner',
                 stats: [
-                    { title: 'Total Orders', value: '156', icon: 'fas fa-shopping-cart', color: '#ff8f00' },
-                    { title: 'Surplus Listed', value: '23', icon: 'fas fa-upload', color: '#4caf50' },
-                    { title: 'Pickups Done', value: '18', icon: 'fas fa-check-circle', color: '#ffc107' },
-                    { title: 'This Month', value: '₹45,600', icon: 'fas fa-rupee-sign', color: '#2196f3' }
+                    { title: 'Orders Today', value: '23', icon: 'fas fa-clipboard-list', color: '#ff8f00' },
+                    { title: 'Surplus Donated', value: '45kg', icon: 'fas fa-gift', color: '#4caf50' },
+                    { title: 'People Helped', value: '89', icon: 'fas fa-heart', color: '#ffc107' },
+                    { title: 'Waste Reduced', value: '67%', icon: 'fas fa-leaf', color: '#2196f3' },
+                    { title: 'AI Matches', value: '12', icon: 'fas fa-brain', color: '#9c27b0' },
+                    { title: 'Impact Score', value: '8.9', icon: 'fas fa-star', color: '#00bcd4' }
                 ],
                 features: [
-                    { title: 'Upload Surplus', icon: 'fas fa-upload', description: 'List surplus food for donation', action: 'upload-surplus' },
-                    { title: 'Manage Orders', icon: 'fas fa-clipboard-list', description: 'View and manage incoming orders', action: 'manage-orders' },
-                    { title: 'Pickup Status', icon: 'fas fa-truck', description: 'Track pickup and delivery status', action: 'pickup-status' },
-                    { title: 'Certifications', icon: 'fas fa-certificate', description: 'Manage Zero Waste certifications', action: 'certifications' },
-                    { title: 'Analytics', icon: 'fas fa-chart-bar', description: 'View restaurant performance metrics', action: 'analytics' },
+                    { title: 'Browse Menu', icon: 'fas fa-utensils', description: 'Browse and manage your food menu', action: 'browse-menu' },
+                    { title: 'Upload Surplus', icon: 'fas fa-upload', description: 'Upload surplus food for donation', action: 'upload-surplus' },
+                    { title: 'AI Donation Recommendations', icon: 'fas fa-brain', description: 'AI suggests optimal donation strategies', action: 'ai-donation-recommendations' },
+                    { title: 'Manage Orders', icon: 'fas fa-clipboard-list', description: 'Manage incoming food orders', action: 'manage-orders' },
+                    { title: 'Earnings', icon: 'fas fa-money-bill-wave', description: 'Track your earnings and payments', action: 'earnings' },
+                    { title: 'Certifications', icon: 'fas fa-certificate', description: 'View your Zero Waste certifications', action: 'certifications' },
                     { title: 'Settings', icon: 'fas fa-cog', description: 'Manage restaurant settings', action: 'settings' }
                 ],
                 quickActions: [
                     { title: 'Upload Surplus', icon: 'fas fa-upload', action: 'upload-surplus' },
-                    { title: 'View Orders', icon: 'fas fa-clipboard-list', action: 'view-orders' },
-                    { title: 'Analytics', icon: 'fas fa-chart-bar', action: 'analytics' }
+                    { title: 'AI Recommendations', icon: 'fas fa-brain', action: 'ai-donation-recommendations' },
+                    { title: 'Manage Orders', icon: 'fas fa-clipboard-list', action: 'manage-orders' }
                 ],
                 activities: [
-                    { type: 'upload', message: 'Uploaded 5kg surplus rice', time: '1 hour ago', icon: 'fas fa-upload' },
-                    { type: 'pickup', message: 'Volunteer picked up surplus food', time: '3 hours ago', icon: 'fas fa-truck' },
-                    { type: 'certification', message: 'Received Zero Waste certification', time: '1 week ago', icon: 'fas fa-certificate' }
+                    { type: 'ai-recommendation', message: 'AI suggested donating to Zone 2 NGO', time: '20 minutes ago', icon: 'fas fa-brain' },
+                    { type: 'surplus', message: 'Uploaded 5kg surplus food', time: '1 hour ago', icon: 'fas fa-upload' },
+                    { type: 'impact', message: 'Your donations helped 15 people today', time: '2 hours ago', icon: 'fas fa-heart' },
+                    { type: 'order', message: 'New order received from Priya', time: '3 hours ago', icon: 'fas fa-clipboard-list' },
+                    { type: 'certification', message: 'Earned Zero Waste Bronze badge', time: '1 day ago', icon: 'fas fa-certificate' }
                 ]
             },
             ngo: {
@@ -204,10 +209,15 @@
                     { title: 'Donations Received', value: '89', icon: 'fas fa-gift', color: '#ff8f00' },
                     { title: 'Volunteers', value: '12', icon: 'fas fa-users', color: '#4caf50' },
                     { title: 'Deliveries Done', value: '67', icon: 'fas fa-check-circle', color: '#ffc107' },
-                    { title: 'People Helped', value: '1,234', icon: 'fas fa-heart', color: '#2196f3' }
+                    { title: 'People Helped', value: '1,234', icon: 'fas fa-heart', color: '#2196f3' },
+                    { title: 'AI Matches', value: '23', icon: 'fas fa-brain', color: '#9c27b0' },
+                    { title: 'Route Savings', value: '45min', icon: 'fas fa-route', color: '#00bcd4' }
                 ],
                 features: [
                     { title: 'Accept Donations', icon: 'fas fa-check-circle', description: 'Accept or decline food donations', action: 'accept-donations' },
+                    { title: 'AI Smart Matching', icon: 'fas fa-brain', description: 'AI suggests ideal food matches for your needs', action: 'ai-smart-matching' },
+                    { title: 'AI Route Optimization', icon: 'fas fa-route', description: 'AI-optimized pickup and delivery routes', action: 'ai-route-optimization' },
+                    { title: 'AI Demand Prediction', icon: 'fas fa-chart-line', description: 'Predict demand zones and prepare resources', action: 'ai-demand-prediction' },
                     { title: 'Assign Volunteers', icon: 'fas fa-user-plus', description: 'Assign volunteers to pickups', action: 'assign-volunteers' },
                     { title: 'Track Deliveries', icon: 'fas fa-route', description: 'Monitor delivery progress', action: 'track-deliveries' },
                     { title: 'Volunteer Management', icon: 'fas fa-users-cog', description: 'Manage volunteer network', action: 'volunteer-management' },
@@ -216,12 +226,17 @@
                 ],
                 quickActions: [
                     { title: 'NGO Dashboard', icon: 'fas fa-tachometer-alt', action: 'ngo-dashboard' },
+                    { title: 'AI Smart Matching', icon: 'fas fa-brain', action: 'ai-smart-matching' },
+                    { title: 'Route Optimization', icon: 'fas fa-route', action: 'ai-route-optimization' },
                     { title: 'Accept Donations', icon: 'fas fa-check-circle', action: 'accept-donations' },
                     { title: 'Assign Volunteers', icon: 'fas fa-user-plus', action: 'assign-volunteers' }
                 ],
                 activities: [
+                    { type: 'ai-match', message: 'AI suggested 5 new food matches', time: '15 minutes ago', icon: 'fas fa-brain' },
                     { type: 'donation', message: 'Accepted 10kg food donation', time: '30 minutes ago', icon: 'fas fa-check-circle' },
+                    { type: 'route-opt', message: 'AI optimized route saved 25 minutes', time: '1 hour ago', icon: 'fas fa-route' },
                     { type: 'volunteer', message: 'Assigned volunteer to pickup', time: '2 hours ago', icon: 'fas fa-user-plus' },
+                    { type: 'demand-pred', message: 'AI predicted high demand in Zone 3', time: '3 hours ago', icon: 'fas fa-chart-line' },
                     { type: 'delivery', message: 'Completed delivery to shelter', time: '1 day ago', icon: 'fas fa-check' }
                 ]
             },
@@ -232,22 +247,29 @@
                     { title: 'Pickups Done', value: '34', icon: 'fas fa-truck', color: '#ff8f00' },
                     { title: 'Deliveries', value: '28', icon: 'fas fa-check-circle', color: '#4caf50' },
                     { title: 'Hours Served', value: '156', icon: 'fas fa-clock', color: '#ffc107' },
-                    { title: 'People Helped', value: '567', icon: 'fas fa-heart', color: '#2196f3' }
+                    { title: 'People Helped', value: '567', icon: 'fas fa-heart', color: '#2196f3' },
+                    { title: 'AI Routes', value: '12', icon: 'fas fa-route', color: '#9c27b0' },
+                    { title: 'Time Saved', value: '2.5hrs', icon: 'fas fa-stopwatch', color: '#00bcd4' }
                 ],
                 features: [
                     { title: 'View Pickups', icon: 'fas fa-list', description: 'View assigned pickup tasks', action: 'view-pickups' },
-                    { title: 'Route Optimization', icon: 'fas fa-route', description: 'Get optimized delivery routes', action: 'route-optimization' },
+                    { title: 'AI Route Optimization', icon: 'fas fa-route', description: 'Get AI-optimized delivery routes', action: 'ai-route-optimization' },
+                    { title: 'AI Pickup Scheduling', icon: 'fas fa-clock', description: 'AI-suggested optimal pickup times', action: 'ai-pickup-scheduling' },
+                    { title: 'AI Progress Tracking', icon: 'fas fa-chart-line', description: 'Real-time AI progress updates', action: 'ai-progress-tracking' },
                     { title: 'Mark Delivery', icon: 'fas fa-check', description: 'Mark deliveries as complete', action: 'mark-delivery' },
                     { title: 'Schedule', icon: 'fas fa-calendar', description: 'View your volunteer schedule', action: 'schedule' },
                     { title: 'Profile', icon: 'fas fa-user', description: 'Manage your volunteer profile', action: 'profile' }
                 ],
                 quickActions: [
                     { title: 'View Pickups', icon: 'fas fa-list', action: 'view-pickups' },
-                    { title: 'Route Map', icon: 'fas fa-route', action: 'route-map' },
+                    { title: 'AI Route Map', icon: 'fas fa-route', action: 'ai-route-optimization' },
+                    { title: 'Pickup Schedule', icon: 'fas fa-clock', action: 'ai-pickup-scheduling' },
                     { title: 'Mark Complete', icon: 'fas fa-check', action: 'mark-complete' }
                 ],
                 activities: [
+                    { type: 'ai-route', message: 'AI optimized route for 3 pickups', time: '30 minutes ago', icon: 'fas fa-route' },
                     { type: 'pickup', message: 'Picked up food from Spice Garden', time: '1 hour ago', icon: 'fas fa-truck' },
+                    { type: 'ai-schedule', message: 'AI suggested optimal pickup time', time: '2 hours ago', icon: 'fas fa-clock' },
                     { type: 'delivery', message: 'Delivered food to Hope Foundation', time: '2 hours ago', icon: 'fas fa-check' },
                     { type: 'milestone', message: 'Completed 50th delivery', time: '1 week ago', icon: 'fas fa-trophy' }
                 ]
@@ -259,12 +281,17 @@
                     { title: 'Total Users', value: '2,456', icon: 'fas fa-users', color: '#ff8f00' },
                     { title: 'Restaurants', value: '89', icon: 'fas fa-store', color: '#4caf50' },
                     { title: 'NGOs', value: '23', icon: 'fas fa-hands-helping', color: '#ffc107' },
-                    { title: 'Volunteers', value: '156', icon: 'fas fa-heart', color: '#2196f3' }
+                    { title: 'Volunteers', value: '156', icon: 'fas fa-heart', color: '#2196f3' },
+                    { title: 'AI Alerts', value: '3', icon: 'fas fa-robot', color: '#9c27b0' },
+                    { title: 'Fraud Cases', value: '2', icon: 'fas fa-shield-alt', color: '#f44336' }
                 ],
                 features: [
                     { title: 'User Verification', icon: 'fas fa-user-check', description: 'Verify restaurants and NGOs', action: 'user-verification' },
                     { title: 'Hunger Zones', icon: 'fas fa-map-marker-alt', description: 'Manage hunger zones', action: 'hunger-zones' },
                     { title: 'Analytics Dashboard', icon: 'fas fa-chart-bar', description: 'Platform analytics and reports', action: 'analytics-dashboard' },
+                    { title: 'AI Impact Analytics', icon: 'fas fa-brain', description: 'AI-generated social impact reports', action: 'ai-impact-analytics' },
+                    { title: 'Fraud Detection', icon: 'fas fa-shield-alt', description: 'AI-powered fraud and abuse detection', action: 'ai-fraud-detection' },
+                    { title: 'Route Intelligence', icon: 'fas fa-route', description: 'AI route optimization overview', action: 'ai-route-intelligence' },
                     { title: 'Reports & Abuse', icon: 'fas fa-flag', description: 'Handle reports and abuse cases', action: 'reports-abuse' },
                     { title: 'System Settings', icon: 'fas fa-cogs', description: 'Manage platform settings', action: 'system-settings' },
                     { title: 'User Management', icon: 'fas fa-users-cog', description: 'Manage all platform users', action: 'user-management' }
@@ -272,11 +299,14 @@
                 quickActions: [
                     { title: 'Verify Users', icon: 'fas fa-user-check', action: 'verify-users' },
                     { title: 'View Analytics', icon: 'fas fa-chart-bar', action: 'view-analytics' },
+                    { title: 'AI Alerts', icon: 'fas fa-robot', action: 'ai-alerts' },
                     { title: 'Handle Reports', icon: 'fas fa-flag', action: 'handle-reports' }
                 ],
                 activities: [
                     { type: 'verification', message: 'Verified Spice Garden Restaurant', time: '30 minutes ago', icon: 'fas fa-user-check' },
+                    { type: 'ai-alert', message: 'AI detected suspicious donation pattern', time: '1 hour ago', icon: 'fas fa-robot' },
                     { type: 'zone', message: 'Added new hunger zone in Mumbai', time: '2 hours ago', icon: 'fas fa-map-marker-alt' },
+                    { type: 'fraud', message: 'AI flagged potential fraud case #5678', time: '3 hours ago', icon: 'fas fa-shield-alt' },
                     { type: 'report', message: 'Resolved abuse report #1234', time: '1 day ago', icon: 'fas fa-flag' }
                 ]
             },
@@ -287,10 +317,15 @@
                     { title: 'Deliveries Done', value: '156', icon: 'fas fa-truck', color: '#ff8f00' },
                     { title: 'Orders Assigned', value: '8', icon: 'fas fa-clipboard-list', color: '#4caf50' },
                     { title: 'Hours Worked', value: '234', icon: 'fas fa-clock', color: '#ffc107' },
-                    { title: 'Customer Rating', value: '4.7', icon: 'fas fa-star', color: '#2196f3' }
+                    { title: 'Customer Rating', value: '4.7', icon: 'fas fa-star', color: '#2196f3' },
+                    { title: 'AI Routes', value: '18', icon: 'fas fa-route', color: '#9c27b0' },
+                    { title: 'Time Saved', value: '3.2hrs', icon: 'fas fa-stopwatch', color: '#00bcd4' }
                 ],
                 features: [
                     { title: 'View Assigned Orders', icon: 'fas fa-list', description: 'View and manage assigned pickup and delivery orders', action: 'view-assigned-orders' },
+                    { title: 'AI Route Optimization', icon: 'fas fa-route', description: 'AI-optimized delivery routes with real-time updates', action: 'ai-route-optimization' },
+                    { title: 'AI Pickup Scheduling', icon: 'fas fa-clock', description: 'AI-suggested optimal pickup times and locations', action: 'ai-pickup-scheduling' },
+                    { title: 'AI Progress Tracking', icon: 'fas fa-chart-line', description: 'Real-time AI progress updates and notifications', action: 'ai-progress-tracking' },
                     { title: 'Map View', icon: 'fas fa-map', description: 'View delivery routes and optimize your path', action: 'map-view' },
                     { title: 'Delivery History', icon: 'fas fa-history', description: 'View your delivery history and performance', action: 'delivery-history' },
                     { title: 'Earnings', icon: 'fas fa-money-bill-wave', description: 'Track your earnings and payment history', action: 'earnings' },
@@ -299,11 +334,13 @@
                 ],
                 quickActions: [
                     { title: 'View Orders', icon: 'fas fa-list', action: 'view-assigned-orders' },
-                    { title: 'Map View', icon: 'fas fa-map', action: 'map-view' },
-                    { title: 'Earnings', icon: 'fas fa-money-bill-wave', action: 'earnings' },
-                    { title: 'Report Issue', icon: 'fas fa-flag', action: 'report-abuse' }
+                    { title: 'AI Route Map', icon: 'fas fa-route', action: 'ai-route-optimization' },
+                    { title: 'Pickup Schedule', icon: 'fas fa-clock', action: 'ai-pickup-scheduling' },
+                    { title: 'Track Progress', icon: 'fas fa-chart-line', action: 'ai-progress-tracking' }
                 ],
                 activities: [
+                    { type: 'ai-route', message: 'AI optimized route for 5 deliveries', time: '30 minutes ago', icon: 'fas fa-route' },
+                    { type: 'pickup', message: 'AI suggested optimal pickup time', time: '1 hour ago', icon: 'fas fa-clock' },
                     { type: 'delivery', message: 'Completed delivery to Priya Sharma', time: '1 hour ago', icon: 'fas fa-check' },
                     { type: 'order', message: 'New order assigned from Spice Garden', time: '2 hours ago', icon: 'fas fa-clipboard-list' },
                     { type: 'route', message: 'Route optimized for 3 deliveries', time: '3 hours ago', icon: 'fas fa-route' }
@@ -433,6 +470,7 @@
                 'certifications': 'certifications.html',
                 'analytics': 'analytics.html',
                 'settings': 'settings.html',
+                'ai-donation-recommendations': 'ai-donation-recommendations.html',
                 
                 // NGO features
                 'accept-donations': 'accept-donations.html',
@@ -441,6 +479,9 @@
                 'track-deliveries': 'track-deliveries.html',
                 'volunteer-management': 'volunteer-management.html',
                 'impact-reports': 'impact-reports.html',
+                'ai-smart-matching': 'ai-smart-matching.html',
+                'ai-route-optimization': 'ai-route-optimization.html',
+                'ai-demand-prediction': 'ai-demand-prediction.html',
                 
                 // Volunteer features
                 'view-pickups': 'view-pickups.html',
@@ -456,6 +497,9 @@
                 'reports-abuse': 'reports-abuse.html',
                 'system-settings': 'system-settings.html',
                 'user-management': 'user-management.html',
+                'ai-impact-analytics': 'ai-impact-analytics.html',
+                'ai-fraud-detection': 'ai-fraud-detection.html',
+                'ai-route-intelligence': 'ai-route-intelligence.html',
                 
                 // Delivery Agent features
                 'view-assigned-orders': 'view-assigned-orders.html',
@@ -487,6 +531,7 @@
                 
                 // Restaurant quick actions
                 'upload-surplus': 'upload-surplus',
+                'ai-donation-recommendations': 'ai-donation-recommendations',
                 'view-orders': 'manage-orders',
                 'analytics': 'analytics',
                 
@@ -494,6 +539,9 @@
                 'ngo-dashboard': 'ngo-dashboard',
                 'accept-donations': 'accept-donations',
                 'assign-volunteers': 'assign-volunteers',
+                'ai-smart-matching': 'ai-smart-matching',
+                'ai-route-optimization': 'ai-route-optimization',
+                'ai-demand-prediction': 'ai-demand-prediction',
                 
                 // Volunteer quick actions
                 'view-pickups': 'view-pickups',
@@ -504,6 +552,7 @@
                 'verify-users': 'user-verification',
                 'view-analytics': 'analytics-dashboard',
                 'handle-reports': 'reports-abuse',
+                'ai-alerts': 'ai-impact-analytics',
                 
                 // Delivery Agent quick actions
                 'view-assigned-orders': 'view-assigned-orders',

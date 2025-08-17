@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Smart Matching - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="accept-donations.html" class="nav-link">Accept Donations</a>
+                <a href="#ai-matching" class="nav-link active">AI Smart Matching</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>NGO</span>
+                    <span>Hope Foundation</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>AI Smart Matching</h1>
+                <p>AI-powered recommendations for optimal food donations based on your current needs and capacity</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="refreshMatches()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Matches
+                </button>
+                <button class="btn-outline" onclick="configurePreferences()">
+                    <i class="fas fa-cog"></i>
+                    Configure Preferences
+                </button>
+            </div>
+        </header>
+
+        <!-- AI Matching Overview -->
+        <section class="matching-overview-section">
+            <div class="overview-container">
+                <div class="overview-grid">
+                    <div class="overview-card ai-highlight">
+                        <div class="overview-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>AI Matches Found</h3>
+                            <p>23 perfect matches today</p>
+                            <span class="ai-status">Active</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Match Accuracy</h3>
+                            <p>94.7% accurate</p>
+                            <span class="accuracy-high">Excellent</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Time Saved</h3>
+                            <p>2.5 hours today</p>
+                            <span class="time-saved">Efficient</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>People Helped</h3>
+                            <p>156 additional</p>
+                            <span class="impact-high">High Impact</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Match Recommendations -->
+        <section class="ai-matches-section">
+            <div class="matches-container">
+                <div class="section-header">
+                    <h2>AI Match Recommendations</h2>
+                    <p>Intelligent food donation matches based on your current needs, location, and capacity</p>
+                </div>
+                
+                <!-- Match Filters -->
+                <div class="match-filters">
+                    <div class="filter-group">
+                        <label>Food Type:</label>
+                        <select id="foodTypeFilter" onchange="filterMatches()">
+                            <option value="">All Types</option>
+                            <option value="cooked">Cooked Food</option>
+                            <option value="packaged">Packaged Food</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="dairy">Dairy</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Distance:</label>
+                        <select id="distanceFilter" onchange="filterMatches()">
+                            <option value="">Any Distance</option>
+                            <option value="0-5">0-5 km</option>
+                            <option value="5-10">5-10 km</option>
+                            <option value="10-15">10-15 km</option>
+                            <option value="15+">15+ km</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Urgency:</label>
+                        <select id="urgencyFilter" onchange="filterMatches()">
+                            <option value="">Any Urgency</option>
+                            <option value="high">High (Expires soon)</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="matches-grid">
+                    <div class="match-card perfect-match">
+                        <div class="match-header">
+                            <div class="match-score">
+                                <span class="score-value">98%</span>
+                                <span class="score-label">Perfect Match</span>
+                            </div>
+                            <div class="match-urgency high">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                High Priority
+                            </div>
+                        </div>
+                        <div class="match-content">
+                            <h3>Fresh Cooked Meals - Spice Garden</h3>
+                            <p>50kg of freshly prepared meals including rice, dal, and vegetables. Perfect for your evening distribution.</p>
+                            <div class="match-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Food Type:</span>
+                                    <span class="detail-value">Cooked Meals</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Quantity:</span>
+                                    <span class="detail-value">50kg (100 meals)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Location:</span>
+                                    <span class="detail-value">2.3 km away</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Expires:</span>
+                                    <span class="detail-value urgent">4 hours</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">AI Reasoning:</span>
+                                    <span class="detail-value">Matches your current demand, nearby location, and volunteer availability</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="btn-primary" onclick="acceptMatch('match1')">
+                                <i class="fas fa-check"></i>
+                                Accept Match
+                            </button>
+                            <button class="btn-outline" onclick="viewDetails('match1')">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </button>
+                            <button class="btn-outline" onclick="schedulePickup('match1')">
+                                <i class="fas fa-calendar"></i>
+                                Schedule Pickup
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="match-card good-match">
+                        <div class="match-header">
+                            <div class="match-score">
+                                <span class="score-value">87%</span>
+                                <span class="score-label">Good Match</span>
+                            </div>
+                            <div class="match-urgency medium">
+                                <i class="fas fa-clock"></i>
+                                Medium Priority
+                            </div>
+                        </div>
+                        <div class="match-content">
+                            <h3>Bread & Bakery Items - Fresh Bakes</h3>
+                            <p>25kg of fresh bread, buns, and pastries. Good for morning distribution and breakfast programs.</p>
+                            <div class="match-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Food Type:</span>
+                                    <span class="detail-value">Bakery Items</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Quantity:</span>
+                                    <span class="detail-value">25kg (200 pieces)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Location:</span>
+                                    <span class="detail-value">4.1 km away</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-value">Expires:</span>
+                                    <span class="detail-value">12 hours</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">AI Reasoning:</span>
+                                    <span class="detail-value">Fits your morning schedule, good quantity for current needs</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="btn-primary" onclick="acceptMatch('match2')">
+                                <i class="fas fa-check"></i>
+                                Accept Match
+                            </button>
+                            <button class="btn-outline" onclick="viewDetails('match2')">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </button>
+                            <button class="btn-outline" onclick="schedulePickup('match2')">
+                                <i class="fas fa-calendar"></i>
+                                Schedule Pickup
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="match-card potential-match">
+                        <div class="match-header">
+                            <div class="match-score">
+                                <span class="score-value">76%</span>
+                                <span class="score-label">Potential Match</span>
+                            </div>
+                            <div class="match-urgency low">
+                                <i class="fas fa-info-circle"></i>
+                                Low Priority
+                            </div>
+                        </div>
+                        <div class="match-content">
+                            <h3>Packaged Food Items - MegaMart</h3>
+                            <p>30kg of packaged snacks, biscuits, and dry goods. Good for emergency supplies and longer storage.</p>
+                            <div class="match-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Food Type:</span>
+                                    <span class="detail-value">Packaged Food</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Quantity:</span>
+                                    <span class="detail-value">30kg (150 packets)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Location:</span>
+                                    <span class="detail-value">6.8 km away</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-value">Expires:</span>
+                                    <span class="detail-value">3 days</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">AI Reasoning:</span>
+                                    <span class="detail-value">Longer shelf life, good for backup supplies, but further distance</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="btn-outline" onclick="acceptMatch('match3')">
+                                <i class="fas fa-check"></i>
+                                Accept Match
+                            </button>
+                            <button class="btn-outline" onclick="viewDetails('match3')">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </button>
+                            <button class="btn-outline" onclick="schedulePickup('match3')">
+                                <i class="fas fa-calendar"></i>
+                                Schedule Pickup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Learning Insights -->
+        <section class="ai-insights-section">
+            <div class="insights-container">
+                <div class="section-header">
+                    <h2>AI Learning Insights</h2>
+                    <p>How AI improves matching based on your preferences and feedback</p>
+                </div>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Your Preferences</h3>
+                            <span class="ai-badge">Learning</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>AI has learned that you prefer:</p>
+                            <ul class="preference-list">
+                                <li>Cooked meals over packaged food</li>
+                                <li>Pickups within 5km radius</li>
+                                <li>Evening distribution times</li>
+                                <li>Vegetarian food options</li>
+                            </ul>
+                            <button class="btn-outline btn-sm" onclick="updatePreferences()">
+                                Update Preferences
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Success Patterns</h3>
+                            <span class="ai-badge">Analysis</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>Your most successful matches:</p>
+                            <div class="success-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">Restaurant Partners:</span>
+                                    <span class="metric-value">Spice Garden, Fresh Bakes</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Pickup Times:</span>
+                                    <span class="metric-value">4-6 PM</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Food Types:</span>
+                                    <span class="metric-value">Cooked meals, fresh bread</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h3>Improvement Suggestions</h3>
+                            <span class="ai-badge">AI Tips</span>
+                        </div>
+                        <div class="insight-content">
+                            <p>AI suggests to improve matching:</p>
+                            <ul class="suggestion-list">
+                                <li>Consider expanding pickup radius to 7km</li>
+                                <li>Add morning distribution slots</li>
+                                <li>Partner with more dairy suppliers</li>
+                                <li>Coordinate with nearby NGOs for bulk pickups</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function initializePage() {
+            // Initialize AI smart matching page
+            console.log('AI Smart Matching page initialized');
+        }
+
+        function refreshMatches() {
+            // Simulate refreshing AI matches
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-check"></i> Refreshed!';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                    button.disabled = false;
+                    alert('AI matches refreshed! 5 new matches found.');
+                }, 2000);
+            }, 3000);
+        }
+
+        function configurePreferences() {
+            // Simulate preference configuration
+            alert('Opening preference configuration panel... This would allow NGOs to set food preferences, pickup times, and capacity limits.');
+        }
+
+        function filterMatches() {
+            // Simulate match filtering
+            const foodType = document.getElementById('foodTypeFilter').value;
+            const distance = document.getElementById('distanceFilter').value;
+            const urgency = document.getElementById('urgencyFilter').value;
+            
+            console.log('Filtering matches:', { foodType, distance, urgency });
+            alert(`Filtering matches based on: ${foodType || 'All types'}, ${distance || 'Any distance'}, ${urgency || 'Any urgency'}`);
+        }
+
+        function acceptMatch(matchId) {
+            // Simulate accepting a match
+            alert(`Match ${matchId} accepted! AI will now coordinate with the donor and assign volunteers for pickup.`);
+        }
+
+        function viewDetails(matchId) {
+            // Simulate viewing match details
+            alert(`Opening detailed view for match ${matchId}... This would show comprehensive information about the donation and donor.`);
+        }
+
+        function schedulePickup(matchId) {
+            // Simulate scheduling pickup
+            alert(`Opening pickup scheduling for match ${matchId}... This would allow you to select volunteers and set pickup times.`);
+        }
+
+        function updatePreferences() {
+            // Simulate updating preferences
+            alert('Opening preference update form... This would allow you to modify your food preferences, pickup times, and capacity limits.');
+        }
+
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

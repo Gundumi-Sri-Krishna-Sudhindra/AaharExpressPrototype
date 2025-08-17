@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Impact Analytics - AaharExpress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="feature-pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>AaharExpress</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="analytics-dashboard.html" class="nav-link">Analytics</a>
+                <a href="#ai-analytics" class="nav-link active">AI Analytics</a>
+                <a href="#profile" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span>Admin</span>
+                    <span>Admin User</span>
+                </div>
+                <button class="btn-secondary" onclick="goToDashboard()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feature Page Content -->
+    <div class="feature-container">
+        <!-- Feature Header -->
+        <header class="feature-header">
+            <div class="feature-header-content">
+                <h1>AI Impact Analytics</h1>
+                <p>AI-generated insights on platform performance, social impact, and operational efficiency</p>
+            </div>
+            <div class="feature-header-actions">
+                <button class="btn-primary" onclick="generateReport()">
+                    <i class="fas fa-robot"></i>
+                    Generate AI Report
+                </button>
+                <button class="btn-outline" onclick="exportData()">
+                    <i class="fas fa-download"></i>
+                    Export Data
+                </button>
+            </div>
+        </header>
+
+        <!-- AI Analytics Overview -->
+        <section class="ai-overview-section">
+            <div class="overview-container">
+                <div class="overview-grid">
+                    <div class="overview-card ai-highlight">
+                        <div class="overview-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>AI Insights Generated</h3>
+                            <p>Last 24 hours: 156 insights</p>
+                            <span class="ai-status">Active</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Prediction Accuracy</h3>
+                            <p>94.7% accurate</p>
+                            <span class="accuracy-high">Excellent</span>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Processing Time</h3>
+                            <p>2.3 seconds avg</p>
+                            <span class="speed-fast">Fast</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Analytics Dashboard -->
+        <section class="ai-dashboard-section">
+            <div class="dashboard-container">
+                <div class="dashboard-grid">
+                    <!-- Social Impact Metrics -->
+                    <div class="dashboard-card large">
+                        <div class="card-header">
+                            <h3>Social Impact Analytics</h3>
+                            <div class="card-actions">
+                                <button class="btn-outline btn-sm" onclick="refreshMetrics()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <h4>Total Meals Donated</h4>
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <div class="metric-value">45,678</div>
+                                <div class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +12.3% vs last month
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <h4>People Helped</h4>
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="metric-value">23,456</div>
+                                <div class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +8.7% vs last month
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <h4>Food Waste Reduced</h4>
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="metric-value">67.3%</div>
+                                <div class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +5.2% vs last month
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <h4>Volunteer Hours</h4>
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="metric-value">12,345</div>
+                                <div class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +15.1% vs last month
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Predictions -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>AI Predictions</h3>
+                            <span class="ai-badge">Powered by AI</span>
+                        </div>
+                        <div class="predictions-list">
+                            <div class="prediction-item">
+                                <div class="prediction-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="prediction-content">
+                                    <h4>High Demand Zone</h4>
+                                    <p>Mumbai Central expected to need 25% more food next week</p>
+                                    <span class="confidence">95% confidence</span>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-icon">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                                <div class="prediction-content">
+                                    <h4>Route Optimization</h4>
+                                    <p>AI suggests 15% efficiency improvement in delivery routes</p>
+                                    <span class="confidence">92% confidence</span>
+                                </div>
+                            </div>
+                            <div class="prediction-item">
+                                <div class="prediction-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="prediction-content">
+                                    <h4>Volunteer Growth</h4>
+                                    <p>Expected 20% increase in volunteer signups this month</p>
+                                    <span class="confidence">88% confidence</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platform Performance -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Platform Performance</h3>
+                            <span class="ai-badge">AI Monitored</span>
+                        </div>
+                        <div class="performance-metrics">
+                            <div class="performance-item">
+                                <div class="performance-label">User Satisfaction</div>
+                                <div class="performance-bar">
+                                    <div class="performance-fill" style="width: 94%"></div>
+                                </div>
+                                <div class="performance-value">94%</div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="performance-label">Donation Success Rate</div>
+                                <div class="performance-bar">
+                                    <div class="performance-fill" style="width: 89%"></div>
+                                </div>
+                                <div class="performance-value">89%</div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="performance-label">Delivery Efficiency</div>
+                                <div class="performance-bar">
+                                    <div class="performance-fill" style="width: 91%"></div>
+                                </div>
+                                <div class="performance-value">91%</div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="performance-label">AI Accuracy</div>
+                                <div class="performance-bar">
+                                    <div class="performance-fill" style="width: 96%"></div>
+                                </div>
+                                <div class="performance-value">96%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Insights Feed -->
+        <section class="ai-insights-section">
+            <div class="insights-container">
+                <div class="section-header">
+                    <h2>Latest AI Insights</h2>
+                    <p>Real-time AI-generated recommendations and insights</p>
+                </div>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-type ai-recommendation">
+                                <i class="fas fa-lightbulb"></i>
+                                Recommendation
+                            </div>
+                            <span class="insight-time">2 hours ago</span>
+                        </div>
+                        <h3>Optimize Volunteer Distribution</h3>
+                        <p>AI analysis shows Zone 3 has 40% fewer volunteers than needed. Consider targeted recruitment campaigns.</p>
+                        <div class="insight-actions">
+                            <button class="btn-outline btn-sm">View Details</button>
+                            <button class="btn-primary btn-sm">Take Action</button>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-type ai-alert">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Alert
+                            </div>
+                            <span class="insight-time">4 hours ago</span>
+                        </div>
+                        <h3>High Surplus Food Available</h3>
+                        <p>Restaurants in Zone 1 have 3x more surplus food than usual. Coordinate with NGOs for immediate pickup.</p>
+                        <div class="insight-actions">
+                            <button class="btn-outline btn-sm">View Details</button>
+                            <button class="btn-primary btn-sm">Coordinate</button>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-type ai-prediction">
+                                <i class="fas fa-crystal-ball"></i>
+                                Prediction
+                            </div>
+                            <span class="insight-time">6 hours ago</span>
+                        </div>
+                        <h3>Seasonal Demand Increase</h3>
+                        <p>AI predicts 30% increase in food demand during monsoon season. Prepare additional resources.</p>
+                        <div class="insight-actions">
+                            <button class="btn-outline btn-sm">View Details</button>
+                            <button class="btn-primary btn-sm">Plan Ahead</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function initializePage() {
+            // Initialize AI analytics page
+            console.log('AI Impact Analytics page initialized');
+        }
+
+        function generateReport() {
+            // Simulate AI report generation
+            const loadingText = 'Generating AI-powered report...';
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-check"></i> Report Generated';
+                button.classList.remove('btn-primary');
+                button.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-primary');
+                    button.disabled = false;
+                }, 2000);
+            }, 3000);
+        }
+
+        function exportData() {
+            // Simulate data export
+            alert('Exporting AI analytics data... This would download a comprehensive report in a real application.');
+        }
+
+        function refreshMetrics() {
+            // Simulate metrics refresh
+            const button = event.target;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                button.disabled = false;
+                alert('Metrics refreshed with latest AI insights!');
+            }, 2000);
+        }
+
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
